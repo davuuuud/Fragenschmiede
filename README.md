@@ -36,7 +36,9 @@ Nachfolger des Windows-Programms `IHK-Prompt-Assistent-v2` (Go/Win32).
 ```bash
 npm install
 npm run dev        # Entwicklungsserver auf http://localhost:5173
-npm test           # Tests der Fachlogik
+npm test           # alle Tests: Fachlogik und Oberfläche
+npx vitest run --project fachlogik    # nur src/lib/, ohne Browser
+npx vitest run --project oberflaeche  # bedient die Anwendung in jsdom
 npm run check      # Typprüfung (TypeScript und Svelte)
 npm run build      # Produktionsbau nach dist/
 npm run pruefe:netz # prüft den Bau auf Netzwerkaufrufe und fremde Adressen

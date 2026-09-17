@@ -1,5 +1,5 @@
 import { svelte } from '@sveltejs/vite-plugin-svelte';
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
 import { VitePWA } from 'vite-plugin-pwa';
 import { readFileSync } from 'node:fs';
 
@@ -27,6 +27,39 @@ const APP_BESCHREIBUNG =
 // Ohne Angabe wird ins Wurzelverzeichnis gebaut.
 
 export default defineConfig({
+  // --- Tests -----------------------------------------------------------------
+  // Zwei Sorten, absichtlich getrennt:
+  //
+  // "fachlogik" prüft src/lib/ ohne Browser. Diese Tests sind die Mehrzahl,
+  // und sie sollen schnell bleiben — eine nachgebaute Browserumgebung
+  // brauchte allein zum Starten mehr Zeit als alle Tests zusammen.
+  //
+  // "oberflaeche" bedient die zusammengebaute Anwendung in einem
+  // nachgebauten Browser (jsdom): tippen, auswählen, klicken. Dafür müssen
+  // Svelte-Komponenten in ihrer Browserfassung geladen werden, sonst hielte
+  // sich Svelte für einen Server und weigerte sich zu starten.
+  test: {
+    projects: [
+      {
+        extends: true,
+        test: {
+          name: 'fachlogik',
+          environment: 'node',
+          include: ['src/lib/**/*.test.ts'],
+        },
+      },
+      {
+        extends: true,
+        resolve: { conditions: ['browser'] },
+        test: {
+          name: 'oberflaeche',
+          environment: 'jsdom',
+          include: ['src/*.test.ts'],
+        },
+      },
+    ],
+  },
+
   build: {
     // Ohne diese Zeile legt Vite eine Hilfsfunktion bei, die Bausteine der
     // Anwendung mit fetch vorlädt. Sie ruft nur eigene Dateien ab, aber sie
