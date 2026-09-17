@@ -3,75 +3,95 @@
 Was sich von Fassung zu Fassung geändert hat, in der Sprache der Nutzer und
 nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
 
-## Unveröffentlicht
+## 0.4.0 — 17.09.2026
 
-- **Klarer gesagt, was die Anwendung kann.** Sie versprach bisher, „ohne
-  Internetverbindung" zu laufen. Das stimmt technisch, nützt aber wenig:
-  Der fertige Prompt gehört in eine KI, und die ist online. Jetzt steht
-  dort, was wirklich zählt — die Anwendung startet sofort, auch bei
-  schwachem Empfang, und lässt sich auf dem Startbildschirm installieren.
-- **Statt einer weißen Seite eine Auskunft.** Geht beim Aufbauen der
-  Anwendung etwas schief, erscheint jetzt eine Meldung mit zwei Knöpfen:
-  „Erneut versuchen" und „Gespeichertes verwerfen und neu starten".
-  Impressum, Datenschutz und der Rückmeldeweg bleiben dabei erreichbar.
-- **Hell oder dunkel lässt sich jetzt selbst wählen.** Unten in der
-  Fußzeile steht „Automatisch · Hell · Dunkel". Automatisch bleibt die
-  Vorgabe und folgt wie bisher dem Gerät — wer abends umschaltet, sieht
-  die Fragenschmiede weiter von allein dunkel. Die Wahl gilt nur für den
-  Bildschirm, nicht für den Prompt, und wird auf dem Gerät gespeichert.
-- **Verweise zeigen beim Durchtippen denselben Rahmen** wie Knöpfe und
-  Auswahlfelder. Vorher bekamen sie den Rahmen des jeweiligen Browsers,
-  der im dunklen Erscheinungsbild schlecht zu sehen sein konnte.
-- **Das Versprechen, dass nichts übertragen wird, prüft jetzt die
-  Maschine.** Vor jeder Veröffentlichung liest eine Prüfung den fertig
-  gebauten Code und bricht ab, sobald darin ein Netzwerkaufruf oder eine
-  unbekannte fremde Adresse steht. Bisher war das von Hand nachgesehen.
-- **Vier KI-Dienste statt nur ChatGPT.** Unter dem Prompt steht jetzt
-  „Öffnen in: ChatGPT · Copilot · Gemini · Le Chat" — alphabetisch, ohne
-  Empfehlung, alle ohne Anmeldung nutzbar. Le Chat ist das europäische
-  Angebot von Mistral. Geöffnet wird nur die Startseite; eingefügt wird der
-  kopierte Prompt dort selbst. Der Knopf „ChatGPT öffnen" entfällt.
-- **FISI und SFA stehen nicht mehr zur Auswahl.** Fachinformatiker –
-  Systemintegration und Steuerfachangestellte ruhen. Ihre Angaben und
-  Quellen bleiben erhalten, sodass sich beide wieder aufnehmen lassen. Wer
-  einen der beiden gewählt hatte, landet beim nächsten Start bei der
-  Kaufmännischen Grundqualifikation.
-- **Neue Adresse: davuuuud.github.io/Fragenschmiede.** Das Repository heißt
-  jetzt Fragenschmiede. Wer die Anwendung unter der alten Adresse auf dem
-  Telefon installiert hat, muss sie unter der neuen erneut hinzufügen —
-  GitHub Pages leitet nicht weiter.
-- **Rückmeldungen gehen an fragenschmiede@tinytux.de.**
-- **Interne Namen aufgeräumt.** Projekt und Gerätespeicher heißen nicht mehr
-  nach dem alten Arbeitstitel „IHK-Lernassistent". Gespeicherte Einstellungen
-  und ein angefangener Entwurf werden beim ersten Start übernommen — niemand
-  fängt deshalb von vorn an.
-- **Bedienbar mit Tastatur und Vorleseprogramm beim Seitenwechsel.** Nach
-  einem Klick auf „Impressum", „Datenschutz" oder „Was die Felder bewirken"
-  springt der Fokus auf die Überschrift der neuen Seite, ebenso zurück zur
-  Anwendung. Vorher blieb er auf dem verschwundenen Verweis stehen.
+Die Fassung, mit der die Erprobung beginnen kann. Sichtbar hat sich vor allem
+der Name geändert — und darunter eine ganze Reihe von Dingen, die man erst
+bemerkt, wenn sie fehlen.
+
+### Name und Adresse
+
 - **Die Anwendung heißt nur noch Fragenschmiede.** Der Trägername ist aus
   Titel, Kopfzeile, Startbildschirm, Logo, Hilfeseite, Merkblatt, Impressum,
   LICENSE und README entfernt (Issue #38). Die Fragenschmiede ist ein
   privates Projekt und soll nicht wie das Angebot eines Bildungsträgers
   auftreten.
+- **Neue Adresse: davuuuud.github.io/Fragenschmiede.** Wer die Anwendung
+  unter der alten Adresse auf dem Telefon installiert hat, muss sie unter der
+  neuen erneut hinzufügen — GitHub Pages leitet nicht weiter.
+- **Rückmeldungen gehen an fragenschmiede@tinytux.de.**
 - **Das App-Symbol ersetzt das Logo** in der Kopfzeile, im Druckkopf und im
   Merkblatt. Es trägt keinen Text und bleibt in jeder Größe erkennbar.
 - **Die Einzeldatei heißt Fragenschmiede-<Fassung>.html** und zeigt ihr Symbol
-  wieder richtig an.
+  wieder richtig an. Neu: Sie entsteht nicht mehr von Hand, sondern wird
+  gebaut, geprüft und an ein GitHub-Release gehängt.
+
+### In der Anwendung
+
+- **Vier KI-Dienste statt nur ChatGPT.** Unter dem Prompt steht jetzt
+  „Öffnen in: ChatGPT · Copilot · Gemini · Le Chat" — alphabetisch, ohne
+  Empfehlung, alle ohne Anmeldung nutzbar. Le Chat ist das europäische
+  Angebot von Mistral. Geöffnet wird nur die Startseite; eingefügt wird der
+  kopierte Prompt dort selbst.
+- **Hell oder dunkel lässt sich jetzt selbst wählen.** Unten in der Fußzeile
+  steht „Automatisch · Hell · Dunkel". Automatisch bleibt die Vorgabe und
+  folgt wie bisher dem Gerät. Die Wahl gilt nur für den Bildschirm, nicht für
+  den Prompt.
+- **FISI und SFA stehen nicht mehr zur Auswahl.** Fachinformatiker –
+  Systemintegration und Steuerfachangestellte ruhen. Ihre Angaben und Quellen
+  bleiben erhalten, sodass sich beide wieder aufnehmen lassen. Wer einen der
+  beiden gewählt hatte, landet beim nächsten Start bei der Kaufmännischen
+  Grundqualifikation.
+- **Statt einer weißen Seite eine Auskunft.** Geht beim Aufbauen der Anwendung
+  etwas schief, erscheint eine Meldung mit zwei Knöpfen: „Erneut versuchen"
+  und „Gespeichertes verwerfen und neu starten". Impressum, Datenschutz und
+  der Rückmeldeweg bleiben dabei erreichbar.
+
+### Bessere Antworten
+
 - **Zwei neue Qualitätsregeln im Prompt.** Die KI geht ihre Antwort vor der
   Ausgabe noch einmal durch (stimmt jede Vorschrift, ist jede Zahl
   nachgerechnet, widerspricht sich nichts?) und schließt mit einer Zeile
   „Bitte nachschlagen:", in der sie die unsicheren Fundstellen und Zahlen
   ausdrücklich nennt. Der Durchgang findet Rechenfehler und Widersprüche
-  zuverlässig; falsche Erinnerungen findet er nicht — dafür ist die Zeile
-  da, die sagt, was nachzuschlagen ist.
+  zuverlässig; falsche Erinnerungen findet er nicht — dafür ist die Zeile da.
 - **Hinweis unter dem fertigen Prompt:** „Kommt es auf den genauen Wortlaut
   an, kopiere den Gesetzestext nach dem Prompt in den Chat." Das ist der
   stärkste Hebel gegen erfundene Absätze — und der einzige, den der Prompt
   selbst nicht ziehen kann.
-- **Neuer Abschnitt auf der Hilfeseite und im Merkblatt:** „Was die
-  Anwendung nicht kann — und du schon" — Gesetzestext mitliefern, eine
-  Fundstelle nachschlagen, nachfragen.
+- **Neuer Abschnitt auf der Hilfeseite und im Merkblatt:** „Was die Anwendung
+  nicht kann — und du schon" — Gesetzestext mitliefern, eine Fundstelle
+  nachschlagen, nachfragen.
+
+### Bedienung mit Tastatur und Vorleseprogramm
+
+- **Fokus beim Seitenwechsel.** Nach einem Klick auf „Impressum",
+  „Datenschutz" oder „Was die Felder bewirken" springt der Fokus auf die
+  Überschrift der neuen Seite, ebenso zurück zur Anwendung. Vorher blieb er
+  auf dem verschwundenen Verweis stehen.
+- **Verweise zeigen beim Durchtippen denselben Rahmen** wie Knöpfe und
+  Auswahlfelder. Vorher bekamen sie den Rahmen des jeweiligen Browsers, der
+  im dunklen Erscheinungsbild schlecht zu sehen sein konnte.
+
+### Unter der Oberfläche
+
+- **Klarer gesagt, was die Anwendung kann.** Sie versprach bisher, „ohne
+  Internetverbindung" zu laufen. Das stimmt technisch, nützt aber wenig: Der
+  fertige Prompt gehört in eine KI, und die ist online. Jetzt steht dort, was
+  wirklich zählt — die Anwendung startet sofort, auch bei schwachem Empfang,
+  und lässt sich auf dem Startbildschirm installieren.
+- **Das Versprechen, dass nichts übertragen wird, prüft jetzt die Maschine.**
+  Vor jeder Veröffentlichung liest eine Prüfung den fertig gebauten Code und
+  bricht ab, sobald darin ein Netzwerkaufruf oder eine unbekannte fremde
+  Adresse steht. Dazu ein Wächter über die Größe, damit die Anwendung nicht
+  unbemerkt wächst.
+- **206 Tests statt 170.** Neu dabei: Sie bedienen die Anwendung wirklich —
+  tippen, auswählen, klicken —, prüfen die Barrierefreiheit und den Ausdruck
+  der Hilfeseite.
+- **Interne Namen aufgeräumt.** Projekt und Gerätespeicher heißen nicht mehr
+  nach dem alten Arbeitstitel „IHK-Lernassistent". Gespeicherte Einstellungen
+  und ein angefangener Entwurf werden beim ersten Start übernommen — niemand
+  fängt deshalb von vorn an.
 
 ## 0.3.0 — 13.09.2026
 

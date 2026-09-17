@@ -32,7 +32,9 @@ Nachfolger des Windows-Programms `IHK-Prompt-Assistent-v2` (Go/Win32).
 - Der Prompt entsteht laufend beim Tippen; kopieren oder über den
   System-Dialog teilen
 - Einstellungen und Entwurf überleben das Schließen
-- Dunkelmodus nach Systemeinstellung
+- Erscheinungsbild wählbar: automatisch, hell oder dunkel
+- Verweise zu vier KI-Diensten, die ohne Anmeldung nutzbar sind
+  (ChatGPT, Copilot, Gemini, Le Chat) — geöffnet wird nur die Startseite
 - Startet sofort aus dem Zwischenspeicher, auch bei schwachem Empfang;
   installierbar auf dem Startbildschirm
 

@@ -8,7 +8,7 @@ keine Festlegung.
 
 ## Stand heute
 
-**Fassung 0.3.0 (13.09.2026).** Erreicht sind die ersten beiden Etappen:
+**Fassung 0.4.0 (17.09.2026).** Erreicht sind die ersten beiden Etappen:
 
 | Etappe | Inhalt | Zustand |
 |---|---|---|
@@ -26,13 +26,16 @@ zwar ohne Verbindung, aber er nützt erst etwas, wenn er in einer KI landet —
 und die ist online. Der Dienst im Hintergrund bleibt trotzdem, aus drei
 anderen Gründen: Ohne ihn bietet kein Browser das Hinzufügen zum
 Startbildschirm an, die Anwendung lädt bei schwachem Empfang nicht sofort,
-und niemand erführe von einer neuen Fassung. Die Fachlogik ist durch 180 Tests abgedeckt, die Bedienung seit dem
-17.09.2026 durch sechzehn weitere: Sie tippen, wählen und klicken in einem
-nachgebauten Browser (`npx vitest run --project oberflaeche`), und drei
-davon lassen axe über Startseite und Nebenseiten laufen — dieselbe Prüfung
-wie in den Entwicklerwerkzeugen der Browser. Farbkontraste und die Frage,
-ob die Reihenfolge beim Durchtippen sinnvoll ist, kann sie nicht beurteilen;
-das bleibt Handarbeit.
+und niemand erführe von einer neuen Fassung. **206 Tests**, in zwei Gruppen: 180 prüfen die Fachlogik ohne Browser, 26 die
+Bedienung in einem nachgebauten Browser (`npx vitest run --project
+oberflaeche`) — tippen, auswählen, klicken, dazu Barrierefreiheit mit axe,
+der Ausdruck der Hilfeseite und das Fehlerfangnetz. Farbkontraste und die
+Frage, ob die Reihenfolge beim Durchtippen sinnvoll ist, kann keine Maschine
+beurteilen; das bleibt Handarbeit.
+
+Vor jeder Veröffentlichung laufen außerdem zwei Wächter: Die **Netzprüfung**
+liest den gebauten Code auf Netzwerkaufrufe und fremde Adressen, der
+**Größenwächter** auf unbemerktes Wachsen.
 
 **Als Nächstes steht keine Programmierarbeit an, sondern die Erprobung:**
 zwei, drei Umschüler und ein Dozent, zwei Wochen, echte Themen. Jede der
