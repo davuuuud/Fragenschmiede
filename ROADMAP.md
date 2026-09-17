@@ -276,6 +276,10 @@ sich durch alle weiteren Etappen und wird bei Etappe 4 grundsätzlich.
 
 - **Keine Übertragung von Eingaben.** Thema, Zusatzangaben und erzeugter
   Prompt verlassen das Gerät nicht.
+- **Die Einzeldatei entsteht nicht mehr von Hand** (17.09.2026): Ein eigener
+  Ablauf baut sie, prüft sie wie die Online-Fassung und hängt sie an ein
+  GitHub-Release. Vorher hing es daran, dass jemand an `npm run build:datei`
+  dachte — und wer es vergaß, verteilte eine veraltete Datei.
 - **Die Größe bleibt im Blick** — seit dem 17.09.2026 bricht die
   Veröffentlichung ab, wenn der Bau über die in
   `scripts/groessenwaechter.mjs` festgehaltenen Grenzen wächst

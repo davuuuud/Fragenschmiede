@@ -1,0 +1,78 @@
+# Veröffentlicht die Einzeldatei als Anhang eines GitHub-Release.
+#
+# Die Einzeldatei ist die Fassung zum Weitergeben: eine einzige HTML-Datei,
+# die per Doppelklick startet — ohne Installation, ohne Webspace, ohne dass
+# jemand eine Adresse abtippen muss. Sie entstand bisher nur, wenn jemand von
+# Hand "npm run build:datei" eingab. Nach einer Fassung ohne diesen Schritt
+# verteilt man unbemerkt eine veraltete Datei.
+#
+# Ausgelöst wird der Ablauf von Hand (Reiter "Actions") oder durch eine
+# Markierung wie v0.4.0. Die Fassungsnummer stammt immer aus package.json —
+# so heißt der Anhang wie die Anwendung, die darin steckt.
+
+name: Einzeldatei veröffentlichen
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  bauen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Dieselben Prüfungen wie bei der Veröffentlichung: Was verteilt wird,
+      # soll nicht schlechter geprüft sein als was online steht.
+      - name: Tests
+        run: npm test
+
+      - name: Typprüfung
+        run: npm run check
+
+      - name: Einzeldatei bauen
+        run: npm run build:datei
+
+      - name: Netzprüfung
+        run: npm run pruefe:netz
+
+      - name: Größe
+        run: npm run pruefe:groesse
+
+      - name: Release anlegen oder ergänzen
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          FASSUNG=$(node -p "require('./package.json').version")
+          DATEI="dist-datei/Fragenschmiede-$FASSUNG.html"
+          test -f "$DATEI" || { echo "Nicht gefunden: $DATEI"; exit 1; }
+
+          # Beschreibungstext getrennt schreiben: Im Ablauf eingerückt,
+          # stünden die Leerzeichen sonst im Release selbst.
+          {
+            echo "Die Fragenschmiede als einzelne Datei: herunterladen, doppelklicken, loslegen. Keine Installation nötig."
+            echo
+            echo "Was sich geändert hat, steht im [Changelog](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md)."
+            echo
+            echo "Wer lieber im Browser arbeitet: https://davuuuud.github.io/Fragenschmiede/"
+          } > beschreibung.md
+
+          if ! gh release view "v$FASSUNG" >/dev/null 2>&1; then
+            gh release create "v$FASSUNG" --title "Fragenschmiede $FASSUNG" --notes-file beschreibung.md
+          fi
+
+          # --clobber: Ein zweiter Lauf derselben Fassung ersetzt den Anhang,
+          # statt am vorhandenen zu scheitern.
+          gh release upload "v$FASSUNG" "$DATEI" --clobber
+          echo "Angehängt: $DATEI an Release v$FASSUNG"

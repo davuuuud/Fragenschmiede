@@ -1,5 +1,6 @@
 <script lang="ts">
   import { tick, untrack } from 'svelte';
+  import Absturz from './lib/components/Absturz.svelte';
   import Aufklappbereich from './lib/components/Aufklappbereich.svelte';
   import Datenschutz from './lib/components/Datenschutz.svelte';
   import Hilfe from './lib/components/Hilfe.svelte';
@@ -572,23 +573,7 @@
 
   {#snippet failed(fehler, erneutVersuchen)}
     <main>
-      <section class="karte absturz" role="alert">
-        <h2 id="seitenkopf" tabindex="-1">Da ist etwas schiefgelaufen</h2>
-        <p>
-          Die Anwendung konnte die Seite nicht aufbauen. Dein Thema und deine Einstellungen
-          sind deswegen nicht verloren — sie liegen weiterhin auf diesem Gerät.
-        </p>
-        <p class="hinweis">{fehler instanceof Error ? fehler.message : String(fehler)}</p>
-        <div class="aktionen">
-          <button type="button" class="haupt" onclick={erneutVersuchen}>Erneut versuchen</button>
-          <button type="button" onclick={neuAnfangen}>Gespeichertes verwerfen und neu starten</button>
-        </div>
-        <p class="hinweis">
-          Hilft „Erneut versuchen" nicht, liegt es vermutlich an etwas Gespeichertem. Der zweite
-          Knopf wirft Einstellungen und Entwurf weg; die Anwendung beginnt dann bei den
-          Vorgaben. Bitte gib uns Bescheid — die Zeile oben hilft bei der Suche.
-        </p>
-      </section>
+      <Absturz {fehler} {erneutVersuchen} {neuAnfangen} />
     </main>
   {/snippet}
   </svelte:boundary>
@@ -881,17 +866,6 @@
     color: var(--akzent);
     font-weight: 600;
     white-space: nowrap;
-  }
-
-  /* Auffällig genug, um nicht übersehen zu werden, aber ohne Schreckfarbe:
-     In den meisten Fällen hilft schon "Erneut versuchen". */
-  .absturz {
-    border-color: var(--warnung);
-  }
-
-  .absturz .hinweis {
-    font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
-    overflow-wrap: anywhere;
   }
 
   .status {

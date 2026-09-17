@@ -59,6 +59,18 @@ Produktionsbau (`npm run build`, dann `npm run preview`), nicht im
 Entwicklungsserver. `localhost` gilt dabei als sicherer Kontext, er arbeitet
 dort also echt.
 
+## Die Einzeldatei weitergeben
+
+`npm run build:datei` legt `dist-datei/Fragenschmiede-<Fassung>.html` an:
+eine einzige Datei, die per Doppelklick startet — ohne Installation und ohne
+Webspace.
+
+Zum Verteilen muss das niemand von Hand tun: Der Ablauf
+[`einzeldatei.yml`](.github/workflows/einzeldatei.yml) baut sie und hängt sie
+an ein GitHub-Release. Ausgelöst wird er von Hand über den Reiter *Actions*
+oder durch eine Markierung wie `v0.4.0`. Die Fassungsnummer stammt aus
+`package.json`; ein zweiter Lauf derselben Fassung ersetzt den Anhang.
+
 ## Veröffentlichen
 
 Die Anwendung ist eine reine Sammlung statischer Dateien. Der Inhalt von
