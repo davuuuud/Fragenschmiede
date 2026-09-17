@@ -19,7 +19,7 @@ keine Festlegung.
 Die Anwendung läuft unter
 [davuuuud.github.io/Fragenschmiede](https://davuuuud.github.io/Fragenschmiede/),
 lässt sich auf dem Telefon zum Startbildschirm hinzufügen und funktioniert
-ohne Internetverbindung. Die Fachlogik ist durch 170 Tests abgedeckt.
+ohne Internetverbindung. Die Fachlogik ist durch 180 Tests abgedeckt.
 
 **Als Nächstes steht keine Programmierarbeit an, sondern die Erprobung:**
 zwei, drei Umschüler und ein Dozent, zwei Wochen, echte Themen. Jede der
@@ -257,7 +257,11 @@ sich durch alle weiteren Etappen und wird bei Etappe 4 grundsätzlich.
 
 - **Keine Übertragung von Eingaben.** Thema, Zusatzangaben und erzeugter
   Prompt verlassen das Gerät nicht.
-- **Keine Aufrufe fremder Server.** Im gebauten Programm gibt es keinen
+- **Keine Aufrufe fremder Server** — seit dem 17.09.2026 bei jeder
+  Veröffentlichung maschinell nachgewiesen (`npm run pruefe:netz`, siehe
+  `scripts/netzpruefung.mjs`): Die Prüfung liest den gebauten Code und
+  bricht ab, sobald ein Netzwerkaufruf oder eine unbekannte fremde Adresse
+  darin steht. Im gebauten Programm gibt es keinen
   einzigen Netzwerkaufruf: kein `fetch`, keine Zählpixel, keine
   Nutzungsstatistik, keine Schriftarten von Google. Externe Adressen kommen
   nur als Verweise vor, die jemand anklicken muss: die Startseiten von

@@ -5,6 +5,10 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
 
 ## Unveröffentlicht
 
+- **Das Versprechen, dass nichts übertragen wird, prüft jetzt die
+  Maschine.** Vor jeder Veröffentlichung liest eine Prüfung den fertig
+  gebauten Code und bricht ab, sobald darin ein Netzwerkaufruf oder eine
+  unbekannte fremde Adresse steht. Bisher war das von Hand nachgesehen.
 - **Vier KI-Dienste statt nur ChatGPT.** Unter dem Prompt steht jetzt
   „Öffnen in: ChatGPT · Copilot · Gemini · Le Chat" — alphabetisch, ohne
   Empfehlung, alle ohne Anmeldung nutzbar. Le Chat ist das europäische

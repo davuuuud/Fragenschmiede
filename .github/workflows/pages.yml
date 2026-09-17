@@ -51,6 +51,13 @@ jobs:
       - name: Bauen
         run: npm run build -- --base=/${{ github.event.repository.name }}/
 
+      # Die Anwendung verspricht, nichts zu übertragen. Die Prüfung liest
+      # den gebauten Code und bricht ab, sobald darin ein Netzwerkaufruf
+      # oder eine unbekannte fremde Adresse steht — deshalb hinter dem
+      # Bauen und vor dem Veröffentlichen.
+      - name: Netzprüfung
+        run: npm run pruefe:netz
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

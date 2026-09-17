@@ -39,6 +39,7 @@ npm run dev        # Entwicklungsserver auf http://localhost:5173
 npm test           # Tests der Fachlogik
 npm run check      # Typprüfung (TypeScript und Svelte)
 npm run build      # Produktionsbau nach dist/
+npm run pruefe:netz # prüft den Bau auf Netzwerkaufrufe und fremde Adressen
 npm run preview    # dist/ ausliefern, http://localhost:4173
 npm run icons      # App-Symbole aus assets-src/ neu erzeugen
 npm run merkblatt  # Merkblatt "Was die Felder bewirken" als .docx

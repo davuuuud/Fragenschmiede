@@ -27,6 +27,17 @@ const APP_BESCHREIBUNG =
 // Ohne Angabe wird ins Wurzelverzeichnis gebaut.
 
 export default defineConfig({
+  build: {
+    // Ohne diese Zeile legt Vite eine Hilfsfunktion bei, die Bausteine der
+    // Anwendung mit fetch vorlädt. Sie ruft nur eigene Dateien ab, aber sie
+    // ist der einzige fetch im gebauten Programm — und die Anwendung
+    // verspricht, dass es keinen gibt (siehe scripts/netzpruefung.mjs).
+    // Gebraucht wird sie nur von älteren Browsern, und auch dort nur zum
+    // Vorladen: Ohne sie lädt die Anwendung genauso, einen Wimpernschlag
+    // später. In der Einzeldatei liefe sie ohnehin ins Leere.
+    modulePreload: { polyfill: false },
+  },
+
   // Die Versionsnummer aus package.json wird beim Bauen fest eingesetzt,
   // damit Rückmeldungen einer Fassung zugeordnet werden können.
   define: {
