@@ -37,6 +37,7 @@
   import { erscheinungsbildAnwenden } from './lib/platform/erscheinungsbild';
   import { canShare, KI_ANBIETER, shareText } from './lib/platform/share';
   import { ANKER, navigation } from './lib/state/route.svelte';
+  import { eintraegeVerwerfen } from './lib/state/speicherschluessel';
   import {
     auswahlWiederherstellen,
     auswahlZuruecksetzen,
@@ -176,6 +177,16 @@
     void tick().then(() => document.getElementById('seitenkopf')?.focus({ preventScroll: true }));
   });
 
+  /**
+   * Letzter Ausweg aus dem Fehlerfangnetz: Was gespeichert ist, wird
+   * verworfen, dann startet die Anwendung mit den Vorgaben. Nur von Hand
+   * auslösbar — automatisch wäre es ein stiller Datenverlust.
+   */
+  function neuAnfangen() {
+    eintraegeVerwerfen(localStorage);
+    location.reload();
+  }
+
   function melde(text: string) {
     status = text;
     clearTimeout(statusTimer);
@@ -247,6 +258,11 @@
 <div class="huelle">
   <NeueFassung />
 
+  <!-- Fehlerfangnetz: Wirft irgendetwas beim Aufbauen der Seite, stand hier
+       bisher nur eine weiße Fläche — ohne Hinweis, ohne Ausweg. Kopfzeile
+       und Fußzeile bleiben außerhalb, damit Impressum, Datenschutz und der
+       Rückmeldeweg auch dann erreichbar sind. -->
+  <svelte:boundary>
   {#if navigation.seite === 'hilfe'}
     <Hilfe />
   {:else if navigation.seite === 'impressum'}
@@ -554,6 +570,29 @@
   </main>
   {/if}
 
+  {#snippet failed(fehler, erneutVersuchen)}
+    <main>
+      <section class="karte absturz" role="alert">
+        <h2 id="seitenkopf" tabindex="-1">Da ist etwas schiefgelaufen</h2>
+        <p>
+          Die Anwendung konnte die Seite nicht aufbauen. Dein Thema und deine Einstellungen
+          sind deswegen nicht verloren — sie liegen weiterhin auf diesem Gerät.
+        </p>
+        <p class="hinweis">{fehler instanceof Error ? fehler.message : String(fehler)}</p>
+        <div class="aktionen">
+          <button type="button" class="haupt" onclick={erneutVersuchen}>Erneut versuchen</button>
+          <button type="button" onclick={neuAnfangen}>Gespeichertes verwerfen und neu starten</button>
+        </div>
+        <p class="hinweis">
+          Hilft „Erneut versuchen" nicht, liegt es vermutlich an etwas Gespeichertem. Der zweite
+          Knopf wirft Einstellungen und Entwurf weg; die Anwendung beginnt dann bei den
+          Vorgaben. Bitte gib uns Bescheid — die Zeile oben hilft bei der Suche.
+        </p>
+      </section>
+    </main>
+  {/snippet}
+  </svelte:boundary>
+
   <footer>
     {#if navigation.seite === 'app'}
       <p>
@@ -842,6 +881,17 @@
     color: var(--akzent);
     font-weight: 600;
     white-space: nowrap;
+  }
+
+  /* Auffällig genug, um nicht übersehen zu werden, aber ohne Schreckfarbe:
+     In den meisten Fällen hilft schon "Erneut versuchen". */
+  .absturz {
+    border-color: var(--warnung);
+  }
+
+  .absturz .hinweis {
+    font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+    overflow-wrap: anywhere;
   }
 
   .status {

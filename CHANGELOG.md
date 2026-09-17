@@ -5,6 +5,10 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
 
 ## Unveröffentlicht
 
+- **Statt einer weißen Seite eine Auskunft.** Geht beim Aufbauen der
+  Anwendung etwas schief, erscheint jetzt eine Meldung mit zwei Knöpfen:
+  „Erneut versuchen" und „Gespeichertes verwerfen und neu starten".
+  Impressum, Datenschutz und der Rückmeldeweg bleiben dabei erreichbar.
 - **Hell oder dunkel lässt sich jetzt selbst wählen.** Unten in der
   Fußzeile steht „Automatisch · Hell · Dunkel". Automatisch bleibt die
   Vorgabe und folgt wie bisher dem Gerät — wer abends umschaltet, sieht

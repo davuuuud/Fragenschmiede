@@ -37,6 +37,24 @@ export interface Ablage {
  * Fehler werden geschluckt — im privaten Modus oder bei vollem Speicher
  * wirft der Zugriff, und das darf den Start nicht verhindern.
  */
+/**
+ * Wirft Einstellungen und Entwurf weg — der letzte Ausweg, wenn die
+ * Anwendung mit dem Gespeicherten nicht mehr startet (siehe das
+ * Fehlerfangnetz in App.svelte).
+ *
+ * Fehler werden geschluckt: Wenn schon der Speicher klemmt, soll wenigstens
+ * das anschließende Neuladen stattfinden.
+ */
+export function eintraegeVerwerfen(ablage: Ablage): void {
+  for (const schluessel of Object.values(SCHLUESSEL)) {
+    try {
+      ablage.removeItem(schluessel);
+    } catch {
+      /* bewusst ignoriert */
+    }
+  }
+}
+
 export function fruehereEintraegeUebernehmen(ablage: Ablage): void {
   for (const art of Object.keys(SCHLUESSEL) as (keyof typeof SCHLUESSEL)[]) {
     try {

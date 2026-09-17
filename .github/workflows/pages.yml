@@ -58,6 +58,11 @@ jobs:
       - name: Netzprüfung
         run: npm run pruefe:netz
 
+      # Alles, was die Anwendung kann, muss für den Offline-Betrieb vorab
+      # auf das Gerät. Der Wächter meldet unbemerktes Wachsen.
+      - name: Größe
+        run: npm run pruefe:groesse
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

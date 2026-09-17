@@ -14,14 +14,15 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
-    "pruefe:netz": "node scripts/netzpruefung.mjs"
+    "pruefe:netz": "node scripts/netzpruefung.mjs",
+    "pruefe:groesse": "node scripts/groessenwaechter.mjs"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^7.3.0",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/svelte": "^5.4.2",
     "@tsconfig/svelte": "^5.0.8",
-    "@types/node": "^24.13.3",
+    "@types/node": "^24.13.5",
     "axe-core": "^4.13.0",
     "docx": "^9.7.1",
     "jsdom": "^30.1.0",
@@ -29,9 +30,9 @@
     "svelte": "^5.56.10",
     "svelte-check": "^4.7.6",
     "typescript": "~6.0.2",
-    "vite": "^8.2.2",
+    "vite": "^8.3.0",
     "vite-plugin-pwa": "^1.3.0",
-    "vitest": "^5.0.0"
+    "vitest": "^5.0.1"
   },
   "dependencies": {
     "cfb": "^1.2.2"

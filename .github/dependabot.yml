@@ -1,0 +1,32 @@
+# Meldet neue Fassungen der verwendeten Pakete als Pull Request.
+#
+# Der Grund: Die Anwendung wird in Schüben gebaut, mit Wochen dazwischen.
+# Ohne Erinnerung veraltet sie still — und je länger niemand aktualisiert,
+# desto größer wird der Sprung, den irgendwann jemand auf einmal machen muss.
+#
+# Wöchentlich und gebündelt, damit nicht für jedes Paket eine eigene Meldung
+# entsteht. Zusammengeführt wird nichts von allein: Jeder Vorschlag muss die
+# Prüfungen aus pages.yml bestehen und von Hand übernommen werden.
+
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 3
+    groups:
+      # Alles, was nur beim Bauen und Prüfen gebraucht wird, in einem
+      # Vorschlag. Diese Pakete landen nicht in der ausgelieferten Anwendung.
+      werkzeuge:
+        patterns: ['*']
+        update-types: [minor, patch]
+    commit-message:
+      prefix: 'Pakete'
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: 'Abläufe'

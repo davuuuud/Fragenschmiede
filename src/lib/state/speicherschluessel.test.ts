@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { fruehereEintraegeUebernehmen, SCHLUESSEL, type Ablage } from './speicherschluessel';
+import {
+  eintraegeVerwerfen,
+  fruehereEintraegeUebernehmen,
+  SCHLUESSEL,
+  type Ablage,
+} from './speicherschluessel';
 
 function ablage(anfang: Record<string, string> = {}): Ablage & { inhalt: Map<string, string> } {
   const inhalt = new Map(Object.entries(anfang));
@@ -59,5 +64,28 @@ describe('Übernahme der früheren Speicherschlüssel', () => {
       },
     };
     expect(() => fruehereEintraegeUebernehmen(gesperrt)).not.toThrow();
+  });
+});
+
+describe('Einträge verwerfen', () => {
+  it('räumt Einstellungen und Entwurf weg, sonst nichts', () => {
+    const a = ablage({
+      [SCHLUESSEL.einstellungen]: '{"beruf":"kgq"}',
+      [SCHLUESSEL.entwurf]: '{"thema":"Skonto"}',
+      'etwas.anderes': 'bleibt',
+    });
+    eintraegeVerwerfen(a);
+    expect([...a.inhalt.keys()]).toEqual(['etwas.anderes']);
+  });
+
+  it('hält nicht an, wenn der Speicher den Zugriff verweigert', () => {
+    const gesperrt: Ablage = {
+      getItem: () => null,
+      setItem: () => {},
+      removeItem: () => {
+        throw new Error('Zugriff verweigert');
+      },
+    };
+    expect(() => eintraegeVerwerfen(gesperrt)).not.toThrow();
   });
 });

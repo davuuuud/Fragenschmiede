@@ -269,6 +269,11 @@ sich durch alle weiteren Etappen und wird bei Etappe 4 grundsätzlich.
 
 - **Keine Übertragung von Eingaben.** Thema, Zusatzangaben und erzeugter
   Prompt verlassen das Gerät nicht.
+- **Die Größe bleibt im Blick** — seit dem 17.09.2026 bricht die
+  Veröffentlichung ab, wenn der Bau über die in
+  `scripts/groessenwaechter.mjs` festgehaltenen Grenzen wächst
+  (heute 202 KB von 400 KB, Einzeldatei 160 KB von 260 KB). Wichtig,
+  weil für den Offline-Betrieb alles vorab auf das Gerät muss.
 - **Keine Aufrufe fremder Server** — seit dem 17.09.2026 bei jeder
   Veröffentlichung maschinell nachgewiesen (`npm run pruefe:netz`, siehe
   `scripts/netzpruefung.mjs`): Die Prüfung liest den gebauten Code und
