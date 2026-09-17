@@ -20,8 +20,12 @@ Die Anwendung läuft unter
 [davuuuud.github.io/Fragenschmiede](https://davuuuud.github.io/Fragenschmiede/),
 lässt sich auf dem Telefon zum Startbildschirm hinzufügen und funktioniert
 ohne Internetverbindung. Die Fachlogik ist durch 180 Tests abgedeckt, die Bedienung seit dem
-17.09.2026 durch zehn weitere: Sie tippen, wählen und klicken in einem
-nachgebauten Browser (`npx vitest run --project oberflaeche`).
+17.09.2026 durch dreizehn weitere: Sie tippen, wählen und klicken in einem
+nachgebauten Browser (`npx vitest run --project oberflaeche`), und drei
+davon lassen axe über Startseite und Nebenseiten laufen — dieselbe Prüfung
+wie in den Entwicklerwerkzeugen der Browser. Farbkontraste und die Frage,
+ob die Reihenfolge beim Durchtippen sinnvoll ist, kann sie nicht beurteilen;
+das bleibt Handarbeit.
 
 **Als Nächstes steht keine Programmierarbeit an, sondern die Erprobung:**
 zwei, drei Umschüler und ein Dozent, zwei Wochen, echte Themen. Jede der

@@ -55,6 +55,7 @@ export default defineConfig({
           name: 'oberflaeche',
           environment: 'jsdom',
           include: ['src/*.test.ts'],
+          setupFiles: ['src/test-vorbereitung.ts'],
         },
       },
     ],

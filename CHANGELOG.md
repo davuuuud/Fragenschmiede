@@ -5,6 +5,9 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
 
 ## Unveröffentlicht
 
+- **Verweise zeigen beim Durchtippen denselben Rahmen** wie Knöpfe und
+  Auswahlfelder. Vorher bekamen sie den Rahmen des jeweiligen Browsers,
+  der im dunklen Erscheinungsbild schlecht zu sehen sein konnte.
 - **Das Versprechen, dass nichts übertragen wird, prüft jetzt die
   Maschine.** Vor jeder Veröffentlichung liest eine Prüfung den fertig
   gebauten Code und bricht ab, sobald darin ein Netzwerkaufruf oder eine

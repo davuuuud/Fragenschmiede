@@ -103,6 +103,11 @@ select {
   padding-right: 2.2rem;
 }
 
+/* Verweise gehören dazu: Beim Durchtippen sind "Öffnen in" und die Fußzeile
+   Stationen wie jede andere. Ohne diese Zeile bekämen sie den Standardrahmen
+   des Browsers — in jedem Browser ein anderer und ein anderer als der, den
+   alle übrigen Bedienelemente hier zeigen. */
+a:focus-visible,
 select:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
