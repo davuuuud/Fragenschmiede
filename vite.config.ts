@@ -97,15 +97,16 @@ export default defineConfig({
       injectRegister: null,
 
       // Damit die Anwendung auch beim Entwickeln als installierbar gilt und
-      // sich das Offline-Verhalten prüfen lässt.
+      // sich der Zwischenspeicher prüfen lässt.
       devOptions: { enabled: false },
 
       workbox: {
-        // Alles, was der Build erzeugt, wird vorab abgelegt. Die App hat
-        // keine Serveraufrufe, daher genügt reines Vorab-Zwischenspeichern.
+        // Alles, was der Build erzeugt, wird vorab abgelegt: Davon hängt der
+        // Sofortstart ab und die Installierbarkeit. Die App ruft keine Server
+        // auf, daher genügt reines Vorab-Zwischenspeichern.
         globPatterns: ['**/*.{js,css,html,svg,png,ico,webmanifest}'],
         // Jeder unbekannte Pfad liefert die Startseite - sonst zeigt ein
-        // Neuladen im Offline-Betrieb einen Fehler.
+        // Neuladen ohne Verbindung einen Fehler statt der Anwendung.
         navigateFallback: 'index.html',
         cleanupOutdatedCaches: true,
       },

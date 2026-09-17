@@ -5,6 +5,11 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
 
 ## Unveröffentlicht
 
+- **Klarer gesagt, was die Anwendung kann.** Sie versprach bisher, „ohne
+  Internetverbindung" zu laufen. Das stimmt technisch, nützt aber wenig:
+  Der fertige Prompt gehört in eine KI, und die ist online. Jetzt steht
+  dort, was wirklich zählt — die Anwendung startet sofort, auch bei
+  schwachem Empfang, und lässt sich auf dem Startbildschirm installieren.
 - **Statt einer weißen Seite eine Auskunft.** Geht beim Aufbauen der
   Anwendung etwas schief, erscheint jetzt eine Meldung mit zwei Knöpfen:
   „Erneut versuchen" und „Gespeichertes verwerfen und neu starten".

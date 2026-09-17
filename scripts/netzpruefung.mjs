@@ -22,7 +22,7 @@ const ENDUNGEN = new Set(['.js', '.css', '.html', '.webmanifest', '.json']);
 
 // Der Dienst im Hintergrund darf fetch verwenden: Er fängt damit die
 // Anfragen des eigenen Browsers ab und beantwortet sie aus dem
-// Zwischenspeicher. Genau das ist der Offline-Betrieb. Fremde Adressen sind
+// Zwischenspeicher — daher der Sofortstart. Fremde Adressen sind
 // auch ihm nicht erlaubt — die prüft die zweite Regel mit.
 const HINTERGRUNDDIENST = /^(sw\.js|workbox-[^/]+\.js)$/;
 

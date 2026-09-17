@@ -3,7 +3,7 @@
 // Bewusst kein Router aus einer Bibliothek: Es gibt vier Seiten, und ein
 // Anker kommt ohne Serverkonfiguration aus. Beim Aufruf von
 // beispiel.de/#/impressum fordert der Browser weiterhin nur die Startseite
-// an — das ist genau das, was GitHub Pages und der Offline-Zwischenspeicher
+// an — das ist genau das, was GitHub Pages und der Zwischenspeicher
 // ausliefern können.
 
 export type Seite = 'app' | 'hilfe' | 'impressum' | 'datenschutz';

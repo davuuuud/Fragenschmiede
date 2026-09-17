@@ -1,7 +1,8 @@
 <script lang="ts">
   // Hinweis, wenn eine neue Fassung bereitliegt.
   //
-  // Die Anwendung läuft offline, liegt also im Zwischenspeicher des Browsers.
+  // Die Anwendung startet aus dem Zwischenspeicher des Browsers und holt sich
+  // von sich aus nichts Neues.
   // Ohne diesen Hinweis arbeitet man beliebig lange mit einer alten Fassung
   // weiter und meldet Fehler, die längst behoben sind — genau das ist am
   // 12.09.2026 passiert.

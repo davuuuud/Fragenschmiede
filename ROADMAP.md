@@ -13,13 +13,20 @@ keine Festlegung.
 | Etappe | Inhalt | Zustand |
 |---|---|---|
 | 1 | Fachlogik, Auswahlkataloge, Quellenkatalog, Oberfläche | fertig |
-| 2 | Installierbare Web-App, Offline-Betrieb, Veröffentlichung | fertig |
+| 2 | Installierbare Web-App, Sofortstart, Veröffentlichung | fertig |
 | 3a | Eigene PDF-Unterlagen durchsuchbar machen | zurückgestellt |
 
 Die Anwendung läuft unter
 [davuuuud.github.io/Fragenschmiede](https://davuuuud.github.io/Fragenschmiede/),
-lässt sich auf dem Telefon zum Startbildschirm hinzufügen und funktioniert
-ohne Internetverbindung. Die Fachlogik ist durch 180 Tests abgedeckt, die Bedienung seit dem
+lässt sich auf dem Telefon zum Startbildschirm hinzufügen und startet aus dem
+Zwischenspeicher, auch bei schwachem Empfang.
+
+**Offline ist kein Ziel** (Entscheidung vom 17.09.2026): Der Prompt entsteht
+zwar ohne Verbindung, aber er nützt erst etwas, wenn er in einer KI landet —
+und die ist online. Der Dienst im Hintergrund bleibt trotzdem, aus drei
+anderen Gründen: Ohne ihn bietet kein Browser das Hinzufügen zum
+Startbildschirm an, die Anwendung lädt bei schwachem Empfang nicht sofort,
+und niemand erführe von einer neuen Fassung. Die Fachlogik ist durch 180 Tests abgedeckt, die Bedienung seit dem
 17.09.2026 durch sechzehn weitere: Sie tippen, wählen und klicken in einem
 nachgebauten Browser (`npx vitest run --project oberflaeche`), und drei
 davon lassen axe über Startseite und Nebenseiten laufen — dieselbe Prüfung
@@ -53,8 +60,8 @@ was den Zuschnitt des Projekts verändert hat:
 - **Erklärt sich selbst:** jede Aufgabe mit einem Satz unter dem Auswahlfeld,
   dazu die Seite „Was die Felder bewirken" (#/hilfe) und dasselbe als
   Merkblatt zum Ausdrucken oder als Word-Datei (`npm run merkblatt`).
-- **Hinweis auf neue Fassungen**, weil die Anwendung offline läuft und sonst
-  unbemerkt veraltet.
+- **Hinweis auf neue Fassungen**, weil die Anwendung aus dem Zwischenspeicher
+  startet und sonst unbemerkt veraltet.
 - **Impressum und Datenschutzerklärung** als eigene Seiten.
 - **Leser für altes `.doc`** (`src/lib/import/doc.ts`), geprüft an 778
   echten Dateien — Vorarbeit für Etappe 3b.
@@ -272,8 +279,8 @@ sich durch alle weiteren Etappen und wird bei Etappe 4 grundsätzlich.
 - **Die Größe bleibt im Blick** — seit dem 17.09.2026 bricht die
   Veröffentlichung ab, wenn der Bau über die in
   `scripts/groessenwaechter.mjs` festgehaltenen Grenzen wächst
-  (heute 202 KB von 400 KB, Einzeldatei 160 KB von 260 KB). Wichtig,
-  weil für den Offline-Betrieb alles vorab auf das Gerät muss.
+  (heute 202 KB von 400 KB, Einzeldatei 160 KB von 260 KB). Wichtig, weil
+  beim Installieren alles auf einmal über die Mobilfunkverbindung geht.
 - **Keine Aufrufe fremder Server** — seit dem 17.09.2026 bei jeder
   Veröffentlichung maschinell nachgewiesen (`npm run pruefe:netz`, siehe
   `scripts/netzpruefung.mjs`): Die Prüfung liest den gebauten Code und
@@ -780,7 +787,7 @@ Katalogen ausliefern.
 | | gemeinsam | je Fassung |
 |---|---|---|
 | Prompt-Aufbau, Qualitätsregeln | ✓ | |
-| Oberfläche, Offline-Betrieb, Symbole | ✓ | |
+| Oberfläche, Installierbarkeit, Symbole | ✓ | |
 | Dokumentensuche (Etappe 3) | ✓ | |
 | KI-Anbindung (Etappe 4) | ✓ | |
 | Berufe und Bereiche | | ✓ |

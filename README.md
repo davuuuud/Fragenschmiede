@@ -15,7 +15,11 @@ Datenübertragung.
 
 Auf dem Telefon: Adresse im Browser öffnen, dann über das Menü
 **„Zum Startbildschirm hinzufügen"**. Danach startet die Anwendung als
-eigenes Symbol ohne Browserleiste und läuft auch ohne Internetverbindung.
+eigenes Symbol ohne Browserleiste und lädt sofort, auch bei schwachem Empfang.
+
+**Eine Verbindung wird trotzdem gebraucht** — nicht von dieser Anwendung,
+aber vom nächsten Schritt: Der fertige Prompt will in eine KI eingefügt
+werden, und die ist online. Der Prompt selbst entsteht auf dem Gerät.
 
 Nachfolger des Windows-Programms `IHK-Prompt-Assistent-v2` (Go/Win32).
 
@@ -29,7 +33,8 @@ Nachfolger des Windows-Programms `IHK-Prompt-Assistent-v2` (Go/Win32).
   System-Dialog teilen
 - Einstellungen und Entwurf überleben das Schließen
 - Dunkelmodus nach Systemeinstellung
-- Offline lauffähig, sobald die Seite einmal geladen wurde
+- Startet sofort aus dem Zwischenspeicher, auch bei schwachem Empfang;
+  installierbar auf dem Startbildschirm
 
 ## Entwickeln
 
@@ -48,16 +53,19 @@ npm run icons      # App-Symbole aus assets-src/ neu erzeugen
 npm run merkblatt  # Merkblatt "Was die Felder bewirken" als .docx
 ```
 
-Der Offline-Betrieb lässt sich nur im Produktionsbau prüfen (`npm run build`
-und dann `npm run preview`), nicht im Entwicklungsserver. `localhost` gilt
-dabei als sicherer Kontext, der Service Worker läuft dort also echt.
+Der Service Worker — er hält die Programmdateien im Zwischenspeicher, macht
+die Anwendung installierbar und meldet neue Fassungen — läuft nur im
+Produktionsbau (`npm run build`, dann `npm run preview`), nicht im
+Entwicklungsserver. `localhost` gilt dabei als sicherer Kontext, er arbeitet
+dort also echt.
 
 ## Veröffentlichen
 
 Die Anwendung ist eine reine Sammlung statischer Dateien. Der Inhalt von
 `dist/` kann auf jeden Webspace mit HTTPS. **HTTPS ist Pflicht** – ohne das
-gibt es keinen Service Worker und damit weder Offline-Betrieb noch die
-Möglichkeit, die Seite zum Startbildschirm hinzuzufügen.
+gibt es keinen Service Worker und damit weder den Sofortstart aus dem
+Zwischenspeicher noch die Möglichkeit, die Seite zum Startbildschirm
+hinzuzufügen.
 
 ### GitHub Pages
 

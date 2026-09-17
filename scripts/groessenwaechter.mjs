@@ -1,9 +1,9 @@
 // Wacht über die Größe des gebauten Programms.
 //
-// Die Anwendung läuft offline. Alles, was sie kann, muss dafür vorher auf
-// das Gerät — über eine Mobilfunkverbindung, oft in einem Schulungsraum mit
-// schlechtem Empfang. Größe ist deshalb keine Schönheitsfrage, sondern die
-// Frage, ob die Installation gelingt.
+// Wer die Anwendung zum Startbildschirm hinzufügt, lädt sie in einem Stück —
+// über eine Mobilfunkverbindung, oft in einem Schulungsraum mit schlechtem
+// Empfang. Größe ist deshalb keine Schönheitsfrage, sondern die Frage, ob die
+// Installation gelingt und ob der Start danach sofort geht.
 //
 // Wachsen darf sie trotzdem; sie soll ja mehr können. Der Wächter verhindert
 // nur das unbemerkte Wachsen: Wer eine Grenze reißt, muss eine Zeile hier

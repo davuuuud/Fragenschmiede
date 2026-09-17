@@ -75,10 +75,9 @@
       die Einstellungen zurück, lässt Aufgabe und geschriebenen Text aber bewusst stehen.
     </p>
     <p>
-      Wenn Sie die Anwendung auf dem Startbildschirm installieren oder offline nutzen, legt der
-      Browser zusätzlich die Programmdateien selbst in seinem Zwischenspeicher ab. Auch das
-      geschieht ausschließlich lokal und dient nur dazu, die Anwendung ohne Internetverbindung
-      starten zu können.
+      Der Browser legt zusätzlich die Programmdateien selbst in seinem Zwischenspeicher ab,
+      damit die Anwendung sofort startet und sich auf dem Startbildschirm installieren lässt.
+      Auch das geschieht ausschließlich lokal; übertragen wird dabei nichts.
     </p>
 
     <h2>4. Aufruf der Seite (Hosting)</h2>
