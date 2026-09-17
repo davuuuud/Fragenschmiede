@@ -22,11 +22,21 @@ updates:
       werkzeuge:
         patterns: ['*']
         update-types: [minor, patch]
+    ignore:
+      # Große Sprünge bleiben Handarbeit: Sie brauchen einen Blick in die
+      # Änderungshinweise und oft eigene Anpassungen. Als automatischer
+      # Vorschlag stünden sie nur im Weg — TypeScript 7 etwa wurde bewusst
+      # zurückgestellt.
+      - dependency-name: '*'
+        update-types: [version-update:semver-major]
     commit-message:
       prefix: 'Pakete'
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: monthly
+    ignore:
+      - dependency-name: '*'
+        update-types: [version-update:semver-major]
     commit-message:
       prefix: 'Abläufe'
