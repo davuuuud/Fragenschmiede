@@ -61,6 +61,12 @@ export type DarstellungId =
   | 'tabelle'
   | 'ganze-saetze';
 
+/**
+ * Wie die Anwendung aussieht — nicht, was im Prompt steht.
+ * „automatisch" folgt der Einstellung des Geräts und ist die Vorgabe.
+ */
+export type ErscheinungsbildId = 'automatisch' | 'hell' | 'dunkel';
+
 export interface Beruf {
   id: BerufId;
   /**

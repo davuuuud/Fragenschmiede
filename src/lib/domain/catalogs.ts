@@ -8,6 +8,7 @@ import type {
   AufgabeId,
   Beruf,
   Darstellung,
+  ErscheinungsbildId,
   Fachsprache,
   Niveau,
   Umfang,
@@ -113,6 +114,15 @@ export const ALLE_BERUFE: Beruf[] = [
 
 /** Die Berufe, die die Anwendung anbietet — alle, die nicht ruhen. */
 export const BERUFE: Beruf[] = ALLE_BERUFE.filter((beruf) => !beruf.ruht);
+
+// Der einzige Katalog, der den Prompt nicht anfasst: Er betrifft allein den
+// Bildschirm. Deshalb steht der Schalter dazu auch nicht bei den
+// Einstellungen, sondern unten in der Fußzeile bei Fassung und Impressum.
+export const ERSCHEINUNGSBILDER: { id: ErscheinungsbildId; label: string }[] = [
+  { id: 'automatisch', label: 'Automatisch' },
+  { id: 'hell', label: 'Hell' },
+  { id: 'dunkel', label: 'Dunkel' },
+];
 
 /** Anzeige in der Auswahlliste: „IMK — Immobilienkaufleute". */
 export function berufBeschriftung(beruf: Beruf): string {

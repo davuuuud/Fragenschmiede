@@ -266,6 +266,13 @@ describe('Einstellungen', () => {
     expect(s.quellen).toEqual(defaultSettings().quellen);
   });
 
+  it('fallen beim Erscheinungsbild auf „automatisch" zurück', () => {
+    // Wer vor dem Schalter gespeichert hat, hat hier nichts stehen.
+    expect(normalizeSettings({ beruf: 'kgq' }).erscheinungsbild).toBe('automatisch');
+    expect(normalizeSettings({ erscheinungsbild: 'neon' }).erscheinungsbild).toBe('automatisch');
+    expect(normalizeSettings({ erscheinungsbild: 'dunkel' }).erscheinungsbild).toBe('dunkel');
+  });
+
   it('überstehen Unsinn aus dem Gerätespeicher', () => {
     const s = normalizeSettings({
       beruf: 'gibt-es-nicht',

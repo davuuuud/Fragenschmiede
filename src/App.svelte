@@ -12,6 +12,7 @@
     BERUFE,
     berufBeschriftung,
     DARSTELLUNGEN,
+    ERSCHEINUNGSBILDER,
     FACHSPRACHEN,
     findAufgabe,
     findFachsprache,
@@ -33,6 +34,7 @@
   import type { BerufId } from './lib/domain/types';
   import { MAX_ANZAHL, MIN_ANZAHL, toCRLF } from './lib/domain/text';
   import { copyText } from './lib/platform/clipboard';
+  import { erscheinungsbildAnwenden } from './lib/platform/erscheinungsbild';
   import { canShare, KI_ANBIETER, shareText } from './lib/platform/share';
   import { ANKER, navigation } from './lib/state/route.svelte';
   import {
@@ -94,6 +96,10 @@
   // und laufen dadurch bei jeder Änderung erneut.
   $effect(() => saveSettings());
   $effect(() => saveDraft());
+
+  // Hell oder dunkel wirkt auf das ganze Dokument, nicht nur auf diese
+  // Komponente — deshalb ein Effekt und kein Stilblock hier unten.
+  $effect(() => erscheinungsbildAnwenden(settings.erscheinungsbild));
 
   // --- Sonstige Optionen ----------------------------------------------------
   // Weitere Quellen und Zusätzliche Angaben werden selten gebraucht und
@@ -558,6 +564,20 @@
     <p class="fusszeile">
       Fassung {APP_VERSION} · {BUILD_DATE}
       <span aria-hidden="true">·</span>
+      <!-- Betrifft nur den Bildschirm, nicht den Prompt: Deshalb steht der
+           Schalter hier und nicht bei den Einstellungen. -->
+      <span class="erscheinungsbild" role="group" aria-label="Erscheinungsbild">
+        {#each ERSCHEINUNGSBILDER as bild (bild.id)}
+          <button
+            type="button"
+            aria-pressed={settings.erscheinungsbild === bild.id}
+            onclick={() => (settings.erscheinungsbild = bild.id)}
+          >
+            {bild.label}
+          </button>
+        {/each}
+      </span>
+      <span aria-hidden="true">·</span>
       <a href={ANKER.hilfe}>Was die Felder bewirken</a>
       <span aria-hidden="true">·</span>
       <a href={ANKER.impressum}>Impressum</a>
@@ -852,6 +872,36 @@
 
   footer a:hover {
     color: var(--akzent);
+  }
+
+  /* Sieht aus wie die Verweise daneben: In der Fußzeile steht eine Reihe
+     gleichrangiger Kleinigkeiten, und eine davon ist eben ein Schalter. */
+  .erscheinungsbild {
+    display: inline-flex;
+    gap: 0.5rem;
+  }
+
+  .erscheinungsbild button {
+    padding: 0.3rem 0;
+    border: none;
+    background: none;
+    font: inherit;
+    color: var(--text-schwach);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .erscheinungsbild button:hover {
+    color: var(--akzent);
+  }
+
+  /* Das Gewählte muss man sehen können, ohne die Farben zu vergleichen —
+     deshalb zusätzlich fett und ohne Unterstreichung. */
+  .erscheinungsbild button[aria-pressed='true'] {
+    color: var(--akzent);
+    font-weight: 600;
+    text-decoration: none;
+    cursor: default;
   }
 
   /* Der Titel ist ein einziges langes Wort und kann nicht umbrechen. Auf

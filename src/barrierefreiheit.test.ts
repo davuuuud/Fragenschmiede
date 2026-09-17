@@ -76,6 +76,17 @@ describe('Barrierefreiheit', () => {
     expect(await pruefen()).toEqual([]);
   });
 
+  it('hat auch im dunklen Erscheinungsbild keine Mängel', async () => {
+    // Kontraste kann axe hier nicht messen (siehe oben) — geprüft wird, dass
+    // der Umschalter selbst bedienbar bleibt und nichts kaputt macht.
+    render(App);
+    screen.getByRole('button', { name: 'Dunkel' }).click();
+    await new Promise((weiter) => setTimeout(weiter, 0));
+
+    expect(document.documentElement.dataset.erscheinungsbild).toBe('dunkel');
+    expect(await pruefen()).toEqual([]);
+  });
+
   it('hat auf den Nebenseiten keine Mängel', async () => {
     for (const anker of ['#/hilfe', '#/impressum', '#/datenschutz']) {
       cleanup();

@@ -1,9 +1,10 @@
 /* Gestaltungsgrundlagen und Farbwerte.
  *
- * Die helle Palette steht auf :root, die dunkle wird ausschließlich per
- * prefers-color-scheme überschrieben. Damit folgt die Anwendung der
- * Systemeinstellung - unter Android der wichtigere Fall, weil dort viele
- * Geräte dauerhaft im Dunkelmodus laufen.
+ * Die helle Palette steht auf :root, die dunkle überschreibt sie. Ohne
+ * Zutun folgt die Anwendung dem Gerät - unter Android der wichtigere Fall,
+ * weil dort viele Geräte dauerhaft im Dunkelmodus laufen. Wer in der
+ * Fußzeile „Hell" oder „Dunkel" wählt, setzt data-erscheinungsbild am
+ * Wurzelelement und übersteuert das Gerät (src/lib/platform/erscheinungsbild.ts).
  */
 
 :root {
@@ -34,8 +35,12 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Die dunkle Palette gilt in zwei Fällen: Das Gerät steht auf dunkel und
+   niemand hat ausdrücklich widersprochen — oder jemand hat sie in der
+   Fußzeile ausdrücklich gewählt. Beide Bedingungen lassen sich in reinem
+   CSS nicht zusammenfassen, deshalb steht der Block zweimal da. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-erscheinungsbild='hell']) {
     --grund: #14171c;
     --flaeche: #1c2028;
     --flaeche-hover: #242933;
@@ -50,6 +55,30 @@
     --warnung: #ff9c85;
     --erfolg: #6fd3a1;
   }
+}
+
+:root[data-erscheinungsbild='dunkel'] {
+    --grund: #14171c;
+    --flaeche: #1c2028;
+    --flaeche-hover: #242933;
+    --code-flaeche: #171a21;
+    --rand: #333a45;
+    --rand-stark: #4a5361;
+    --text: #e6e9ee;
+    --text-schwach: #9aa4b2;
+    --akzent: #6f9dff;
+    --akzent-text: #0d1117;
+    --akzent-schwach: #223049;
+    --warnung: #ff9c85;
+    --erfolg: #6fd3a1;
+
+  /* Damit auch Rollbalken, Auswahllisten und Textfelder des Browsers dunkel
+     zeichnen — sonst blitzt Weiß zwischen den eigenen Flächen auf. */
+  color-scheme: dark;
+}
+
+:root[data-erscheinungsbild='hell'] {
+  color-scheme: light;
 }
 
 * {

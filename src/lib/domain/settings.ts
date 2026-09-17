@@ -4,7 +4,15 @@
 // von einer älteren Version geschriebene Datei darf die Anwendung nicht
 // unbrauchbar machen. Unbekannte Werte fallen still auf die Vorgabe zurück.
 
-import { AUFGABEN, BERUFE, DARSTELLUNGEN, FACHSPRACHEN, NIVEAUS, UMFAENGE } from './catalogs';
+import {
+  AUFGABEN,
+  BERUFE,
+  DARSTELLUNGEN,
+  ERSCHEINUNGSBILDER,
+  FACHSPRACHEN,
+  NIVEAUS,
+  UMFAENGE,
+} from './catalogs';
 import { istFruehereVoreinstellung, quellenFuerBeruf, standardQuellen } from './quellen';
 import { zweitsprachen } from './sprachen';
 import { DEFAULT_ANZAHL, parseAnzahl } from './text';
@@ -12,6 +20,7 @@ import type {
   AufgabeId,
   BerufId,
   DarstellungId,
+  ErscheinungsbildId,
   FachspracheId,
   NiveauId,
   PromptInput,
@@ -34,6 +43,12 @@ export interface Settings {
   quellenFreitext: string;
   /** 'keine' bedeutet: einsprachige Antwort auf Deutsch. */
   zweitsprache: ZweitspracheId;
+  /**
+   * Hell, dunkel oder wie das Gerät. Die einzige Einstellung, die den
+   * Prompt nicht verändert — sie steht hier nur, weil sie wie alle anderen
+   * gespeichert werden soll.
+   */
+  erscheinungsbild: ErscheinungsbildId;
 }
 
 export function defaultSettings(): Settings {
@@ -49,6 +64,7 @@ export function defaultSettings(): Settings {
     quellen: standardQuellen('kgq'),
     quellenFreitext: '',
     zweitsprache: 'keine',
+    erscheinungsbild: 'automatisch',
   };
 }
 
@@ -99,6 +115,13 @@ export function normalizeSettings(raw: unknown): Settings {
     // 'keine' ist hier zugleich Vorgabe und Rückfall: Eine gestrichene Sprache
     // führt zurück auf die einsprachige Antwort, nicht auf eine fremde.
     zweitsprache: pickId(zweitsprachen(), data.zweitsprache, 'keine') as ZweitspracheId,
+    // Wer vor dem 17.09.2026 gespeichert hat, hat hier nichts stehen —
+    // dann bleibt es beim automatischen Verhalten von vorher.
+    erscheinungsbild: pickId(
+      ERSCHEINUNGSBILDER,
+      data.erscheinungsbild,
+      'automatisch',
+    ) as ErscheinungsbildId,
   };
 }
 

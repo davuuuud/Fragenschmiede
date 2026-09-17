@@ -45,6 +45,7 @@ afterEach(() => {
 });
 
 beforeEach(() => {
+  for (const meta of statusleiste()) meta.remove();
   // Jeder Test beginnt bei den Vorgaben, nicht bei dem, was ein
   // vorheriger Test gespeichert hat.
   localStorage.clear();
@@ -176,7 +177,43 @@ describe('Die Anwendung im Browser', () => {
     await screen.findByText(/In die Zwischenablage kopiert/);
   });
 
-  it('merkt sich Einstellungen, aber nicht das Thema', async () => {
+  it('stellt das Erscheinungsbild um und merkt es sich', async () => {
+    // Wie in index.html: zwei Farbangaben für die Statusleiste, je eine für
+    // hell und dunkel. Im nachgebauten Browser gibt es keine index.html.
+    for (const [schema, farbe] of [
+      ['light', '#f6f7f9'],
+      ['dark', '#14171c'],
+    ]) {
+      const meta = document.createElement('meta');
+      meta.name = 'theme-color';
+      meta.media = '(prefers-color-scheme: ' + schema + ')';
+      meta.content = farbe;
+      document.head.appendChild(meta);
+    }
+
+    const { unmount } = render(App);
+    // Vorgabe: kein Merkmal am Dokument — dann gilt, was das Gerät sagt.
+    expect(document.documentElement.dataset.erscheinungsbild).toBeUndefined();
+
+    knopf('Dunkel').click();
+    await tick();
+    expect(document.documentElement.dataset.erscheinungsbild).toBe('dunkel');
+    expect(knopf('Dunkel').getAttribute('aria-pressed')).toBe('true');
+    expect(knopf('Hell').getAttribute('aria-pressed')).toBe('false');
+    // Die Statusleiste des Betriebssystems zieht mit.
+    expect(statusleiste().map((meta) => meta.content)).toEqual(['#14171c', '#14171c']);
+
+    knopf('Automatisch').click();
+    await tick();
+    expect(document.documentElement.dataset.erscheinungsbild).toBeUndefined();
+
+    knopf('Hell').click();
+    await tick();
+    unmount();
+    expect(localStorage.getItem(SCHLUESSEL.einstellungen) ?? '').toContain('"erscheinungsbild":"hell"');
+  });
+
+it('merkt sich Einstellungen, aber nicht das Thema', async () => {
     const { unmount } = render(App);
     await tippen(themenfeld(), 'Kündigungsfristen');
     await waehlen(screen.getByLabelText(/Ausbildungsberuf/i) as HTMLSelectElement, 'spedition');
@@ -187,6 +224,11 @@ describe('Die Anwendung im Browser', () => {
     expect(gespeichert).not.toContain('Kündigungsfristen');
   });
 });
+
+/** Die Farbangaben für die Statusleiste des Betriebssystems. */
+function statusleiste(): HTMLMetaElement[] {
+  return [...document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')];
+}
 
 /** Klickt auf das erste Bedienelement, dessen Beschriftung passt — Knopf
  *  oder Verweis, je nachdem, woraus die Oberfläche es gemacht hat. */

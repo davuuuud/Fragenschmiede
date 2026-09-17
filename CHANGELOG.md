@@ -5,6 +5,11 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
 
 ## Unveröffentlicht
 
+- **Hell oder dunkel lässt sich jetzt selbst wählen.** Unten in der
+  Fußzeile steht „Automatisch · Hell · Dunkel". Automatisch bleibt die
+  Vorgabe und folgt wie bisher dem Gerät — wer abends umschaltet, sieht
+  die Fragenschmiede weiter von allein dunkel. Die Wahl gilt nur für den
+  Bildschirm, nicht für den Prompt, und wird auf dem Gerät gespeichert.
 - **Verweise zeigen beim Durchtippen denselben Rahmen** wie Knöpfe und
   Auswahlfelder. Vorher bekamen sie den Rahmen des jeweiligen Browsers,
   der im dunklen Erscheinungsbild schlecht zu sehen sein konnte.

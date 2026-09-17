@@ -20,7 +20,7 @@ Die Anwendung läuft unter
 [davuuuud.github.io/Fragenschmiede](https://davuuuud.github.io/Fragenschmiede/),
 lässt sich auf dem Telefon zum Startbildschirm hinzufügen und funktioniert
 ohne Internetverbindung. Die Fachlogik ist durch 180 Tests abgedeckt, die Bedienung seit dem
-17.09.2026 durch dreizehn weitere: Sie tippen, wählen und klicken in einem
+17.09.2026 durch sechzehn weitere: Sie tippen, wählen und klicken in einem
 nachgebauten Browser (`npx vitest run --project oberflaeche`), und drei
 davon lassen axe über Startseite und Nebenseiten laufen — dieselbe Prüfung
 wie in den Entwicklerwerkzeugen der Browser. Farbkontraste und die Frage,
@@ -155,6 +155,12 @@ zwei Stufen so dicht beieinander, dass niemand sie unterscheiden kann?
 **Erledigt:**
 
 - **Berufe** sind nach Kürzel sortiert, KGQ steht voran.
+- **Erscheinungsbild in der Fußzeile** (17.09.2026): hell, dunkel oder
+  automatisch. Bewusst nicht bei den Einstellungen — jedes Feld dort
+  verändert den Prompt, dieses nur den Bildschirm. Aus demselben Grund
+  heißt es nicht „Darstellung": Das ist schon ein Prompt-Feld.
+  Drei Zustände statt eines Ein-Aus-Schalters, sonst bliebe hell, wer
+  einmal hell gewählt hat, auch wenn das Gerät längst umgestellt hat.
 - **FISI und SFA ruhen** (15.09.2026): nicht in der Auswahl, aber mit allen
   Angaben, Quellen und Voreinstellungen im Katalog; die Tests prüfen sie
   weiter mit. Wieder aufnehmen: `ruht: true` in
