@@ -101,7 +101,11 @@ beide Seiten; eine Verbesserung an einer kommt der anderen zugute.
 **Noch offen:**
 
 1. **Rücklauf der Durchsicht** einarbeiten — erst danach geht die Seite online.
-2. **Veröffentlichung:** Für die Adresse `davuuuud.github.io/Fragenschmiede_Med`
+2. **Erledigt (11.11.2026): online als Vorabfassung** unter
+   https://davuuuud.github.io/Fragenschmiede_Med/ — mit Hinweis in der
+   Kopfzeile und `noindex`, weil die Durchsicht noch aussteht. Nach der
+   Durchsicht die Zeile `vorabfassung` in `src/lib/profile/med/marke.ts`
+   löschen. Zur Begründung des eigenen Repositorys: Für die Adresse `davuuuud.github.io/Fragenschmiede_Med`
    braucht es ein Repository dieses Namens, weil GitHub Pages die Adresse aus
    dem Repository-Namen bildet. Es enthielte keinen eigenen Code, nur einen
    Ablauf, der den öffentlichen Quellcode holt, mit `PROFIL=med` baut und

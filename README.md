@@ -68,7 +68,7 @@ Aus diesem Repository entstehen zwei Seiten:
 | Profil | Seite | Berufe |
 |---|---|---|
 | `ihk` (Vorgabe) | **Fragenschmiede** | kaufmännische und weitere IHK-Berufe |
-| `med` | **Fragenschmiede Med** | Gesundheits- und Pflegeberufe — *Entwurf, noch nicht veröffentlicht* |
+| `med` | **[Fragenschmiede Med](https://davuuuud.github.io/Fragenschmiede_Med/)** | Gesundheits- und Pflegeberufe — *Vorabfassung, Quellen in fachlicher Durchsicht* |
 
 Gemeinsam ist die ganze Mechanik: Prompt-Aufbau, Qualitätsregeln,
 Oberfläche, Tests, Netzprüfung und Größenwächter. Je Profil verschieden sind
@@ -86,6 +86,14 @@ PROFIL=med npm run build:datei             # Fragenschmiede_Med-<Fassung>.html
 `npm test` prüft immer beide Profile, gleich wie `PROFIL` gesetzt ist: Jede
 Testgruppe legt ihr Profil selbst fest. Was für jedes Profil gelten muss,
 steht in `src/lib/profile/profil.test.ts` und läuft gegen beide.
+
+Die Fragenschmiede Med wird aus diesem Quellcode gebaut, aber im Repository
+[`davuuuud/Fragenschmiede_Med`](https://github.com/davuuuud/Fragenschmiede_Med)
+veröffentlicht — GitHub Pages bildet die Adresse aus dem Namen des
+Repositorys. Es enthält nur den Ablauf, der diesen Quellcode holt, mit
+`PROFIL=med` baut und veröffentlicht: jede Nacht, bei jedem Push dort und auf
+Knopfdruck. Eine Änderung hier ist also spätestens am nächsten Morgen auch auf
+der Med-Seite.
 
 ## Die Einzeldatei weitergeben
 
