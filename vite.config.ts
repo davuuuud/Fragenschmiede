@@ -129,8 +129,16 @@ export default defineConfig({
     // jedes Profil seine eigene Startseite bekommt.
     {
       name: 'marke-in-html',
-      transformIndexHtml: (html: string) =>
-        html.replaceAll('{{APP_NAME}}', MARKE.name).replaceAll('{{META_BESCHREIBUNG}}', MARKE.metaBeschreibung),
+      transformIndexHtml: (html: string) => ({
+        html: html
+          .replaceAll('{{APP_NAME}}', MARKE.name)
+          .replaceAll('{{META_BESCHREIBUNG}}', MARKE.metaBeschreibung),
+        // Eine Vorabfassung soll erreichbar sein, aber nicht gefunden werden.
+        tags:
+          'vorabfassung' in MARKE
+            ? [{ tag: 'meta', attrs: { name: 'robots', content: 'noindex, nofollow' }, injectTo: 'head' as const }]
+            : [],
+      }),
     },
     VitePWA({
       // Eine neue Fassung wird im Hintergrund geladen, aber nicht

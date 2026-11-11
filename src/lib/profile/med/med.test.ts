@@ -29,6 +29,13 @@ describe('Fragenschmiede Med', () => {
     expect(PROFIL.marke).not.toHaveProperty('fruehererSpeicherPraefix');
   });
 
+  it('ist als Vorabfassung gekennzeichnet, solange die Durchsicht aussteht', () => {
+    // Steht diese Prüfung im Weg, ist die Durchsicht durch: dann die Zeile
+    // in marke.ts löschen und diesen Test umkehren.
+    expect(PROFIL.marke.vorabfassung).toBeTruthy();
+    expect(IHK).not.toHaveProperty('vorabfassung');
+  });
+
   it('hat ein eigenes Symbol in eigener Farbe', () => {
     // Auf dem Startbildschirm liegen beide oft nebeneinander.
     expect(PROFIL.marke.oeffentlich).not.toBe(IHK.oeffentlich);

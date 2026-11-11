@@ -8,6 +8,7 @@
   import NeueFassung from './lib/components/NeueFassung.svelte';
   import QuellenWahl from './lib/components/QuellenWahl.svelte';
   import { APP_NAME, APP_VERSION, BUILD_DATE, FEEDBACK } from './lib/config';
+  import PROFIL from '$profil';
   import {
     aufgabenNachGruppe,
     BERUFE,
@@ -280,6 +281,9 @@
       <div class="kopftext">
         <h1 id="seitenkopf" tabindex="-1">{APP_NAME}</h1>
         <p class="urheber">Eine Idee von Mick Jagger, John Lennon und Douglas Adams</p>
+        {#if PROFIL.marke.vorabfassung}
+          <p class="vorab">{PROFIL.marke.vorabfassung}</p>
+        {/if}
       </div>
     </div>
     <p class="anriss">
@@ -669,6 +673,18 @@
     margin: 0.3rem 0 0;
     font-size: 0.92rem;
     font-style: italic;
+    color: var(--text-schwach);
+  }
+
+  /* Klein und ruhig, aber nicht zu übersehen: Wer die Seite vorgeführt
+     bekommt, soll wissen, dass sie noch nicht fertig geprüft ist. */
+  .vorab {
+    display: inline-block;
+    margin: 0.4rem 0 0;
+    padding: 0.15rem 0.55rem;
+    border: 1px solid var(--rand-stark);
+    border-radius: 999px;
+    font-size: 0.8rem;
     color: var(--text-schwach);
   }
 

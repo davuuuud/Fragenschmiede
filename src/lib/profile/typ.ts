@@ -43,6 +43,13 @@ export interface Marke {
    * scripts/generate-icons.mjs aus den Vorlagen in assets-src/.
    */
   oeffentlich: string;
+  /**
+   * Solange gesetzt, ist die Seite eine Vorabfassung: Der Satz steht klein
+   * unter dem Namen, und Suchmaschinen werden gebeten, sie nicht
+   * aufzunehmen. Wer den Link hat, kommt trotzdem hin. Nach der fachlichen
+   * Durchsicht die Zeile in marke.ts löschen.
+   */
+  vorabfassung?: string;
 }
 
 export interface Profil {
