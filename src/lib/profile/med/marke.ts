@@ -20,4 +20,8 @@ export default {
   // sich sonst den Gerätespeicher.
   speicherPraefix: 'fragenschmiede-med',
   fremdeKennzeichen: [],
+  // Petrol statt Blau: Auf dem Startbildschirm liegen beide Symbole oft
+  // nebeneinander und müssen auf einen Blick zu unterscheiden sein.
+  farbe: '#0f766e',
+  oeffentlich: 'public-med',
 } as const;

@@ -26,6 +26,12 @@ describe('Fragenschmiede Med', () => {
     expect(PROFIL.marke).not.toHaveProperty('fruehererSpeicherPraefix');
   });
 
+  it('hat ein eigenes Symbol in eigener Farbe', () => {
+    // Auf dem Startbildschirm liegen beide oft nebeneinander.
+    expect(PROFIL.marke.oeffentlich).not.toBe(IHK.oeffentlich);
+    expect(PROFIL.marke.farbe).not.toBe(IHK.farbe);
+  });
+
   it('bietet genau die fünf Berufe der ersten Fassung an, nach Kürzel sortiert', () => {
     expect(BERUFE.map((b) => b.kuerzel)).toEqual(['MFA', 'NotSan', 'PFA', 'PFF', 'PT']);
     expect(PROFIL.standardBeruf).toBe('pflegefachfrau');

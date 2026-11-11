@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Maskierbare Fassung des Med-Symbols: Android beschneidet je nach Gerät
+       zu Kreis, Rundeck oder Quadrat. Der Inhalt liegt deshalb innerhalb der
+       inneren 80 % — wie beim Symbol der Fragenschmiede auf 62 % verkleinert.
+       Die Plakette reicht weiter nach rechts unten als das Blatt; bei 62 %
+       bleibt sie trotzdem in der sicheren Zone. -->
+  <rect width="512" height="512" fill="#0f766e" />
+  <g transform="translate(256 256) scale(0.62) translate(-256 -256)">
+    <rect x="116" y="96" width="280" height="320" rx="32" fill="#ffffff" />
+    <path
+      d="M 172 166 L 210 194 L 172 222"
+      fill="none"
+      stroke="#0f766e"
+      stroke-width="26"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <rect x="234" y="181" width="106" height="26" rx="13" fill="#0f766e" />
+    <rect x="172" y="272" width="96" height="26" rx="13" fill="#bfe3de" />
+    <rect x="172" y="330" width="72" height="26" rx="13" fill="#bfe3de" />
+    <circle cx="340" cy="352" r="66" fill="#0f766e" stroke="#ffffff" stroke-width="16" />
+    <rect x="327" y="314" width="26" height="76" rx="7" fill="#ffffff" />
+    <rect x="302" y="339" width="76" height="26" rx="7" fill="#ffffff" />
+  </g>
+</svg>

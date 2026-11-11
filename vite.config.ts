@@ -95,6 +95,10 @@ export default defineConfig({
     alias: { $profil: profilPfad(profilId) },
   },
 
+  // Symbol und Favicon je Profil: public/ für die Fragenschmiede,
+  // public-med/ für die Fragenschmiede Med.
+  publicDir: MARKE.oeffentlich,
+
   build: {
     // Ohne diese Zeile legt Vite eine Hilfsfunktion bei, die Bausteine der
     // Anwendung mit fetch vorlädt. Sie ruft nur eigene Dateien ab, aber sie
@@ -165,7 +169,7 @@ export default defineConfig({
         display: 'standalone',
         orientation: 'portrait-primary',
         background_color: '#f6f7f9',
-        theme_color: '#2f5fd0',
+        theme_color: MARKE.farbe,
         categories: ['education', 'productivity'],
         icons: [
           { src: 'icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },

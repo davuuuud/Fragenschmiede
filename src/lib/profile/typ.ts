@@ -36,6 +36,13 @@ export interface Marke {
   fruehererSpeicherPraefix?: string;
   /** Kennzeichen Dritter, die im Impressum vor den KI-Diensten stehen. */
   fremdeKennzeichen: readonly string[];
+  /** Farbe des Symbols; steht auch als theme_color im Web-Manifest. */
+  farbe: string;
+  /**
+   * Ordner mit Symbol und Favicon, relativ zum Projekt. Erzeugt von
+   * scripts/generate-icons.mjs aus den Vorlagen in assets-src/.
+   */
+  oeffentlich: string;
 }
 
 export interface Profil {

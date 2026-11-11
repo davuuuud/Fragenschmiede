@@ -21,4 +21,6 @@ export default {
   // Arbeitstitel bis zum 15.09.2026; Einträge darunter werden übernommen.
   fruehererSpeicherPraefix: 'ihk-lernassistent',
   fremdeKennzeichen: ['IHK'],
+  farbe: '#2f5fd0',
+  oeffentlich: 'public',
 } as const;
