@@ -32,3 +32,4 @@ quellen-durchsicht/versand/
 
 # Erzeugtes Merkblatt (node scripts/merkblatt.mjs)
 merkblatt/
+dist-med

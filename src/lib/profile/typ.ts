@@ -8,7 +8,7 @@
 // dasselbe. Eine Verbesserung dort kommt beiden Seiten zugute, ohne dass
 // jemand sie zweimal einbaut.
 
-import type { AufgabeId, Beruf, BerufId, KatalogQuelle } from '../domain/types';
+import type { Aufgabe, AufgabeId, Beruf, BerufId, KatalogQuelle } from '../domain/types';
 
 /**
  * Name und Erkennungszeichen. Steht in einer eigenen Datei je Profil
@@ -51,6 +51,17 @@ export interface Profil {
   fruehereVoreinstellungen: (beruf: BerufId) => string[][];
   /** Aufgaben, die in diesem Profil nicht angeboten werden. */
   ohneAufgaben: AufgabeId[];
+  /**
+   * Eigene Fassungen einzelner Aufgabentexte. Die gemeinsamen Texte reden
+   * vom Betrieb und von betriebswirtschaftlicher Bedeutung — in der Pflege
+   * hieße das, Versorgungsfälle als Kostenrechnung zu bauen. Ersetzt werden
+   * ganze Sätze, nicht einzelne Wörter: Sonst stimmte die Grammatik nicht.
+   */
+  aufgabenTexte: Partial<
+    Record<AufgabeId, Partial<Pick<Aufgabe, 'erlaeuterung' | 'beispiel' | 'instruction'>>>
+  >;
+  /** Zusätzliche Qualitätsregeln, direkt nach dem Verbot, etwas zu erfinden. */
+  zusatzregeln: string[];
   /** Die Zeilen des Abschnitts ROLLE im Prompt. */
   rolle: (beruf: Beruf) => string[];
 }

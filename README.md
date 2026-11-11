@@ -61,6 +61,32 @@ Produktionsbau (`npm run build`, dann `npm run preview`), nicht im
 Entwicklungsserver. `localhost` gilt dabei als sicherer Kontext, er arbeitet
 dort also echt.
 
+## Zwei Seiten aus einem Quellcode
+
+Aus diesem Repository entstehen zwei Seiten:
+
+| Profil | Seite | Berufe |
+|---|---|---|
+| `ihk` (Vorgabe) | **Fragenschmiede** | kaufmännische und weitere IHK-Berufe |
+| `med` | **Fragenschmiede Med** | Gesundheits- und Pflegeberufe — *Entwurf, noch nicht veröffentlicht* |
+
+Gemeinsam ist die ganze Mechanik: Prompt-Aufbau, Qualitätsregeln,
+Oberfläche, Tests, Netzprüfung und Größenwächter. Je Profil verschieden sind
+nur die Inhalte, und die stehen in `src/lib/profile/<profil>/`: Berufe,
+Quellenkatalog, Voreinstellungen, der Wortlaut der ROLLE im Prompt, eigene
+Fassungen einzelner Aufgabentexte, zusätzliche Qualitätsregeln sowie Name
+und Speicher-Vorsilbe (`marke.ts`).
+
+```bash
+npm run build                              # Fragenschmiede
+PROFIL=med npm run build                   # Fragenschmiede Med
+PROFIL=med npm run build:datei             # Fragenschmiede_Med-<Fassung>.html
+```
+
+`npm test` prüft immer beide Profile, gleich wie `PROFIL` gesetzt ist: Jede
+Testgruppe legt ihr Profil selbst fest. Was für jedes Profil gelten muss,
+steht in `src/lib/profile/profil.test.ts` und läuft gegen beide.
+
 ## Die Einzeldatei weitergeben
 
 `npm run build:datei` legt `dist-datei/Fragenschmiede-<Fassung>.html` an:

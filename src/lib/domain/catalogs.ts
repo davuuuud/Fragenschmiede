@@ -221,10 +221,11 @@ const ALLE_AUFGABEN: Aufgabe[] = [
 
 // Nicht jede Aufgabe passt in jedes Profil: Der kaufmännische Geschäftstext
 // etwa hat in der Pflege keinen Platz. Was das Profil ausschließt, steht
-// nicht zur Wahl — und fehlt damit auch auf der Hilfeseite.
+// nicht zur Wahl — und fehlt damit auch auf der Hilfeseite. Wo ein Profil
+// eigene Texte mitbringt, ersetzen sie die obigen.
 export const AUFGABEN: Aufgabe[] = ALLE_AUFGABEN.filter(
   (aufgabe) => !PROFIL.ohneAufgaben.includes(aufgabe.id),
-);
+).map((aufgabe) => ({ ...aufgabe, ...PROFIL.aufgabenTexte[aufgabe.id] }));
 
 // Der Prüfungsbezug war bis zum 12.09.2026 ein Häkchen. Er ist jetzt feste
 // Regel: Die Anwendung ist Prüfungsvorbereitung, und bei den prüfungsnahen

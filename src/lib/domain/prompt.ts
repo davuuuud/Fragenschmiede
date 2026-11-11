@@ -217,6 +217,9 @@ export function buildPrompt(input: PromptInput): string {
     punkte([
       'Erfinde keine Quellen, Paragraphen, Urteile, Fundstellen, Zahlen oder Statistiken. ' +
         'Lieber weniger sagen als etwas Unzutreffendes.',
+      // Was ein Profil zusätzlich verlangt — in der Fragenschmiede Med etwa
+      // der Umgang mit Dosierungen.
+      ...PROFIL.zusatzregeln,
       'Kennzeichne ausdrücklich, was gesichertes Prüfungswissen ist und was Einschätzung, ' +
         'Vereinfachung oder Lernhilfe.',
       'Benenne Unsicherheiten offen, statt sie sprachlich zu überspielen.',

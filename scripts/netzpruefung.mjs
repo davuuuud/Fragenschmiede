@@ -17,7 +17,7 @@ import { dirname, extname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const WURZEL = join(dirname(fileURLToPath(import.meta.url)), '..');
-const ORDNER = ['dist', 'dist-datei'];
+const ORDNER = ['dist', 'dist-datei', 'dist-med'];
 const ENDUNGEN = new Set(['.js', '.css', '.html', '.webmanifest', '.json']);
 
 // Der Dienst im Hintergrund darf fetch verwenden: Er fängt damit die

@@ -16,6 +16,9 @@ const profil: Profil = {
   fruehereVoreinstellungen: (beruf) =>
     beruf in NEBENSAECHLICH ? fruehereVoreinstellungen(beruf as IhkBerufId) : [],
   ohneAufgaben: [],
+  // Die gemeinsamen Aufgabentexte sind für diese Berufe geschrieben.
+  aufgabenTexte: {},
+  zusatzregeln: [],
 
   // Die Prüfungsstelle wird benannt statt pauschal "IHK": Steuerfachangestellte
   // prüft die Steuerberaterkammer, und nicht alle Berufe im Katalog sind

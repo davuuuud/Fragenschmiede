@@ -26,12 +26,16 @@ zwar ohne Verbindung, aber er nützt erst etwas, wenn er in einer KI landet —
 und die ist online. Der Dienst im Hintergrund bleibt trotzdem, aus drei
 anderen Gründen: Ohne ihn bietet kein Browser das Hinzufügen zum
 Startbildschirm an, die Anwendung lädt bei schwachem Empfang nicht sofort,
-und niemand erführe von einer neuen Fassung. **206 Tests**, in zwei Gruppen: 180 prüfen die Fachlogik ohne Browser, 26 die
+und niemand erführe von einer neuen Fassung.
+
+**231 Tests** in drei Gruppen: 191 prüfen die Fachlogik ohne Browser, 23 die
 Bedienung in einem nachgebauten Browser (`npx vitest run --project
 oberflaeche`) — tippen, auswählen, klicken, dazu Barrierefreiheit mit axe,
-der Ausdruck der Hilfeseite und das Fehlerfangnetz. Farbkontraste und die
-Frage, ob die Reihenfolge beim Durchtippen sinnvoll ist, kann keine Maschine
-beurteilen; das bleibt Handarbeit.
+der Ausdruck der Hilfeseite und das Fehlerfangnetz —, und 17 das Profil der
+Fragenschmiede Med. Acht davon prüfen, was für jedes Profil gelten muss, und
+laufen deshalb in beiden Gruppen. Farbkontraste und die Frage, ob die
+Reihenfolge beim Durchtippen sinnvoll ist, kann keine Maschine beurteilen;
+das bleibt Handarbeit.
 
 Vor jeder Veröffentlichung laufen außerdem zwei Wächter: Die **Netzprüfung**
 liest den gebauten Code auf Netzwerkaufrufe und fremde Adressen, der
@@ -68,6 +72,35 @@ was den Zuschnitt des Projekts verändert hat:
 - **Impressum und Datenschutzerklärung** als eigene Seiten.
 - **Leser für altes `.doc`** (`src/lib/import/doc.ts`), geprüft an 778
   echten Dateien — Vorarbeit für Etappe 3b.
+
+
+### Fragenschmiede Med (seit 11.11.2026, Entwurf)
+
+Eine zweite Seite für Gesundheits- und Pflegeberufe, unter
+`davuuuud.github.io/Fragenschmiede_Med`. **Kein Ableger, sondern dasselbe
+Programm mit anderem Inhalt:** Ein Profil (`src/lib/profile/med/`) legt Berufe,
+Quellen, Voreinstellungen, die ROLLE im Prompt, eigene Fassungen einzelner
+Aufgabentexte und zusätzliche Qualitätsregeln fest. Alles andere teilen sich
+beide Seiten; eine Verbesserung an einer kommt der anderen zugute.
+
+| | |
+|---|---|
+| **Erste Berufe** | Pflegefachfrau/-mann, Pflegefachassistenz, Medizinische Fachangestellte, Notfallsanitäter/-in, Physiotherapeut/-in |
+| **Zweite Welle** | Zahnmedizinische Fachangestellte, OTA/ATA, Ergotherapie — nach der ersten Durchsicht |
+| **Fachliche Durchsicht** | durch Lehrende aus dem Fach; bis dahin wird die Seite nicht veröffentlicht |
+| **Was anders ist** | Prüfung je Beruf (staatlich, Ärztekammer bei MFA); Hinweis auf Umbrüche im Prompt (Pflegefachassistenz bundeseinheitlich ab 1.1.2027, Reform der Physiotherapie geplant); Fälle aus der Versorgung statt aus dem Betrieb; eine Regel zu Dosierungen; kein Geschäftstext |
+
+**Noch offen:**
+
+1. Durchsichtsbögen für den Med-Katalog (dasselbe Werkzeug wie in
+   `quellen-durchsicht/`).
+2. Repository `Fragenschmiede_Med` mit einem kleinen Ablauf, der den
+   öffentlichen Quellcode holt, mit `PROFIL=med` baut und veröffentlicht —
+   ohne Zugangsschlüssel zwischen den Repositories.
+3. Ein Merkblatt für die Med-Seite (`npm run merkblatt` kennt bisher nur die
+   Fragenschmiede).
+4. Ein eigenes Symbol, damit beide auf dem Startbildschirm unterscheidbar
+   sind.
 
 ---
 

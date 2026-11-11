@@ -51,6 +51,15 @@ jobs:
       - name: Bauen
         run: npm run build -- --base=/${{ github.event.repository.name }}/
 
+      # Die Fragenschmiede Med entsteht aus demselben Quellcode (Profil
+      # "med"). Veröffentlicht wird sie hier nicht — aber gebaut, damit eine
+      # Änderung an der gemeinsamen Mechanik sie nicht unbemerkt beschädigt.
+      # Die Netzprüfung darunter liest dist-med/ mit.
+      - name: Fragenschmiede Med probehalber bauen
+        run: npx vite build --outDir dist-med --emptyOutDir
+        env:
+          PROFIL: med
+
       # Die Anwendung verspricht, nichts zu übertragen. Die Prüfung liest
       # den gebauten Code und bricht ab, sobald darin ein Netzwerkaufruf
       # oder eine unbekannte fremde Adresse steht — deshalb hinter dem

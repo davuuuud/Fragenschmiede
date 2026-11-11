@@ -3,6 +3,15 @@
 Was sich von Fassung zu Fassung geändert hat, in der Sprache der Nutzer und
 nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
 
+## Unveröffentlicht
+
+- **Vorbereitung für eine zweite Seite: die Fragenschmiede Med** für
+  Gesundheits- und Pflegeberufe. Sie entsteht aus demselben Quellcode, hat
+  aber eigene Berufe, Quellen und eine eigene Adresse. An der Fragenschmiede
+  selbst ändert sich dadurch nichts — nachgewiesen an 350 Prompts, die vor
+  und nach dem Umbau Zeichen für Zeichen gleich sind. Die Med-Seite geht erst
+  online, wenn ihr Quellenkatalog fachlich durchgesehen ist.
+
 ## 0.4.0 — 17.09.2026
 
 Die Fassung, mit der die Erprobung beginnen kann. Sichtbar hat sich vor allem
