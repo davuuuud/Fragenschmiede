@@ -29,6 +29,35 @@ Berufe tatsächlich unterrichten.
 | `versand/` | **Die Versandmappe.** Nur die Bögen der ausgewählten Personen, je Person ein Ordner mit verständlich benanntem Anhang, dazu `VERSANDLISTE.md` mit Empfänger, Betreff, Anhang, Mailtext-Abschnitt und dem, was vor dem Absenden noch fehlt. Wird bei jedem Lauf neu angelegt. Nicht im Repository. |
 | `ansprechpartner.local.mjs` | Wer welchen Beruf betreut. Nicht im Repository — siehe unten. |
 | `anschreiben.local.md` | Die Mailtexte, eine je Person. Ebenfalls nicht im Repository. |
+| `profile.mjs` | Was sich zwischen den Bögen der Fragenschmiede und der Fragenschmiede Med unterscheidet: Name, Pfade, Einleitungstexte, Auswertungshinweise. |
+
+## Fragenschmiede Med
+
+Dasselbe Werkzeug erzeugt die Bögen für die Fragenschmiede Med — mit eigenem
+Katalog, eigenen Hinweisen und getrennten Ordnern:
+
+```bash
+PROFIL=med node quellen-durchsicht/erzeugen.mjs
+```
+
+| Fragenschmiede | Fragenschmiede Med |
+|---|---|
+| `../src/lib/profile/ihk/quellenkatalog.ts` | `../src/lib/profile/med/quellenkatalog.ts` |
+| `berufe.mjs`, `durchsicht.mjs` | `med/berufe.mjs`, `med/durchsicht.mjs` |
+| `blaetter/` | `blaetter-med/` |
+| `versand/` | `versand-med/` |
+| `ansprechpartner.local.mjs` | `ansprechpartner-med.local.mjs` |
+| `anschreiben.local.md` | `anschreiben-med.local.md` |
+
+Persönliche Bögen, Versandmappe, Empfängerliste und Anschreiben sind auch hier
+nicht im Repository. Unterschiede im Bogen: Die Liste ist nach Berufsgesetzen
+und Ausbildungs- und Prüfungsverordnungen zusammengestellt statt mit
+Rahmenlehrplänen abgeglichen, sie **gilt noch nicht** (die Seite geht erst nach
+der Durchsicht online), und als Grenzfall gilt alles, was nicht bei allen fünf
+Berufen gebraucht wird.
+
+**Stand 11.11.2026:** Fünf Bögen je Beruf und ein gemeinsamer Bogen mit allen
+fünf Berufen (74 statt 146 Zeilen) für die fachliche Durchsicht.
 
 ## Stand: Vorauswahl übernommen
 

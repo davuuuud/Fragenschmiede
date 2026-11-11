@@ -9,6 +9,9 @@ import { AUFGABEN, BERUFE, findBeruf } from '../../domain/catalogs';
 import { buildPrompt } from '../../domain/prompt';
 import { standardQuellen } from '../../domain/quellen';
 import { defaultSettings, toPromptInput } from '../../domain/settings';
+import { BERUFE as BOGEN_BERUFE } from '../../../../quellen-durchsicht/med/berufe.mjs';
+import { GELTUNG, HINWEISE, NUR_IM_BOGEN } from '../../../../quellen-durchsicht/med/durchsicht.mjs';
+import { KATALOG } from './quellenkatalog';
 
 function prompt(beruf: string, aufgabe = 'erklaeren'): string {
   const s = { ...defaultSettings(), beruf, aufgabe, quellen: standardQuellen(beruf as never) };
@@ -103,5 +106,43 @@ describe('Fragenschmiede Med', () => {
     expect(quellen('mfa')).toContain('GOÄ (Gebührenordnung für Ärzte)');
     // Und keine Quelle eines anderen Berufs: das Pflegeberufegesetz nicht bei der MFA.
     expect(quellen('mfa')).not.toContain('PflBG');
+  });
+});
+
+describe('Durchsichtsbögen der Fragenschmiede Med', () => {
+  it('führen dieselben Berufe mit denselben Kürzeln und Namen wie die Anwendung', () => {
+    // Die Bögen haben eine eigene Liste mit Bemerkungen je Beruf. Weichen
+    // Kürzel oder Namen ab, laufen Anwendung und Bögen auseinander.
+    expect(BOGEN_BERUFE.map((b) => b.id)).toEqual(PROFIL.berufe.map((b) => b.id));
+    for (const beruf of PROFIL.berufe) {
+      const bogen = BOGEN_BERUFE.find((b) => b.id === beruf.id)!;
+      expect(bogen.kuerzel, beruf.id).toBe(beruf.kuerzel);
+      expect(bogen.name, beruf.id).toBe(beruf.label);
+    }
+  });
+
+  it('hängen Hinweise nur an Quellen, die es gibt', () => {
+    // Ein Tippfehler im Bezeichner ließe den Hinweis sonst still verschwinden.
+    const ids = new Set(KATALOG.map((q) => q.id));
+    for (const id of Object.keys(HINWEISE)) expect(ids.has(id), `Hinweis zu ${id}`).toBe(true);
+  });
+
+  it('schätzen die Geltung genau für die allgemeinen Quellen', () => {
+    const allgemein = KATALOG.filter((q) => !q.berufe).map((q) => q.id).sort();
+    expect(Object.keys(GELTUNG).sort()).toEqual(allgemein);
+    for (const [id, wert] of Object.entries(GELTUNG)) {
+      expect(wert, id).toBeGreaterThanOrEqual(1);
+      expect(wert, id).toBeLessThanOrEqual(PROFIL.berufe.length);
+    }
+  });
+
+  it('nennen in den Fragen an die Durchsicht nur Berufe des Profils', () => {
+    // Als Text: Die Bogendaten stammen aus einer .mjs-Datei ohne Typen.
+    const berufe = new Set<string>(PROFIL.berufe.map((b) => b.id));
+    const ids = new Set(KATALOG.map((q) => q.id));
+    for (const eintrag of NUR_IM_BOGEN) {
+      expect(ids.has(eintrag.id), `${eintrag.id} doppelt im Katalog`).toBe(false);
+      for (const beruf of eintrag.berufe ?? []) expect(berufe.has(beruf), `${eintrag.id}: ${beruf}`).toBe(true);
+    }
   });
 });

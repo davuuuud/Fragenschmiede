@@ -1,0 +1,1073 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Quellen-Durchsicht PFA – Fragenschmiede Med</title>
+<style>
+  :root {
+    --rand: #d4d8de;
+    --grau: #5b6472;
+    --akzent: #1d4ed8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1.5rem 4rem;
+    max-width: 60rem;
+    margin-inline: auto;
+    font-family: "Segoe UI", system-ui, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.45;
+    color: #16191f;
+    background: #fff;
+  }
+  h1 { font-size: 1.5rem; margin: 0 0 .2rem; }
+  h2 {
+    font-size: 1.1rem;
+    margin: 2.2rem 0 .4rem;
+    padding-bottom: .25rem;
+    border-bottom: 2px solid var(--akzent);
+  }
+  h3 { font-size: .95rem; margin: 1.3rem 0 .35rem; color: var(--grau); }
+  p { margin: 0 0 .6rem; }
+  .kopf { margin-bottom: .4rem; color: var(--grau); }
+  .beruf { font-size: 1.05rem; font-weight: 600; color: var(--akzent); }
+
+  .hinweiskasten {
+    border: 1px solid var(--rand);
+    border-left: 4px solid var(--akzent);
+    padding: .8rem 1rem;
+    margin: 1.2rem 0;
+    background: #f7f9fc;
+  }
+  .hinweiskasten p:last-child { margin-bottom: 0; }
+  .warnung { border-left-color: #b45309; background: #fffbf2; }
+
+  .felder {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin: 1rem 0 1.4rem;
+  }
+  .felder div { flex: 1 1 12rem; }
+  .felder span { display: block; font-size: .75rem; color: var(--grau); }
+  .linie { border-bottom: 1px solid #9aa2ad; height: 1.5rem; }
+
+  table { width: 100%; border-collapse: collapse; margin-bottom: .8rem; }
+  th, td {
+    border: 1px solid var(--rand);
+    padding: .35rem .45rem;
+    vertical-align: top;
+    text-align: left;
+  }
+  th {
+    background: #eef2f7;
+    font-size: .72rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  th.kasten, td.kasten { width: 3.2rem; text-align: center; }
+  th.anmerkung, td.anmerkung { width: 30%; }
+  td.anmerkung { background: #fcfcfd; }
+  td.quelle strong { display: inline; }
+  td.quelle .titel { display: block; }
+  td.quelle .hinweis { display: block; font-size: .78rem; color: var(--grau); }
+  td.quelle.leer { height: 2.1rem; }
+  .grenzfall {
+    display: inline-block;
+    margin-top: .2rem;
+    padding: .05rem .35rem;
+    font-size: .68rem;
+    color: #92400e;
+    background: #fef3c7;
+    border-radius: 3px;
+  }
+  input[type="checkbox"] { width: 1rem; height: 1rem; cursor: pointer; }
+  input[type="text"] {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font: inherit;
+    color: inherit;
+    padding: 0;
+  }
+  input[type="text"]:focus { outline: 2px solid var(--akzent); outline-offset: 1px; }
+  td.quelle.leer input { border-bottom: 1px solid #c8ced6; }
+  tr.gestrichen td.quelle { opacity: .5; text-decoration: line-through; }
+
+  textarea {
+    width: 100%;
+    font: inherit;
+    padding: .5rem;
+    border: 1px solid var(--rand);
+    border-radius: 4px;
+    resize: vertical;
+  }
+
+  .werkzeug {
+    position: sticky;
+    bottom: 0;
+    margin-top: 2rem;
+    padding: 1rem;
+    background: #eef4ff;
+    border: 1px solid var(--akzent);
+    border-radius: 6px;
+  }
+  .werkzeug h2 { margin-top: 0; border: none; }
+  button {
+    font: inherit;
+    font-weight: 600;
+    padding: .55rem 1.1rem;
+    border: 1px solid var(--akzent);
+    border-radius: 4px;
+    background: var(--akzent);
+    color: #fff;
+    cursor: pointer;
+  }
+  button.still { background: #fff; color: var(--akzent); }
+  button:hover { filter: brightness(1.08); }
+  .knopfreihe { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; }
+  .stand { font-size: .8rem; color: var(--grau); }
+  #ergebnis {
+    margin-top: .8rem;
+    min-height: 12rem;
+    font-family: ui-monospace, Consolas, monospace;
+    font-size: .75rem;
+  }
+
+  .legende { font-size: .8rem; color: var(--grau); }
+  .legende dt { font-weight: 600; color: #16191f; float: left; clear: left; margin-right: .4rem; }
+  .legende dd { margin: 0 0 .25rem; }
+
+  footer {
+    margin-top: 2.5rem;
+    padding-top: .8rem;
+    border-top: 1px solid var(--rand);
+    font-size: .78rem;
+    color: var(--grau);
+  }
+
+  @media print {
+    .werkzeug { display: none; }
+    input[type="text"] { border-bottom: 1px solid #c8ced6; }
+    body { padding: 0; font-size: 9.5pt; }
+    h2 { break-after: avoid; }
+    h3 { break-after: avoid; }
+    table { break-inside: auto; }
+    tr { break-inside: avoid; }
+    thead { display: table-header-group; }
+    .hinweiskasten { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<p class="kopf">Fragenschmiede Med · Durchsicht des Quellenkatalogs · Stand November 2026</p>
+<h1>Welche Quellen gehören zu diesem Beruf?</h1>
+<p class="beruf">PFA — Pflegefachassistentinnen und Pflegefachassistenten · Prüfungsstelle: staatliche Prüfung</p>
+
+
+<div class="felder">
+  <div><span>Ausgefüllt von</span><div class="linie"></div></div>
+  <div><span>Datum</span><div class="linie"></div></div>
+  <div><span>Rückmeldung an</span><div class="linie"></div></div>
+</div>
+
+<div class="hinweiskasten">
+  <p><strong>Worum es geht.</strong> Die Fragenschmiede Med baut aus Ihren Angaben
+  eine Frage an eine KI. Darin steht unter anderem, auf welche Quellen sich die
+  Antwort stützen soll. Diese Liste steuert also unmittelbar, wie gut oder wie
+  beliebig die Antwort ausfällt.</p>
+
+  <p><strong>Warum Sie gefragt werden.</strong> Die Liste ist nach den Berufsgesetzen und den
+  Ausbildungs- und Prüfungsverordnungen zusammengestellt, stammt aber <strong>nicht aus
+  Unterrichtserfahrung.</strong> Sie ist ein Vorschlag, keine Setzung. Eine
+  falsch zugeordnete Quelle lenkt die KI in die falsche Richtung; eine fehlende
+  lässt sie ins Allgemeine ausweichen.</p>
+
+  <p><strong>Sie gilt noch nicht.</strong> Die Fragenschmiede Med ist noch
+  nicht veröffentlicht; sie geht erst online, wenn diese Durchsicht zurück
+  ist. Ihre Rückmeldung entscheidet also, mit welcher Liste sie startet.</p>
+
+  <p><strong>Wie lange es dauert.</strong> Etwa 20 bis 30 Minuten. Wo Sie unsicher
+  sind, lassen Sie die Zeile einfach leer — auch das ist eine Auskunft.</p>
+</div>
+
+<dl class="legende">
+  <dt>kommt vor</dt><dd>Die Quelle wird im Unterricht oder in der Prüfung tatsächlich gebraucht.</dd>
+  <dt>streichen</dt><dd>Spielt bei diesem Beruf keine Rolle und soll aus der Auswahl verschwinden.</dd>
+  <dt>voreinstellen</dt><dd>Gehört zu den wichtigsten Quellen des Berufs. In der Anwendung ist derzeit fast alles vorab angehakt; dieses Kreuz sagt mir, was davon wirklich trägt. Bitte sparsam — höchstens eine Handvoll je Beruf.</dd>
+  <dt>Anmerkung</dt><dd>Etwa: nur ein bestimmter Abschnitt, veraltete Fassung, anderer Name im Unterricht.</dd>
+</dl>
+
+
+  <div class="hinweiskasten warnung">
+    <p><strong>Besonderheit PFA.</strong> Im Umbruch: Ab 1. Januar 2027 wird bundeseinheitlich nach dem Pflegefachassistenzgesetz ausgebildet, bis dahin gilt das Recht des Bundeslandes. Die Ausbildungs- und Prüfungsverordnung lag im Herbst 2025 als Entwurf vor. Bitte vermerken Sie, nach welchem Recht Ihre Teilnehmenden lernen — und ob die Verordnung inzwischen gilt.</p>
+  </div>
+
+<h2>Teil 1 — Quellen für alle Berufe</h2>
+<p>Diese Liste erscheint bei jedem Beruf. Wenn ein Eintrag hier bei
+<em>Ihrem</em> Beruf keine Rolle
+spielt, ist das eine besonders wichtige Rückmeldung: Dann steht er womöglich an
+der falschen Stelle. Gelb markierte Einträge halte ich selbst für Grenzfälle.
+</p>
+
+      <h3>Gesetze, Verordnungen und EU-Recht</h3>
+      <table>
+        <thead>
+          <tr>
+            <th class="quelle">Quelle</th>
+            <th class="kasten">kommt<br />vor</th>
+            <th class="kasten">strei&shy;chen</th>
+            <th class="kasten">vorein&shy;stellen</th>
+            <th class="anmerkung">Anmerkung</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr data-bereich="ALLGEMEIN" data-quelle="SGB V">
+          <td class="quelle">
+            <strong>SGB V</strong>
+            <span class="titel">Gesetzliche Krankenversicherung</span>
+            <span class="hinweis">Leistungen der Krankenkassen, Verordnung, Zuzahlung, Wirtschaftlichkeitsgebot</span>
+            
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="IfSG">
+          <td class="quelle">
+            <strong>IfSG</strong>
+            <span class="titel">Infektionsschutzgesetz</span>
+            <span class="hinweis">Meldepflichten, Tätigkeits- und Beschäftigungsverbote, Belehrung, Hygiene in Einrichtungen</span>
+            
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="BGB">
+          <td class="quelle">
+            <strong>BGB</strong>
+            <span class="titel">Bürgerliches Gesetzbuch: Behandlungsvertrag und Patientenrechte</span>
+            <span class="hinweis">Aufklärung, Einwilligung, Dokumentation, Einsichtsrecht</span>
+            
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="StGB">
+          <td class="quelle">
+            <strong>StGB</strong>
+            <span class="titel">Strafgesetzbuch: Schweigepflicht, Körperverletzung, unterlassene Hilfeleistung</span>
+            <span class="hinweis">Schweigepflicht (§ 203), Körperverletzung, unterlassene Hilfeleistung</span>
+            
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="DSGVO / BDSG">
+          <td class="quelle">
+            <strong>DSGVO / BDSG</strong>
+            <span class="titel">Datenschutz-Grundverordnung und Bundesdatenschutzgesetz</span>
+            <span class="hinweis">Gesundheitsdaten als besondere Kategorie, Weitergabe, Auskunft</span>
+            
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="MPDG / MPBetreibV">
+          <td class="quelle">
+            <strong>MPDG / MPBetreibV</strong>
+            <span class="titel">Medizinprodukterecht-Durchführungsgesetz und Medizinprodukte-Betreiberverordnung</span>
+            <span class="hinweis">Einweisung in Geräte, Bestandsverzeichnis, Meldung von Vorkommnissen</span>
+            
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="BioStoffV">
+          <td class="quelle">
+            <strong>BioStoffV</strong>
+            <span class="titel">Biostoffverordnung: Schutz vor biologischen Arbeitsstoffen</span>
+            <span class="hinweis">Gefährdungsbeurteilung und Schutzmaßnahmen — eng verwandt mit TRBA 250</span>
+            <span class="grenzfall" title="Nach meiner Einschätzung nicht bei allen Berufen nötig">Grenzfall: 4 von 5</span>
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="ArbSchG">
+          <td class="quelle">
+            <strong>ArbSchG</strong>
+            <span class="titel">Arbeitsschutzgesetz</span>
+            <span class="hinweis">Allgemeiner Arbeitsschutz; im Gesundheitswesen meist über BioStoffV und TRBA 250 konkret</span>
+            <span class="grenzfall" title="Nach meiner Einschätzung nicht bei allen Berufen nötig">Grenzfall: 3 von 5</span>
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        </tbody>
+      </table>
+
+      <h3>Normen, technische Regeln und Branchenstandards</h3>
+      <table>
+        <thead>
+          <tr>
+            <th class="quelle">Quelle</th>
+            <th class="kasten">kommt<br />vor</th>
+            <th class="kasten">strei&shy;chen</th>
+            <th class="kasten">vorein&shy;stellen</th>
+            <th class="anmerkung">Anmerkung</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr data-bereich="ALLGEMEIN" data-quelle="KRINKO">
+          <td class="quelle">
+            <strong>KRINKO</strong>
+            <span class="titel">Empfehlungen der Kommission für Krankenhaushygiene und Infektionsprävention beim RKI</span>
+            <span class="hinweis">Händehygiene, Flächendesinfektion, multiresistente Erreger</span>
+            <span class="grenzfall" title="Nach meiner Einschätzung nicht bei allen Berufen nötig">Grenzfall: 4 von 5</span>
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="TRBA 250">
+          <td class="quelle">
+            <strong>TRBA 250</strong>
+            <span class="titel">Biologische Arbeitsstoffe im Gesundheitswesen und in der Wohlfahrtspflege</span>
+            <span class="hinweis">Stichverletzungen, Schutzkleidung, sichere Instrumente</span>
+            <span class="grenzfall" title="Nach meiner Einschätzung nicht bei allen Berufen nötig">Grenzfall: 4 von 5</span>
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        </tbody>
+      </table>
+
+      <h3>Nachschlagewerke und Fachliteratur</h3>
+      <table>
+        <thead>
+          <tr>
+            <th class="quelle">Quelle</th>
+            <th class="kasten">kommt<br />vor</th>
+            <th class="kasten">strei&shy;chen</th>
+            <th class="kasten">vorein&shy;stellen</th>
+            <th class="anmerkung">Anmerkung</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr data-bereich="ALLGEMEIN" data-quelle="AWMF">
+          <td class="quelle">
+            <strong>AWMF</strong>
+            <span class="titel">Leitlinienregister der wissenschaftlichen medizinischen Fachgesellschaften</span>
+            <span class="hinweis">Leitlinien der Stufen S1 bis S3 — die KI soll die Stufe nennen</span>
+            
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="RKI-Ratgeber">
+          <td class="quelle">
+            <strong>RKI-Ratgeber</strong>
+            <span class="titel">Ratgeber des Robert Koch-Instituts zu Infektionskrankheiten</span>
+            <span class="hinweis">Erreger, Übertragung und Maßnahmen je Krankheit</span>
+            <span class="grenzfall" title="Nach meiner Einschätzung nicht bei allen Berufen nötig">Grenzfall: 4 von 5</span>
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="Pschyrembel">
+          <td class="quelle">
+            <strong>Pschyrembel</strong>
+            <span class="titel">Klinisches Wörterbuch</span>
+            <span class="hinweis">Fachbegriffe und Krankheitsbilder</span>
+            
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="gesetze-im-internet.de">
+          <td class="quelle">
+            <strong>gesetze-im-internet.de</strong>
+            <span class="titel">Amtliche Gesetzesfassungen des Bundes</span>
+            <span class="hinweis">Amtlicher Wortlaut — dorthin soll die KI für Zitate verweisen</span>
+            
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="Lehrwerk">
+          <td class="quelle">
+            <strong>Lehrwerk</strong>
+            <span class="titel">Lehrbuch und Skript der Schule</span>
+            <span class="hinweis">Titel und Auflage — gern mehrere</span>
+            
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="Anatomie und Physiologie">
+          <td class="quelle">
+            <strong>Anatomie und Physiologie</strong>
+            <span class="titel">Lehrwerk für Anatomie und Physiologie</span>
+            <span class="hinweis">Welches Buch wird verwendet?</span>
+            
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        </tbody>
+      </table>
+
+      <h3>Amtliche Daten und Verbandsstatistik</h3>
+      <table>
+        <thead>
+          <tr>
+            <th class="quelle">Quelle</th>
+            <th class="kasten">kommt<br />vor</th>
+            <th class="kasten">strei&shy;chen</th>
+            <th class="kasten">vorein&shy;stellen</th>
+            <th class="anmerkung">Anmerkung</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr data-bereich="ALLGEMEIN" data-quelle="GBE">
+          <td class="quelle">
+            <strong>GBE</strong>
+            <span class="titel">Gesundheitsberichterstattung des Bundes</span>
+            <span class="hinweis">Statistik zu Krankheit und Versorgung — eher Hintergrund als Prüfungsstoff</span>
+            <span class="grenzfall" title="Nach meiner Einschätzung nicht bei allen Berufen nötig">Grenzfall: 2 von 5</span>
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="Epidemiologisches Bulletin">
+          <td class="quelle">
+            <strong>Epidemiologisches Bulletin</strong>
+            <span class="titel">Wochenschrift des Robert Koch-Instituts</span>
+            <span class="hinweis">Aktuelle Lage und Empfehlungen der Ständigen Impfkommission</span>
+            <span class="grenzfall" title="Nach meiner Einschätzung nicht bei allen Berufen nötig">Grenzfall: 3 von 5</span>
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        </tbody>
+      </table>
+
+<h2>Teil 2 — Nur bei PFA</h2>
+<p>Diese Einträge erscheinen ausschließlich bei
+Pflegefachassistentinnen und Pflegefachassistenten.</p>
+
+      <h3>Prüfungs- und Ausbildungsvorgaben</h3>
+      <table>
+        <thead>
+          <tr>
+            <th class="quelle">Quelle</th>
+            <th class="kasten">kommt<br />vor</th>
+            <th class="kasten">strei&shy;chen</th>
+            <th class="kasten">vorein&shy;stellen</th>
+            <th class="anmerkung">Anmerkung</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr data-bereich="PFA" data-quelle="Ausbildungs- und Prüfungsverordnung">
+          <td class="quelle">
+            <strong>Ausbildungs- und Prüfungsverordnung</strong>
+            <span class="titel">Ausbildungs- und Prüfungsverordnung für die Pflegefachassistenz</span>
+            <span class="hinweis">Lag im Herbst 2025 als Entwurf vor — gilt sie inzwischen?</span>
+            
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="PFA" data-quelle="Landesrecht">
+          <td class="quelle">
+            <strong>Landesrecht</strong>
+            <span class="titel">Pflegehilfe- und Pflegeassistenzausbildung nach Landesrecht (Beginn vor 2027)</span>
+            <span class="hinweis">Welches Bundesland, welche Verordnung? Bitte nennen.</span>
+            
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="PFA" data-quelle="Schulinternes Curriculum">
+          <td class="quelle">
+            <strong>Schulinternes Curriculum</strong>
+            <span class="titel">Curriculum der Pflegeschule</span>
+            <span class="hinweis">Für eine KI nicht zugänglich — aber prägt es den Unterricht?</span>
+            
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        </tbody>
+      </table>
+
+      <h3>Gesetze, Verordnungen und EU-Recht</h3>
+      <table>
+        <thead>
+          <tr>
+            <th class="quelle">Quelle</th>
+            <th class="kasten">kommt<br />vor</th>
+            <th class="kasten">strei&shy;chen</th>
+            <th class="kasten">vorein&shy;stellen</th>
+            <th class="anmerkung">Anmerkung</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr data-bereich="PFA" data-quelle="Pflegefachassistenzgesetz">
+          <td class="quelle">
+            <strong>Pflegefachassistenzgesetz</strong>
+            <span class="titel">Bundeseinheitliche Pflegefachassistenzausbildung, gilt ab 1. Januar 2027</span>
+            <span class="hinweis">Gilt ab 1. Januar 2027 — für laufende Kurse noch nicht</span>
+            
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="PFA" data-quelle="SGB XI">
+          <td class="quelle">
+            <strong>SGB XI</strong>
+            <span class="titel">Soziale Pflegeversicherung</span>
+            <span class="hinweis">Pflegegrade, Leistungen, Qualitätsprüfung</span>
+            
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="PFA" data-quelle="BGB">
+          <td class="quelle">
+            <strong>BGB</strong>
+            <span class="titel">Bürgerliches Gesetzbuch: rechtliche Betreuung und Patientenverfügung</span>
+            <span class="hinweis">Betreuung, Vorsorgevollmacht, Patientenverfügung, freiheitsentziehende Maßnahmen</span>
+            
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="PFA" data-quelle="AMG">
+          <td class="quelle">
+            <strong>AMG</strong>
+            <span class="titel">Arzneimittelgesetz</span>
+            <span class="hinweis">Arzneimittelbegriff, Verschreibungspflicht, Lagerung</span>
+            
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        </tbody>
+      </table>
+
+      <h3>Normen, technische Regeln und Branchenstandards</h3>
+      <table>
+        <thead>
+          <tr>
+            <th class="quelle">Quelle</th>
+            <th class="kasten">kommt<br />vor</th>
+            <th class="kasten">strei&shy;chen</th>
+            <th class="kasten">vorein&shy;stellen</th>
+            <th class="anmerkung">Anmerkung</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr data-bereich="PFA" data-quelle="DNQP-Expertenstandards">
+          <td class="quelle">
+            <strong>DNQP-Expertenstandards</strong>
+            <span class="titel">Expertenstandards des Deutschen Netzwerks für Qualitätsentwicklung in der Pflege</span>
+            <span class="hinweis">Dekubitus, Sturz, Schmerz, Ernährung, Kontinenz u. a. — welche kommen im Unterricht vor?</span>
+            
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="PFA" data-quelle="Begutachtungsrichtlinien">
+          <td class="quelle">
+            <strong>Begutachtungsrichtlinien</strong>
+            <span class="titel">Richtlinien des Medizinischen Dienstes zur Feststellung der Pflegebedürftigkeit</span>
+            <span class="hinweis">Begutachtungsinstrument mit sechs Modulen, Pflegegrade</span>
+            
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="PFA" data-quelle="Hausstandards">
+          <td class="quelle">
+            <strong>Hausstandards</strong>
+            <span class="titel">Pflegestandards und Verfahrensanweisungen der Einrichtung</span>
+            <span class="hinweis">Für eine KI nicht zugänglich — aber prüfungsrelevant?</span>
+            
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        </tbody>
+      </table>
+
+      <h3>Nachschlagewerke und Fachliteratur</h3>
+      <table>
+        <thead>
+          <tr>
+            <th class="quelle">Quelle</th>
+            <th class="kasten">kommt<br />vor</th>
+            <th class="kasten">strei&shy;chen</th>
+            <th class="kasten">vorein&shy;stellen</th>
+            <th class="anmerkung">Anmerkung</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr data-bereich="PFA" data-quelle="ICN-Ethikkodex">
+          <td class="quelle">
+            <strong>ICN-Ethikkodex</strong>
+            <span class="titel">Ethikkodex des International Council of Nurses für Pflegefachpersonen</span>
+            <span class="hinweis">Berufsethik und Haltung</span>
+            
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="PFA" data-quelle="Rote Liste">
+          <td class="quelle">
+            <strong>Rote Liste</strong>
+            <span class="titel">Arzneimittelverzeichnis für Deutschland</span>
+            <span class="hinweis">Wirkstoffe und Fachinformation — oder arbeiten Sie mit einem anderen Verzeichnis?</span>
+            
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="PFA" data-quelle="Arzneimittellehre">
+          <td class="quelle">
+            <strong>Arzneimittellehre</strong>
+            <span class="titel">Lehrwerk zur Pharmakologie und Arzneimittellehre</span>
+            <span class="hinweis">Welches Buch wird verwendet?</span>
+            
+          </td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        </tbody>
+      </table>
+
+<h2>Teil 3 — Was fehlt?</h2>
+<p>Der wichtigste Teil. Welche Gesetze, Verordnungen, Leitlinien, Expertenstandards,
+Nachschlagewerke oder Hausstandards brauchen Ihre Teilnehmenden, die oben nicht stehen?
+Auch das im Unterricht eingesetzte Lehrwerk mit Titel und Auflage ist hier
+willkommen.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th class="quelle">Fehlende Quelle</th>
+      <th class="kasten">für alle Berufe</th>
+      <th class="kasten">nur hier</th>
+      <th class="kasten">vorein&shy;stellen</th>
+      <th class="anmerkung">Wozu wird sie gebraucht?</th>
+    </tr>
+  </thead>
+  <tbody>
+        <tr data-bereich="fehlt">
+          <td class="quelle leer"><input type="text" data-feld="name" placeholder="Gesetz, Norm, Lehrwerk …" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="alle" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="hier" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="fehlt">
+          <td class="quelle leer"><input type="text" data-feld="name" placeholder="Gesetz, Norm, Lehrwerk …" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="alle" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="hier" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="fehlt">
+          <td class="quelle leer"><input type="text" data-feld="name" placeholder="Gesetz, Norm, Lehrwerk …" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="alle" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="hier" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="fehlt">
+          <td class="quelle leer"><input type="text" data-feld="name" placeholder="Gesetz, Norm, Lehrwerk …" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="alle" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="hier" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="fehlt">
+          <td class="quelle leer"><input type="text" data-feld="name" placeholder="Gesetz, Norm, Lehrwerk …" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="alle" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="hier" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="fehlt">
+          <td class="quelle leer"><input type="text" data-feld="name" placeholder="Gesetz, Norm, Lehrwerk …" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="alle" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="hier" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="fehlt">
+          <td class="quelle leer"><input type="text" data-feld="name" placeholder="Gesetz, Norm, Lehrwerk …" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="alle" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="hier" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="fehlt">
+          <td class="quelle leer"><input type="text" data-feld="name" placeholder="Gesetz, Norm, Lehrwerk …" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="alle" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="hier" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="fehlt">
+          <td class="quelle leer"><input type="text" data-feld="name" placeholder="Gesetz, Norm, Lehrwerk …" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="alle" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="hier" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="fehlt">
+          <td class="quelle leer"><input type="text" data-feld="name" placeholder="Gesetz, Norm, Lehrwerk …" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="alle" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="hier" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="fehlt">
+          <td class="quelle leer"><input type="text" data-feld="name" placeholder="Gesetz, Norm, Lehrwerk …" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="alle" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="hier" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+        <tr data-bereich="fehlt">
+          <td class="quelle leer"><input type="text" data-feld="name" placeholder="Gesetz, Norm, Lehrwerk …" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="alle" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="hier" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
+        </tr>
+  </tbody>
+</table>
+
+<h2>Teil 4 — Zwei Fragen zum Schluss</h2>
+
+<p><strong>1. Welche drei Quellen sind die wichtigsten?</strong> Wenn nur drei
+in der Anwendung stünden — welche?</p>
+<textarea id="frage1" rows="3"></textarea>
+
+<p style="margin-top:1rem"><strong>2. Wo geht die KI erfahrungsgemäß in die
+Irre?</strong> Gibt es Themen, bei denen KI-Antworten regelmäßig falsch oder
+irreführend sind? Dann kann die Anwendung dort besonders warnen.</p>
+<textarea id="frage2" rows="4"></textarea>
+
+<div class="werkzeug">
+  <h2>Fertig? Antwort erzeugen</h2>
+  <p>Ein Klick fasst alle Angaben zu einem Textblock zusammen. Diesen in die
+  Antwortmail einfügen — mehr ist nicht nötig. Wer lieber auf Papier arbeitet,
+  druckt den Bogen einfach aus; dieser Kasten wird nicht mitgedruckt.</p>
+  <div class="knopfreihe">
+    <button type="button" id="erzeugen">Antwort erzeugen</button>
+    <button type="button" class="still" id="kopieren">In die Zwischenablage</button>
+    <button type="button" class="still" id="speichern">Als Datei speichern</button>
+    <button type="button" class="still" id="drucken">Drucken</button>
+    <span class="stand" id="stand"></span>
+  </div>
+  <textarea id="ergebnis" readonly placeholder="Hier erscheint die Antwort."></textarea>
+</div>
+
+<footer>
+  <p>Fragenschmiede Med — ein privates Projekt, kein Angebot eines Bildungsträgers.
+  Rückmeldung an fragenschmiede@tinytux.de.
+  Dieser Bogen speichert Ihre Eingaben nur in diesem Browser und sendet
+  nichts von allein.</p>
+</footer>
+
+<script>
+(function () {
+  var SCHLUESSEL = 'fragenschmiede-med-durchsicht:' + "PFA";
+  var PERSON = "";
+  var BOGEN = "PFA";
+
+  var felder = document.querySelectorAll('input, textarea');
+
+  function zustand() {
+    var werte = {};
+    felder.forEach(function (feld, i) {
+      werte[i] = feld.type === 'checkbox' ? feld.checked : feld.value;
+    });
+    return werte;
+  }
+
+  function sichern() {
+    try {
+      localStorage.setItem(
+        SCHLUESSEL,
+        JSON.stringify({ zeit: new Date().toISOString(), werte: zustand() })
+      );
+      standAnzeigen(new Date());
+    } catch (e) {
+      /* privater Modus oder voller Speicher - dann eben ohne Sicherung */
+    }
+  }
+
+  function laden() {
+    try {
+      var roh = localStorage.getItem(SCHLUESSEL);
+      if (!roh) return;
+      var daten = JSON.parse(roh);
+      felder.forEach(function (feld, i) {
+        var wert = daten.werte[i];
+        if (wert === undefined) return;
+        if (feld.type === 'checkbox') feld.checked = !!wert;
+        else feld.value = wert;
+      });
+      standAnzeigen(new Date(daten.zeit));
+    } catch (e) {
+      /* beschaedigter Eintrag - lieber leer anfangen */
+    }
+  }
+
+  function standAnzeigen(zeit) {
+    var ziel = document.getElementById('stand');
+    if (!ziel || !zeit || isNaN(zeit)) return;
+    ziel.textContent =
+      'Zwischenstand gesichert um ' +
+      zeit.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  // "streichen" vertraegt sich nicht mit "kommt vor" und "voreinstellen".
+  function ausschluss(kasten) {
+    var zeile = kasten.closest('tr');
+    if (!zeile) return;
+    var wahl = kasten.getAttribute('data-wahl');
+    var nein = zeile.querySelector('input[data-wahl="nein"]');
+    var ja = zeile.querySelector('input[data-wahl="ja"]');
+    var vor = zeile.querySelector('input[data-wahl="vor"]');
+    if (wahl === 'nein' && kasten.checked) {
+      if (ja) ja.checked = false;
+      if (vor) vor.checked = false;
+    } else if ((wahl === 'ja' || wahl === 'vor') && kasten.checked) {
+      if (nein) nein.checked = false;
+    }
+    // "voreinstellen" setzt "kommt vor" voraus - sonst waere die Angabe leer.
+    if (wahl === 'vor' && kasten.checked && ja) ja.checked = true;
+    zeile.classList.toggle('gestrichen', !!(nein && nein.checked));
+  }
+
+  document.addEventListener('change', function (ereignis) {
+    if (ereignis.target.type === 'checkbox') ausschluss(ereignis.target);
+    sichern();
+  });
+  document.addEventListener('input', function (ereignis) {
+    if (ereignis.target.tagName === 'TEXTAREA' || ereignis.target.type === 'text') sichern();
+  });
+
+  function marke(zeile) {
+    var nein = zeile.querySelector('input[data-wahl="nein"]');
+    var ja = zeile.querySelector('input[data-wahl="ja"]');
+    var vor = zeile.querySelector('input[data-wahl="vor"]');
+    if (nein && nein.checked) return '[nein]';
+    if (ja && ja.checked) return vor && vor.checked ? '[ja *]' : '[ja  ]';
+    if (vor && vor.checked) return '[ja *]';
+    return '[--  ]';
+  }
+
+  function antwort() {
+    var zeilen = [];
+    var beantwortet = 0;
+    var gesamt = 0;
+    var bereichVorher = null;
+
+    document.querySelectorAll('tr[data-quelle]').forEach(function (zeile) {
+      gesamt++;
+      var bereich = zeile.getAttribute('data-bereich');
+      if (bereich !== bereichVorher) {
+        zeilen.push('');
+        zeilen.push('[' + bereich + ']');
+        bereichVorher = bereich;
+      }
+      var m = marke(zeile);
+      if (m !== '[--  ]') beantwortet++;
+      var anmerkung = zeile.querySelector('input[data-feld="anmerkung"]');
+      var text = m + ' ' + zeile.getAttribute('data-quelle');
+      if (anmerkung && anmerkung.value.trim()) text += '  | ' + anmerkung.value.trim();
+      zeilen.push(text);
+    });
+
+    var fehlend = [];
+    document.querySelectorAll('tr[data-bereich="fehlt"]').forEach(function (zeile) {
+      var name = zeile.querySelector('input[data-feld="name"]');
+      if (!name || !name.value.trim()) return;
+      var alle = zeile.querySelector('input[data-wahl="alle"]');
+      var hier = zeile.querySelector('input[data-wahl="hier"]');
+      var vor = zeile.querySelector('input[data-wahl="vor"]');
+      var wohin = alle && alle.checked ? 'alle Berufe' : hier && hier.checked ? 'nur hier' : 'ohne Angabe';
+      var anmerkung = zeile.querySelector('input[data-feld="anmerkung"]');
+      var text = '+ ' + name.value.trim() + '  | ' + wohin + (vor && vor.checked ? ' | voreinstellen' : '');
+      if (anmerkung && anmerkung.value.trim()) text += ' | ' + anmerkung.value.trim();
+      fehlend.push(text);
+    });
+
+    var f1 = (document.getElementById('frage1') || {}).value || '';
+    var f2 = (document.getElementById('frage2') || {}).value || '';
+
+    var kopf = [
+      '=== FRAGENSCHMIEDE MED / QUELLEN-DURCHSICHT / RUECKMELDUNG ===',
+      'Bogen:       ' + BOGEN,
+      'Person:      ' + (PERSON || '(bitte eintragen)'),
+      'Datum:       ' + new Date().toLocaleDateString('de-DE'),
+      'Beantwortet: ' + beantwortet + ' von ' + gesamt,
+      '',
+      'Legende: [ja  ] kommt vor  [ja *] kommt vor und voreinstellen',
+      '         [nein] streichen  [--  ] keine Angabe',
+    ];
+
+    var ende = [''];
+    ende.push('[FEHLENDE QUELLEN]');
+    ende = ende.concat(fehlend.length ? fehlend : ['(keine genannt)']);
+    ende.push('');
+    ende.push('[DIE DREI WICHTIGSTEN]');
+    ende.push(f1.trim() || '(keine Angabe)');
+    ende.push('');
+    ende.push('[WO DIE KI IRRT]');
+    ende.push(f2.trim() || '(keine Angabe)');
+    ende.push('');
+    ende.push('=== ENDE ===');
+
+    return kopf.concat(zeilen, ende).join('\n');
+  }
+
+  var ausgabe = document.getElementById('ergebnis');
+
+  document.getElementById('erzeugen').addEventListener('click', function () {
+    ausgabe.value = antwort();
+    ausgabe.focus();
+    ausgabe.select();
+  });
+
+  document.getElementById('kopieren').addEventListener('click', function () {
+    if (!ausgabe.value) ausgabe.value = antwort();
+    ausgabe.focus();
+    ausgabe.select();
+    var geschafft = false;
+    try {
+      geschafft = document.execCommand('copy');
+    } catch (e) {
+      geschafft = false;
+    }
+    if (!geschafft && navigator.clipboard) {
+      navigator.clipboard.writeText(ausgabe.value).then(
+        function () {
+          melden('Kopiert.');
+        },
+        function () {
+          melden('Kopieren nicht moeglich - bitte den Text von Hand markieren.');
+        }
+      );
+      return;
+    }
+    melden(geschafft ? 'Kopiert.' : 'Kopieren nicht moeglich - bitte von Hand markieren.');
+  });
+
+  document.getElementById('speichern').addEventListener('click', function () {
+    if (!ausgabe.value) ausgabe.value = antwort();
+    var blob = new Blob([ausgabe.value], { type: 'text/plain;charset=utf-8' });
+    var verweis = document.createElement('a');
+    verweis.href = URL.createObjectURL(blob);
+    verweis.download =
+      'quellen-durchsicht-' + BOGEN.replace(/[^A-Za-z0-9]+/g, '-').toLowerCase() + '.txt';
+    document.body.appendChild(verweis);
+    verweis.click();
+    document.body.removeChild(verweis);
+    setTimeout(function () {
+      URL.revokeObjectURL(verweis.href);
+    }, 1000);
+  });
+
+  document.getElementById('drucken').addEventListener('click', function () {
+    window.print();
+  });
+
+  function melden(text) {
+    var ziel = document.getElementById('stand');
+    if (!ziel) return;
+    var vorher = ziel.textContent;
+    ziel.textContent = text;
+    setTimeout(function () {
+      ziel.textContent = vorher;
+    }, 3000);
+  }
+
+  laden();
+  document.querySelectorAll('input[data-wahl]').forEach(function (kasten) {
+    if (kasten.checked) ausschluss(kasten);
+  });
+})();
+</script>
+
+</body>
+</html>

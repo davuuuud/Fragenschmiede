@@ -1,11 +1,13 @@
 // Erzeugt aus dem Quellenkatalog der Anwendung je einen Durchsichtsbogen pro
-// Beruf. Der Katalog (src/lib/profile/ihk/quellenkatalog.ts) ist die einzige
-// Stelle, an der Quellen gepflegt werden — Anwendung und Bögen können so
-// nicht auseinanderlaufen.
+// Beruf. Der Katalog des Profils (src/lib/profile/<profil>/quellenkatalog.ts)
+// ist die einzige Stelle, an der Quellen gepflegt werden — Anwendung und
+// Bögen können so nicht auseinanderlaufen.
 //
-//   node quellen-durchsicht/erzeugen.mjs
+//   node quellen-durchsicht/erzeugen.mjs               → Fragenschmiede
+//   PROFIL=med node quellen-durchsicht/erzeugen.mjs    → Fragenschmiede Med
 //
-// Ergebnis: quellen-durchsicht/blaetter/<kuerzel>.html
+// Ergebnis: quellen-durchsicht/blaetter/<kuerzel>.html bzw. blaetter-med/.
+// Was je Profil anders lautet, steht in profile.mjs.
 //
 // Die Bögen sind eigenständige HTML-Dateien ohne Verweise nach außen: Sie
 // lassen sich als Anhang verschicken, im Browser öffnen und ausdrucken. Wer
@@ -15,10 +17,18 @@
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { PROFILE } from './profile.mjs';
+
+const PROFIL_ID = process.env.PROFIL ?? 'ihk';
+const P = PROFILE[PROFIL_ID];
+if (!P) {
+  throw new Error(`Unbekanntes Profil "${PROFIL_ID}". Erlaubt: ${Object.keys(PROFILE).join(', ')}.`);
+}
+
 // Node lädt die TypeScript-Datei direkt; sie importiert zur Laufzeit nur Typen.
-import { KATALOG } from '../src/lib/profile/ihk/quellenkatalog.ts';
-import { BERUFE as BERUF_ANGABEN, STAND } from './berufe.mjs';
-import { GELTUNG, HINWEISE, NUR_IM_BOGEN } from './durchsicht.mjs';
+const { KATALOG } = await import(P.katalog);
+const { BERUFE: BERUF_ANGABEN, STAND } = await import(P.berufe);
+const { GELTUNG, HINWEISE, NUR_IM_BOGEN } = await import(P.durchsicht);
 
 /**
  * Eine Zeile im Bogen. Zu den Katalogquellen kommen hier die Hinweise an die
@@ -45,24 +55,23 @@ const BERUFE = BERUF_ANGABEN.filter((beruf) => !beruf.ruht).map((beruf) => ({
 }));
 
 const HIER = dirname(fileURLToPath(import.meta.url));
-const ZIEL = join(HIER, 'blaetter');
+const ZIEL = join(HIER, P.ziel);
 
 // Die Empfängerliste enthält Namen Dritter und ist von Git ausgeschlossen.
 // Fehlt sie, entstehen nur die Bögen je Beruf — der Ablauf funktioniert
 // auch ohne sie.
-const EMPFAENGER_DATEI = join(HIER, 'ansprechpartner.local.mjs');
+const EMPFAENGER_DATEI = join(HIER, P.empfaenger);
 // Versand nur an ausgewählte Personen: "ausgewaehlt: true" in der Liste.
 // Die frühere Kennzeichnung "mww: true" gilt weiter als ausgewählt.
 const ausgewaehlt = (empfaenger) => empfaenger.ausgewaehlt === true || empfaenger.mww === true;
 
 const EMPFAENGER = existsSync(EMPFAENGER_DATEI)
-  ? (await import('./ansprechpartner.local.mjs')).EMPFAENGER
+  ? (await import(`./${P.empfaenger}`)).EMPFAENGER
   : [];
 
-// Ab wann ein Eintrag der allgemeinen Liste als Grenzfall markiert wird.
-// Bewusst nicht bei 13 von 14: Eine Markierung, die fast überall steht,
-// lenkt den Blick nicht mehr, sondern ermüdet ihn.
-const GRENZFALL_AB = 12;
+// Ab wann ein Eintrag der allgemeinen Liste als Grenzfall markiert wird —
+// je Profil, weil es von der Zahl der Berufe abhängt (siehe profile.mjs).
+const GRENZFALL_AB = P.grenzfallAb;
 
 const ART_TITEL = {
   gesetz: 'Gesetze, Verordnungen und EU-Recht',
@@ -97,7 +106,7 @@ function zeile(quelle, bereich) {
   const geltung =
     quelle.geltung !== undefined && quelle.geltung < GRENZFALL_AB
       ? `<span class="grenzfall" title="Nach meiner Einschätzung nicht bei allen Berufen nötig">` +
-        `Grenzfall: ${quelle.geltung} von 14</span>`
+        `Grenzfall: ${quelle.geltung} von ${BERUF_ANGABEN.length}</span>`
       : '';
   // data-bereich und data-quelle machen die Zeile für die Auswertung
   // wiedererkennbar, ohne dass jemand etwas abtippen muss.
@@ -324,7 +333,7 @@ const STIL = `
 const SKRIPT = (bogenTitel, personName) =>
   `
 (function () {
-  var SCHLUESSEL = 'fragenschmiede-durchsicht:' + ${JSON.stringify(bogenTitel)};
+  var SCHLUESSEL = '${P.speicher}:' + ${JSON.stringify(bogenTitel)};
   var PERSON = ${JSON.stringify(personName)};
   var BOGEN = ${JSON.stringify(bogenTitel)};
 
@@ -452,7 +461,7 @@ const SKRIPT = (bogenTitel, personName) =>
     var f2 = (document.getElementById('frage2') || {}).value || '';
 
     var kopf = [
-      '=== FRAGENSCHMIEDE / QUELLEN-DURCHSICHT / RUECKMELDUNG ===',
+      '=== ${P.kennung} / QUELLEN-DURCHSICHT / RUECKMELDUNG ===',
       'Bogen:       ' + BOGEN,
       'Person:      ' + (PERSON || '(bitte eintragen)'),
       'Datum:       ' + new Date().toLocaleDateString('de-DE'),
@@ -589,12 +598,12 @@ function bogen(beruf, empfaenger) {
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Quellen-Durchsicht ${schuetzen(titel)} – Fragenschmiede</title>
+<title>Quellen-Durchsicht ${schuetzen(titel)} – ${P.name}</title>
 <style>${STIL}</style>
 </head>
 <body>
 
-<p class="kopf">Fragenschmiede · Durchsicht des Quellenkatalogs · Stand ${STAND}</p>
+<p class="kopf">${P.name} · Durchsicht des Quellenkatalogs · Stand ${STAND}</p>
 <h1>Welche Quellen gehören zu ${mehrere ? 'diesen Berufen' : 'diesem Beruf'}?</h1>
 <p class="beruf">${kopfzeile}</p>
 ${empfaengerZeile}
@@ -606,21 +615,17 @@ ${empfaengerZeile}
 </div>
 
 <div class="hinweiskasten">
-  <p><strong>Worum es geht.</strong> Die Fragenschmiede baut aus Ihren Angaben
+  <p><strong>Worum es geht.</strong> Die ${P.name} baut aus Ihren Angaben
   eine Frage an eine KI. Darin steht unter anderem, auf welche Quellen sich die
   Antwort stützen soll. Diese Liste steuert also unmittelbar, wie gut oder wie
   beliebig die Antwort ausfällt.</p>
 
-  <p><strong>Warum Sie gefragt werden.</strong> Die Liste ist mit dem
-  Rahmenlehrplan Ihres Berufs abgeglichen, stammt aber <strong>nicht aus
+  <p><strong>Warum Sie gefragt werden.</strong> Die Liste ist ${P.abgleich}, stammt aber <strong>nicht aus
   Unterrichtserfahrung.</strong> Sie ist ein Vorschlag, keine Setzung. Eine
   falsch zugeordnete Quelle lenkt die KI in die falsche Richtung; eine fehlende
   lässt sie ins Allgemeine ausweichen.</p>
 
-  <p><strong>Sie gilt bereits.</strong> Seit dem 11.09.2026 arbeitet die
-  Anwendung mit dieser Vorauswahl — vorläufig, weil das Werkzeug sonst mit
-  einer erkennbar zu kurzen Liste liefe. Ihre Rückmeldung ändert sie; sie
-  kommt also nicht zu spät, sondern genau richtig.</p>
+${P.geltungAbsatz}
 
   <p><strong>Wie lange es dauert.</strong> Etwa 20 bis 30 Minuten. Wo Sie unsicher
   sind, lassen Sie die Zeile einfach leer — auch das ist eine Auskunft.</p>
@@ -662,8 +667,7 @@ ${abschnitte(eintrag.quellen, eintrag.kuerzel)}`,
   .join('\n\n')}
 
 <h2>Teil ${2 + berufe.length} — Was fehlt?</h2>
-<p>Der wichtigste Teil. Welche Gesetze, Verordnungen, Normen, Nachschlagewerke
-oder Gerichtsentscheidungen brauchen Ihre Teilnehmenden, die oben nicht stehen?
+<p>Der wichtigste Teil. ${P.fehltArten} brauchen Ihre Teilnehmenden, die oben nicht stehen?
 Auch das im Unterricht eingesetzte Lehrwerk mit Titel und Auflage ist hier
 willkommen.</p>
 
@@ -711,7 +715,7 @@ irreführend sind? Dann kann die Anwendung dort besonders warnen.</p>
 </div>
 
 <footer>
-  <p>Fragenschmiede — ein privates Projekt, kein Angebot eines Bildungsträgers.
+  <p>${P.name} — ein privates Projekt, kein Angebot eines Bildungsträgers.
   Rückmeldung an fragenschmiede@tinytux.de.
   Dieser Bogen speichert Ihre Eingaben nur in diesem Browser und sendet
   nichts von allein.</p>
@@ -747,7 +751,7 @@ function uebersicht() {
 </head>
 <body>
 
-<p class="kopf">Fragenschmiede · Durchsicht des Quellenkatalogs · Stand ${STAND}</p>
+<p class="kopf">${P.name} · Durchsicht des Quellenkatalogs · Stand ${STAND}</p>
 <h1>Übersicht für die Vorbereitung</h1>
 <p>Diese Seite ist <strong>nicht</strong> für die Ansprechpartner gedacht,
 sondern für die eigene Vorbereitung. Jeder Ansprechpartner bekommt nur den
@@ -789,7 +793,7 @@ ${grenzfaelle
   .map(
     (quelle) => `      <tr>
         <td><strong>${schuetzen(quelle.kuerzel)}</strong> — ${schuetzen(quelle.titel)}</td>
-        <td class="kasten">${quelle.geltung}/14</td>
+        <td class="kasten">${quelle.geltung}/${BERUF_ANGABEN.length}</td>
         <td>${schuetzen(quelle.hinweis ?? '')}</td>
       </tr>`,
   )
@@ -799,29 +803,12 @@ ${grenzfaelle
 
 <h2>Worauf beim Auswerten zu achten ist</h2>
 <div class="hinweiskasten">
-  <p><strong>Ruhend: ${RUHEND.map((beruf) => schuetzen(beruf.kuerzel)).join(', ')}.</strong>
-  Diese Berufe stehen nicht in der Anwendung und bekommen keinen Bogen. Die
-  Grenzfall-Zahlen oben sind über alle ${BERUF_ANGABEN.length} Berufe
-  geschätzt, die ruhenden eingeschlossen.</p>
-
-  <p><strong>FKS ist der Ausreißer.</strong> Nicht kaufmännisch. Wenn dort die
-  halbe allgemeine Liste gestrichen wird, ist das kein Fehler der Rückmeldung,
-  sondern ein Hinweis darauf, dass "allgemein" in Wahrheit "allgemein
-  kaufmännisch" heißt.</p>
-
-  <p><strong>KGQ ist ein Sonderfall.</strong> Keine Kammerprüfung, keine
-  Ausbildungsordnung. Hier ist eine kurze Liste vermutlich besser als eine
-  vollständige.</p>
-
-  <p><strong>Rechtsprechung ist die schwächste Kategorie.</strong> Die meisten
-  Kammerprüfungen fragen Regeln ab, nicht Urteile. Ausnahme ist IMK
-  (Mietrecht). Wenn dort niemand Urteile nennt, kann die Kategorie ganz
-  entfallen.</p>
+${P.auswertung({ ruhend: RUHEND, gesamt: BERUF_ANGABEN.length, schuetzen })}
 </div>
 
 <footer>
-  <p>Erzeugt aus <code>src/lib/profile/ihk/quellenkatalog.ts</code>.
-  Änderungen dort und erneut <code>node quellen-durchsicht/erzeugen.mjs</code>
+  <p>Erzeugt aus <code>${P.katalogPfad}</code>.
+  Änderungen dort und erneut <code>${P.befehl}</code>
   ausführen.</p>
 </footer>
 
@@ -842,7 +829,7 @@ for (const beruf of BERUFE) {
   writeFileSync(datei, bogen(beruf), 'utf8');
   console.log(
     `${beruf.kuerzel.padEnd(5)} ${String(beruf.quellen.length).padStart(2)} eigene ` +
-      `+ ${ALLGEMEIN.length} allgemeine → blaetter/${beruf.kuerzel}.html`,
+      `+ ${ALLGEMEIN.length} allgemeine → ${P.ziel}/${beruf.kuerzel}.html`,
   );
 }
 
@@ -873,15 +860,26 @@ function dateiname(name) {
 // dieser Mappe verschickt, kann keinen Bogen einer nicht ausgewählten Person
 // versehentlich anhängen. Die Mappe wird bei jedem Lauf neu angelegt — wer
 // nicht mehr ausgewählt ist, verschwindet daraus von selbst.
-const VERSAND = join(HIER, 'versand');
-const ANSCHREIBEN = join(HIER, 'anschreiben.local.md');
+const VERSAND = join(HIER, P.versand);
+const ANSCHREIBEN = join(HIER, P.anschreiben);
 
-/** Überschrift des passenden Abschnitts in anschreiben.local.md, falls vorhanden. */
+/** Überschrift des passenden Abschnitts im Anschreiben des Profils, falls vorhanden. */
 function abschnittImAnschreiben(empfaenger) {
   if (!existsSync(ANSCHREIBEN)) return null;
   const zeilen = readFileSync(ANSCHREIBEN, 'utf8').split(/\r?\n/);
   const treffer = zeilen.find((z) => /^## \d+\./.test(z) && z.includes(empfaenger.name));
   return treffer ? treffer.replace(/^## /, '').replace(/\*/g, '') : null;
+}
+
+/**
+ * Die Berufe für die Betreffzeile. Ab drei Berufen nur die Kürzel — fünf
+ * ausgeschriebene Berufsbezeichnungen ergäben einen Betreff, den kein
+ * Postfach mehr vollständig anzeigt.
+ */
+function betreffBerufe(berufe) {
+  if (berufe.length <= 2) return berufe.map((b) => b.name).join(' und ');
+  const kuerzel = berufe.map((b) => b.kuerzel);
+  return `${kuerzel.slice(0, -1).join(', ')} und ${kuerzel.at(-1)}`;
 }
 
 /** Vorschlag für die Rückmeldefrist: zwei Wochen ab heute. */
@@ -925,7 +923,7 @@ if (EMPFAENGER.length > 0) {
     if (ausgewaehlt(empfaenger)) {
       const ordner = join(VERSAND, dateiname(empfaenger.name));
       mkdirSync(ordner, { recursive: true });
-      const anhang = `Fragenschmiede-Quellen-${berufe.map((b) => b.kuerzel).join('-')}.html`;
+      const anhang = `${P.anhang}-${berufe.map((b) => b.kuerzel).join('-')}.html`;
       writeFileSync(join(ordner, anhang), inhalt, 'utf8');
       versand.push({ empfaenger, berufe, anhang, ordner: dateiname(empfaenger.name) });
     }
@@ -974,16 +972,16 @@ if (EMPFAENGER.length > 0) {
         `## ${i + 1}. ${empfaenger.vorname ? empfaenger.vorname + ' ' : ''}${empfaenger.name}`,
         '',
         `- **An:** ${empfaenger.email || '— fehlt —'}`,
-        `- **Betreff:** Kurze fachliche Durchsicht: Welche Quellen gehören zu ${berufe.map((b) => b.name).join(' und ')}?`,
+        `- **Betreff:** Kurze fachliche Durchsicht: Welche Quellen gehören zu ${betreffBerufe(berufe)}?`,
         `- **Anhang:** \`${ordner}/${anhang}\``,
-        `- **Mailtext:** anschreiben.local.md, Abschnitt „${abschnitt ?? 'nicht gefunden — bitte ergänzen'}"`,
+        `- **Mailtext:** ${P.anschreiben}, Abschnitt „${abschnitt ?? 'nicht gefunden — bitte ergänzen'}"`,
         `- **Vor dem Absenden noch eintragen:** ${fehlt.join('; ')}`,
         empfaenger.hinweis ? `- **Hinweis:** ${empfaenger.hinweis}` : null,
         '',
       ].filter((z) => z !== null).join('\n');
     });
     const liste = [
-      '# Versandliste — Quellen-Durchsicht',
+      `# Versandliste — Quellen-Durchsicht ${P.name}`,
       '',
       `Erzeugt am ${new Date().toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' })} von erzeugen.mjs. Nicht von Hand ändern — beim nächsten Lauf neu.`,
       '',

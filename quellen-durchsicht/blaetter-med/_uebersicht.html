@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Quellen-Durchsicht – Übersicht</title>
+<style>
+  :root {
+    --rand: #d4d8de;
+    --grau: #5b6472;
+    --akzent: #1d4ed8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1.5rem 4rem;
+    max-width: 60rem;
+    margin-inline: auto;
+    font-family: "Segoe UI", system-ui, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.45;
+    color: #16191f;
+    background: #fff;
+  }
+  h1 { font-size: 1.5rem; margin: 0 0 .2rem; }
+  h2 {
+    font-size: 1.1rem;
+    margin: 2.2rem 0 .4rem;
+    padding-bottom: .25rem;
+    border-bottom: 2px solid var(--akzent);
+  }
+  h3 { font-size: .95rem; margin: 1.3rem 0 .35rem; color: var(--grau); }
+  p { margin: 0 0 .6rem; }
+  .kopf { margin-bottom: .4rem; color: var(--grau); }
+  .beruf { font-size: 1.05rem; font-weight: 600; color: var(--akzent); }
+
+  .hinweiskasten {
+    border: 1px solid var(--rand);
+    border-left: 4px solid var(--akzent);
+    padding: .8rem 1rem;
+    margin: 1.2rem 0;
+    background: #f7f9fc;
+  }
+  .hinweiskasten p:last-child { margin-bottom: 0; }
+  .warnung { border-left-color: #b45309; background: #fffbf2; }
+
+  .felder {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin: 1rem 0 1.4rem;
+  }
+  .felder div { flex: 1 1 12rem; }
+  .felder span { display: block; font-size: .75rem; color: var(--grau); }
+  .linie { border-bottom: 1px solid #9aa2ad; height: 1.5rem; }
+
+  table { width: 100%; border-collapse: collapse; margin-bottom: .8rem; }
+  th, td {
+    border: 1px solid var(--rand);
+    padding: .35rem .45rem;
+    vertical-align: top;
+    text-align: left;
+  }
+  th {
+    background: #eef2f7;
+    font-size: .72rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  th.kasten, td.kasten { width: 3.2rem; text-align: center; }
+  th.anmerkung, td.anmerkung { width: 30%; }
+  td.anmerkung { background: #fcfcfd; }
+  td.quelle strong { display: inline; }
+  td.quelle .titel { display: block; }
+  td.quelle .hinweis { display: block; font-size: .78rem; color: var(--grau); }
+  td.quelle.leer { height: 2.1rem; }
+  .grenzfall {
+    display: inline-block;
+    margin-top: .2rem;
+    padding: .05rem .35rem;
+    font-size: .68rem;
+    color: #92400e;
+    background: #fef3c7;
+    border-radius: 3px;
+  }
+  input[type="checkbox"] { width: 1rem; height: 1rem; cursor: pointer; }
+  input[type="text"] {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font: inherit;
+    color: inherit;
+    padding: 0;
+  }
+  input[type="text"]:focus { outline: 2px solid var(--akzent); outline-offset: 1px; }
+  td.quelle.leer input { border-bottom: 1px solid #c8ced6; }
+  tr.gestrichen td.quelle { opacity: .5; text-decoration: line-through; }
+
+  textarea {
+    width: 100%;
+    font: inherit;
+    padding: .5rem;
+    border: 1px solid var(--rand);
+    border-radius: 4px;
+    resize: vertical;
+  }
+
+  .werkzeug {
+    position: sticky;
+    bottom: 0;
+    margin-top: 2rem;
+    padding: 1rem;
+    background: #eef4ff;
+    border: 1px solid var(--akzent);
+    border-radius: 6px;
+  }
+  .werkzeug h2 { margin-top: 0; border: none; }
+  button {
+    font: inherit;
+    font-weight: 600;
+    padding: .55rem 1.1rem;
+    border: 1px solid var(--akzent);
+    border-radius: 4px;
+    background: var(--akzent);
+    color: #fff;
+    cursor: pointer;
+  }
+  button.still { background: #fff; color: var(--akzent); }
+  button:hover { filter: brightness(1.08); }
+  .knopfreihe { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; }
+  .stand { font-size: .8rem; color: var(--grau); }
+  #ergebnis {
+    margin-top: .8rem;
+    min-height: 12rem;
+    font-family: ui-monospace, Consolas, monospace;
+    font-size: .75rem;
+  }
+
+  .legende { font-size: .8rem; color: var(--grau); }
+  .legende dt { font-weight: 600; color: #16191f; float: left; clear: left; margin-right: .4rem; }
+  .legende dd { margin: 0 0 .25rem; }
+
+  footer {
+    margin-top: 2.5rem;
+    padding-top: .8rem;
+    border-top: 1px solid var(--rand);
+    font-size: .78rem;
+    color: var(--grau);
+  }
+
+  @media print {
+    .werkzeug { display: none; }
+    input[type="text"] { border-bottom: 1px solid #c8ced6; }
+    body { padding: 0; font-size: 9.5pt; }
+    h2 { break-after: avoid; }
+    h3 { break-after: avoid; }
+    table { break-inside: auto; }
+    tr { break-inside: avoid; }
+    thead { display: table-header-group; }
+    .hinweiskasten { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<p class="kopf">Fragenschmiede Med · Durchsicht des Quellenkatalogs · Stand November 2026</p>
+<h1>Übersicht für die Vorbereitung</h1>
+<p>Diese Seite ist <strong>nicht</strong> für die Ansprechpartner gedacht,
+sondern für die eigene Vorbereitung. Jeder Ansprechpartner bekommt nur den
+Bogen seines Berufs.</p>
+
+<h2>Die Bögen</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Beruf</th>
+      <th class="kasten">eigene Quellen</th>
+      <th>Prüfungsstelle</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><strong>MFA</strong> — Medizinische Fachangestellte</td>
+        <td class="kasten">12</td>
+        <td>Ärztekammer</td>
+      </tr>
+      <tr>
+        <td><strong>NotSan</strong> — Notfallsanitäterinnen und Notfallsanitäter</td>
+        <td class="kasten">11</td>
+        <td>staatliche Prüfung</td>
+      </tr>
+      <tr>
+        <td><strong>PFA</strong> — Pflegefachassistentinnen und Pflegefachassistenten</td>
+        <td class="kasten">13</td>
+        <td>staatliche Prüfung</td>
+      </tr>
+      <tr>
+        <td><strong>PFF</strong> — Pflegefachfrauen und Pflegefachmänner</td>
+        <td class="kasten">14</td>
+        <td>staatliche Prüfung</td>
+      </tr>
+      <tr>
+        <td><strong>PT</strong> — Physiotherapeutinnen und Physiotherapeuten</td>
+        <td class="kasten">6</td>
+        <td>staatliche Prüfung</td>
+      </tr>
+  </tbody>
+</table>
+<p class="legende">Dazu kommen bei jedem Bogen 18 allgemeine
+Quellen. Insgesamt sind das 74
+Vorschläge.</p>
+
+<h2>Grenzfälle der allgemeinen Liste</h2>
+<p>Diese Einträge stehen in der allgemeinen Liste, obwohl ich sie nur bei einem
+Teil der Berufe für nötig halte. Sie sind die wahrscheinlichsten Kandidaten
+dafür, aus der allgemeinen Liste heraus- und in einzelne Berufe hineinzuwandern.
+Kommen mehrere Rückmeldungen "streichen", ist das der Auslöser.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Quelle</th>
+      <th class="kasten">Berufe</th>
+      <th>Vermutung</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><strong>GBE</strong> — Gesundheitsberichterstattung des Bundes</td>
+        <td class="kasten">2/5</td>
+        <td>Statistik zu Krankheit und Versorgung — eher Hintergrund als Prüfungsstoff</td>
+      </tr>
+      <tr>
+        <td><strong>ArbSchG</strong> — Arbeitsschutzgesetz</td>
+        <td class="kasten">3/5</td>
+        <td>Allgemeiner Arbeitsschutz; im Gesundheitswesen meist über BioStoffV und TRBA 250 konkret</td>
+      </tr>
+      <tr>
+        <td><strong>Epidemiologisches Bulletin</strong> — Wochenschrift des Robert Koch-Instituts</td>
+        <td class="kasten">3/5</td>
+        <td>Aktuelle Lage und Empfehlungen der Ständigen Impfkommission</td>
+      </tr>
+      <tr>
+        <td><strong>BioStoffV</strong> — Biostoffverordnung: Schutz vor biologischen Arbeitsstoffen</td>
+        <td class="kasten">4/5</td>
+        <td>Gefährdungsbeurteilung und Schutzmaßnahmen — eng verwandt mit TRBA 250</td>
+      </tr>
+      <tr>
+        <td><strong>KRINKO</strong> — Empfehlungen der Kommission für Krankenhaushygiene und Infektionsprävention beim RKI</td>
+        <td class="kasten">4/5</td>
+        <td>Händehygiene, Flächendesinfektion, multiresistente Erreger</td>
+      </tr>
+      <tr>
+        <td><strong>TRBA 250</strong> — Biologische Arbeitsstoffe im Gesundheitswesen und in der Wohlfahrtspflege</td>
+        <td class="kasten">4/5</td>
+        <td>Stichverletzungen, Schutzkleidung, sichere Instrumente</td>
+      </tr>
+      <tr>
+        <td><strong>RKI-Ratgeber</strong> — Ratgeber des Robert Koch-Instituts zu Infektionskrankheiten</td>
+        <td class="kasten">4/5</td>
+        <td>Erreger, Übertragung und Maßnahmen je Krankheit</td>
+      </tr>
+  </tbody>
+</table>
+
+<h2>Worauf beim Auswerten zu achten ist</h2>
+<div class="hinweiskasten">
+  <p><strong>Ein Entwurf, noch nicht in Gebrauch.</strong> Anders als bei der
+  Fragenschmiede gilt diese Liste noch nirgends: Die Fragenschmiede Med geht
+  erst online, wenn die Durchsicht zurück ist.</p>
+
+  <p><strong>Die Pflegefachassistenz ist im Umbruch.</strong> Bundeseinheitlich
+  ab 1. Januar 2027, bis dahin Landesrecht. Rückmeldungen zu laufenden Kursen
+  beziehen sich womöglich auf das alte Recht — beim Auswerten trennen.</p>
+
+  <p><strong>MFA ist der Ausreißer.</strong> Duale Ausbildung mit Prüfung vor
+  der Ärztekammer und viel Abrechnung. Werden dort Hygiene- und
+  Pflegequellen der allgemeinen Liste gestrichen, ist das erwartbar.</p>
+
+  <p><strong>Vieles hängt an Vorgaben vor Ort.</strong> Standardarbeits-
+  anweisungen im Rettungsdienst, Hausstandards in der Pflege, schulinterne
+  Curricula: Für eine KI sind sie nicht zugänglich. Was dazu zurückkommt,
+  gehört eher in einen Hinweis als in den Katalog.</p>
+</div>
+
+<footer>
+  <p>Erzeugt aus <code>src/lib/profile/med/quellenkatalog.ts</code>.
+  Änderungen dort und erneut <code>PROFIL=med node quellen-durchsicht/erzeugen.mjs</code>
+  ausführen.</p>
+</footer>
+
+</body>
+</html>

@@ -90,17 +90,27 @@ beide Seiten; eine Verbesserung an einer kommt der anderen zugute.
 | **Fachliche Durchsicht** | durch Lehrende aus dem Fach; bis dahin wird die Seite nicht veröffentlicht |
 | **Was anders ist** | Prüfung je Beruf (staatlich, Ärztekammer bei MFA); Hinweis auf Umbrüche im Prompt (Pflegefachassistenz bundeseinheitlich ab 1.1.2027, Reform der Physiotherapie geplant); Fälle aus der Versorgung statt aus dem Betrieb; eine Regel zu Dosierungen; kein Geschäftstext |
 
+**Erledigt (11.11.2026):**
+
+- **Durchsichtsbögen** für alle fünf Berufe, erzeugt mit demselben Werkzeug
+  (`PROFIL=med node quellen-durchsicht/erzeugen.mjs`); dazu ein gemeinsamer
+  Bogen mit allen fünf Berufen für die Durchsicht.
+- **Eigenes Symbol:** dieselbe Form, Petrol statt Blau, eine Plakette mit
+  weißem Plus (bewusst kein rotes Kreuz — geschütztes Schutzzeichen).
+
 **Noch offen:**
 
-1. Durchsichtsbögen für den Med-Katalog (dasselbe Werkzeug wie in
-   `quellen-durchsicht/`).
-2. Repository `Fragenschmiede_Med` mit einem kleinen Ablauf, der den
-   öffentlichen Quellcode holt, mit `PROFIL=med` baut und veröffentlicht —
-   ohne Zugangsschlüssel zwischen den Repositories.
-3. Ein Merkblatt für die Med-Seite (`npm run merkblatt` kennt bisher nur die
-   Fragenschmiede).
-4. Ein eigenes Symbol, damit beide auf dem Startbildschirm unterscheidbar
-   sind.
+1. **Rücklauf der Durchsicht** einarbeiten — erst danach geht die Seite online.
+2. **Veröffentlichung:** Für die Adresse `davuuuud.github.io/Fragenschmiede_Med`
+   braucht es ein Repository dieses Namens, weil GitHub Pages die Adresse aus
+   dem Repository-Namen bildet. Es enthielte keinen eigenen Code, nur einen
+   Ablauf, der den öffentlichen Quellcode holt, mit `PROFIL=med` baut und
+   veröffentlicht — ohne Zugangsschlüssel zwischen den Repositories.
+   Ohne eigenes Repository ginge nur eine Unteradresse wie
+   `…/Fragenschmiede/med/`.
+3. **Merkblatt** „Was die Felder bewirken" als Word-Datei für die Med-Seite
+   (`npm run merkblatt` kennt bisher nur die Fragenschmiede; die Hilfeseite
+   in der Anwendung selbst ist schon richtig).
 
 ---
 

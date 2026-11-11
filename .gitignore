@@ -29,6 +29,11 @@ dist-datei
 quellen-durchsicht/*.local.*
 quellen-durchsicht/blaetter/fuer-*.html
 quellen-durchsicht/versand/
+# Dasselbe für die Fragenschmiede Med. Empfängerliste und Anschreiben
+# (ansprechpartner-med.local.mjs, anschreiben-med.local.md) deckt die
+# Zeile mit *.local.* oben schon ab.
+quellen-durchsicht/blaetter-med/fuer-*.html
+quellen-durchsicht/versand-med/
 
 # Erzeugtes Merkblatt (node scripts/merkblatt.mjs)
 merkblatt/
