@@ -1,7 +1,7 @@
 // Angaben je Beruf, die nur die Durchsichtsbögen brauchen.
 //
 // Die Quellen selbst stehen im Katalog der Anwendung
-// (src/lib/domain/quellenkatalog.ts). Kürzel und Name müssen mit dem Katalog
+// (src/lib/profile/ihk/quellenkatalog.ts). Kürzel und Name müssen mit dem Katalog
 // der Berufe übereinstimmen; ein Test prüft das — auch, ob ein Beruf ruht.
 // Ruhende Berufe bekommen keinen Bogen.
 

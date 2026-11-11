@@ -12,15 +12,25 @@
 // jeder Schlüssel den Namen der Anwendung als Vorsilbe: Andere Seiten unter
 // derselben Adresse teilen sich dieselbe Ablage.
 
+import PROFIL from '$profil';
+
+// Die Vorsilbe kommt aus dem Profil. Die Fragenschmiede Med liegt unter
+// derselben Adresse davuuuud.github.io und braucht deshalb eine eigene —
+// sonst überschrieben sich beide Seiten gegenseitig die Einstellungen.
+const PRAEFIX = PROFIL.marke.speicherPraefix;
+
 export const SCHLUESSEL = {
-  einstellungen: 'fragenschmiede.einstellungen',
-  entwurf: 'fragenschmiede.entwurf',
+  einstellungen: `${PRAEFIX}.einstellungen`,
+  entwurf: `${PRAEFIX}.entwurf`,
 } as const;
 
-const FRUEHERE_SCHLUESSEL: Record<keyof typeof SCHLUESSEL, string> = {
-  einstellungen: 'ihk-lernassistent.einstellungen',
-  entwurf: 'ihk-lernassistent.entwurf',
-};
+const FRUEHERER_PRAEFIX = PROFIL.marke.fruehererSpeicherPraefix;
+const FRUEHERE_SCHLUESSEL: Record<keyof typeof SCHLUESSEL, string> | null = FRUEHERER_PRAEFIX
+  ? {
+      einstellungen: `${FRUEHERER_PRAEFIX}.einstellungen`,
+      entwurf: `${FRUEHERER_PRAEFIX}.entwurf`,
+    }
+  : null;
 
 /** Der Ausschnitt von localStorage, den die Übernahme braucht. */
 export interface Ablage {
@@ -56,6 +66,7 @@ export function eintraegeVerwerfen(ablage: Ablage): void {
 }
 
 export function fruehereEintraegeUebernehmen(ablage: Ablage): void {
+  if (!FRUEHERE_SCHLUESSEL) return;
   for (const art of Object.keys(SCHLUESSEL) as (keyof typeof SCHLUESSEL)[]) {
     try {
       const alt = ablage.getItem(FRUEHERE_SCHLUESSEL[art]);

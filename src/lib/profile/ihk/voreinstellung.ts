@@ -13,7 +13,7 @@
 // Vorläufig, wie der ganze Katalog (Issue #1): Rückmeldungen aus dem
 // Unterricht gehen vor.
 
-import type { BerufId } from './types';
+import type { IhkBerufId } from '../../domain/types';
 
 /** Allgemeine Quellen, die bei fast keinem Beruf eine Rolle spielen. */
 const ALLGEMEIN_NEBENSAECHLICH = [
@@ -35,7 +35,7 @@ function ohne(liste: string[], ...ausnahmen: string[]): string[] {
 }
 
 /** Je Beruf: was nicht vorab angehakt wird. */
-export const NEBENSAECHLICH: Record<BerufId, string[]> = {
+export const NEBENSAECHLICH: Record<IhkBerufId, string[]> = {
   // Für den WiSo-Kern gehören Wirtschaftsdaten dazu (Inflation, BIP).
   kgq: ohne(ALLGEMEIN_NEBENSAECHLICH, 'destatis'),
   einzelhandel: [
@@ -130,11 +130,11 @@ export const NEBENSAECHLICH: Record<BerufId, string[]> = {
  * hat, bekommt beim nächsten Start die aktuelle — sonst erreichte eine
  * bessere Voreinstellung genau die Nutzer nicht, die sich auf sie verlassen.
  */
-export function fruehereVoreinstellungen(beruf: BerufId): string[][] {
+export function fruehereVoreinstellungen(beruf: IhkBerufId): string[][] {
   const g = 'gesetze-im-internet-de';
   // Übernahme des Katalogs, 11.09.2026: Gesetze, Gabler, Ausbildungsordnung
   // und Rahmenlehrplan.
-  const fassung2: Record<BerufId, string[]> = {
+  const fassung2: Record<IhkBerufId, string[]> = {
     kgq: [g, 'gabler', 'kmk-qualifikationsprofil-wiso', 'aka-katalog-wiso'],
     einzelhandel: [g, 'gabler', 'ao-einzelhandel', 'rahmenlehrplan-ehk'],
     fachinformatik: [g, 'gabler', 'ao-it-berufe', 'rahmenlehrplan-it-2020'],
@@ -151,7 +151,7 @@ export function fruehereVoreinstellungen(beruf: BerufId): string[][] {
     spedition: [g, 'gabler', 'ao-spedition', 'rahmenlehrplan-sl'],
   };
   // Am selben Tag: je Beruf höchstens sieben ausgesuchte Quellen.
-  const fassung3: Record<BerufId, string[]> = {
+  const fassung3: Record<IhkBerufId, string[]> = {
     kgq: ['kmk-qualifikationsprofil-wiso', 'bbig', 'bgb', 'hgb', 'sgb-iii-xi', g, 'gabler'],
     einzelhandel: ['ao-einzelhandel', 'rahmenlehrplan-ehk', 'bgb', 'pangv', g, 'gabler'],
     fachinformatik: ['ao-it-berufe', 'rahmenlehrplan-it-2020', 'bsi', 'dsgvo', 'herstellerdoku', g],

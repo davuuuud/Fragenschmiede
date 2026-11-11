@@ -7,7 +7,8 @@
 // Erweiterung der Kataloge.
 
 // Die kaufmännische Grundqualifikation steht voran, alle übrigen alphabetisch.
-export type BerufId =
+/** Berufe der Fragenschmiede (Profil „ihk"). */
+export type IhkBerufId =
   | 'kgq'
   | 'fachinformatik'
   | 'lagerlogistik'
@@ -22,6 +23,20 @@ export type BerufId =
   | 'grosshandel'
   | 'personaldienstleistung'
   | 'steuerfach';
+
+/** Berufe der Fragenschmiede Med (Profil „med"). */
+export type MedBerufId =
+  | 'mfa'
+  | 'notfallsanitaeter'
+  | 'pflegefachassistenz'
+  | 'pflegefachfrau'
+  | 'physiotherapie';
+
+/**
+ * Jeder Beruf aus jedem Profil. Gebaut wird immer nur eines; welche davon
+ * tatsächlich zur Wahl stehen, entscheidet das Profil (src/lib/profile/).
+ */
+export type BerufId = IhkBerufId | MedBerufId;
 
 export type AufgabeId =
   | 'erklaeren'
@@ -89,6 +104,17 @@ export interface Beruf {
    * Steuerberaterkammer.
    */
   pruefstelle?: string;
+  /**
+   * Wofür gelernt wird, als Satzteil nach „bereite mich auf … vor" —
+   * etwa „die staatliche Prüfung nach dem Pflegeberufegesetz". Nur im Profil
+   * „med" verwendet; dort ist die Prüfung je Beruf anders geregelt.
+   */
+  pruefung?: string;
+  /**
+   * Ein Satz zur Rechtslage, der in den Prompt kommt, wenn sie gerade im
+   * Umbruch ist (Pflegefachassistenz ab 2027, Reform der Physiotherapie).
+   */
+  rechtsstand?: string;
   /**
    * Der Beruf ruht: Er steht nicht in der Auswahlliste, seine Angaben und
    * Quellen bleiben aber vollständig erhalten. Wieder aufnehmen heißt, diese
@@ -247,4 +273,30 @@ export interface Sprache {
    * Arabisch und Farsi verlangen dann eine zweite Layoutrichtung.
    */
   dir: 'ltr' | 'rtl';
+}
+
+// --- Quellenkatalog ---------------------------------------------------------
+// Die Typen stehen hier, nicht im Katalog selbst: Jedes Profil hat einen
+// eigenen Katalog, und alle teilen dieselbe Form.
+
+export type QuellenArt =
+  | 'vorgabe'
+  | 'gesetz'
+  | 'norm'
+  | 'nachschlagewerk'
+  | 'rechtsprechung'
+  | 'daten';
+
+export interface KatalogQuelle {
+  /** Stabiler Bezeichner; so wird die Auswahl gespeichert. */
+  id: string;
+  /** Kurzbezeichnung in der Auswahlliste. */
+  kuerzel: string;
+  /** Erläuterung in der Auswahlliste. */
+  titel: string;
+  art: QuellenArt;
+  /** Fehlt die Angabe, gilt die Quelle für alle Berufe des Profils. */
+  berufe?: BerufId[];
+  /** Wortlaut im Prompt, wenn „Kürzel (Titel)" dort nicht taugt. */
+  prompt?: string;
 }

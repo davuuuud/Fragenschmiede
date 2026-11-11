@@ -1,4 +1,5 @@
 <script lang="ts">
+  import PROFIL from '$profil';
   import { APP_NAME, FEEDBACK } from '../config';
   import { ANKER } from '../state/route.svelte';
   import Rechtsseite from './Rechtsseite.svelte';
@@ -66,7 +67,7 @@
       aber nicht zur Nutzung freigegeben: Alle Rechte bleiben vorbehalten, die Einzelheiten
       stehen in der Datei LICENSE. Die Anwendung selbst darf zur eigenen Lernvorbereitung
       verwendet werden. Namen und Zeichen Dritter — insbesondere
-      IHK, ChatGPT, Copilot, Gemini und Le Chat — sind Kennzeichen ihrer jeweiligen Inhaber
+      {[...PROFIL.marke.fremdeKennzeichen, 'ChatGPT', 'Copilot', 'Gemini'].join(', ')} und Le Chat — sind Kennzeichen ihrer jeweiligen Inhaber
       und werden hier nur zur
       Beschreibung verwendet.
     </p>

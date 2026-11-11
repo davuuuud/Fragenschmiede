@@ -26,7 +26,11 @@ const ziel = join(wurzel, 'dist-datei');
 // Aus package.json gelesen, damit er nie wieder stehen bleibt — der frühere
 // feste Name "IHK-Lernassistent.html" hatte die Umbenennung überdauert.
 const { version } = JSON.parse(await readFile(join(wurzel, 'package.json'), 'utf8'));
-const dateiname = `Fragenschmiede-${version}.html`;
+// Der Name kommt aus dem Profil, damit die Einzeldateien der Fragenschmiede
+// und der Fragenschmiede Med nicht gleich heißen.
+const profilId = process.env.PROFIL ?? 'ihk';
+const { default: marke } = await import(`../src/lib/profile/${profilId}/marke.ts`);
+const dateiname = `${marke.dateiname}-${version}.html`;
 
 let html = await readFile(join(dist, 'index.html'), 'utf8');
 

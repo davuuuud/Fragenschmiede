@@ -1,4 +1,5 @@
-// Quellenkatalog — die einzige Stelle, an der Quellen gepflegt werden.
+// Quellenkatalog der Fragenschmiede (Profil „ihk") — die einzige Stelle, an
+// der ihre Quellen gepflegt werden.
 //
 // Aus ihm speisen sich die Auswahl „Bevorzugte Quellen" in der Anwendung, der
 // Quellenabschnitt im Prompt UND die Durchsichtsbögen für die Dozenten
@@ -20,7 +21,9 @@
 //    jede Änderung des Katalogs hinweg; bisherige Bezeichner wurden
 //    übernommen.
 //
-// Welche Quellen je Beruf voreingestellt sind, steht in voreinstellung.ts.
+// Welche Quellen je Beruf voreingestellt sind, steht in voreinstellung.ts
+// daneben. Die Fragenschmiede Med hat einen eigenen Katalog unter
+// src/lib/profile/med/.
 //
 // Hinweise an die Dozenten stehen bewusst NICHT hier, sondern in
 // quellen-durchsicht/durchsicht.mjs, verknüpft über den Bezeichner. So
@@ -30,29 +33,7 @@
 // Diese Datei darf zur Laufzeit nur Typen importieren: Der Bogen-Erzeuger
 // lädt sie direkt mit Node, ohne Übersetzungsschritt.
 
-import type { BerufId } from './types';
-
-export type QuellenArt =
-  | 'vorgabe'
-  | 'gesetz'
-  | 'norm'
-  | 'nachschlagewerk'
-  | 'rechtsprechung'
-  | 'daten';
-
-export interface KatalogQuelle {
-  /** Stabiler Bezeichner; so wird die Auswahl gespeichert. */
-  id: string;
-  /** Kurzbezeichnung in der Auswahlliste. */
-  kuerzel: string;
-  /** Erläuterung in der Auswahlliste. */
-  titel: string;
-  art: QuellenArt;
-  /** Fehlt die Angabe, gilt die Quelle für alle Berufe. */
-  berufe?: BerufId[];
-  /** Wortlaut im Prompt, wenn „Kürzel (Titel)" dort nicht taugt. */
-  prompt?: string;
-}
+import type { KatalogQuelle } from '../../domain/types';
 
 export const KATALOG: KatalogQuelle[] = [
   {

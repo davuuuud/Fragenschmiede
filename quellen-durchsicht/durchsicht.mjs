@@ -1,7 +1,7 @@
 // Material, das nur die Durchsichtsbögen brauchen — nie die Anwendung.
 //
 // Die Quellen selbst stehen im Katalog der Anwendung
-// (src/lib/domain/quellenkatalog.ts). Hier stehen, über den Bezeichner
+// (src/lib/profile/ihk/quellenkatalog.ts). Hier stehen, über den Bezeichner
 // verknüpft:
 //
 //   HINWEISE     Hinweis an die Dozenten je Quelle ("Nach welchem Lehrwerk

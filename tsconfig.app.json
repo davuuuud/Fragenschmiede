@@ -15,7 +15,12 @@
      */
     "allowJs": true,
     "checkJs": true,
-    "moduleDetection": "force"
+    "moduleDetection": "force",
+    /* Die Typprüfung sieht das Profil "ihk"; die Dateien des Profils "med"
+       prüft sie trotzdem mit, weil sie unter src/ liegen. */
+    "paths": {
+      "$profil": ["./src/lib/profile/ihk/index.ts"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte"]
 }

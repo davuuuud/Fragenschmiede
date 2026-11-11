@@ -288,7 +288,7 @@
     </p>
     <p class="anriss">Hier entsteht das Gegenteil.</p>
     <p class="untertitel">
-      Die Fragenschmiede baut aus deinem Thema eine Frage, die deinen Ausbildungsberuf, dein
+      Die {APP_NAME} baut aus deinem Thema eine Frage, die deinen Ausbildungsberuf, dein
       Niveau und die Anforderungen deiner Abschlussprüfung kennt – und die Quellen verlangt,
       statt Paragraphen zu erfinden.
     </p>
@@ -307,7 +307,7 @@
         <p class="hinweis">
           Hier steht, worum es gehen soll: ein Stichwort, ein Lernfeld oder eine ausformulierte
           Frage. Je genauer die Angabe, desto brauchbarer die Antwort. Alles Übrige — Beruf,
-          Niveau, Quellen und Regeln — ergänzt die Fragenschmiede von selbst.
+          Niveau, Quellen und Regeln — ergänzt die {APP_NAME} von selbst.
         </p>
         <textarea
           id="thema"

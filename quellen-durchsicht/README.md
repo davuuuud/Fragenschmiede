@@ -18,7 +18,7 @@ Berufe tatsächlich unterrichten.
 
 | Datei | Zweck |
 |---|---|
-| `../src/lib/domain/quellenkatalog.ts` | **Alle Quellen** — für die Anwendung und für die Bögen. Die einzige Stelle, an der Quellen geändert werden. |
+| `../src/lib/profile/ihk/quellenkatalog.ts` | **Alle Quellen** — für die Anwendung und für die Bögen. Die einzige Stelle, an der Quellen geändert werden. |
 | `durchsicht.mjs` | Was nur die Bögen brauchen: Hinweise an die Dozenten, Geltung und Einträge, die nur im Bogen stehen. Über den Bezeichner mit dem Katalog verknüpft. |
 | `berufe.mjs` | Bemerkungen je Beruf, die nur im Bogen stehen. |
 | `erzeugen.mjs` | Erzeugt daraus die Durchsichtsbögen. |
@@ -132,7 +132,7 @@ jemand durchgesehen oder nur durchgeklickt hat.
    abarbeiten, den Anhang aus dem jeweiligen Ordner nehmen.
 4. Rückläufe sammeln.
 5. Auswerten (Regeln unten).
-6. `src/lib/domain/quellenkatalog.ts` und `voreinstellung.ts` anpassen und
+6. `src/lib/profile/ihk/quellenkatalog.ts` und `voreinstellung.ts` anpassen und
    die Bögen neu erzeugen.
 
 Schritt 2 ist eine Sperre, kein Häkchen: Die Anfrage geht bewusst an einen

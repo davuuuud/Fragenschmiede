@@ -1,25 +1,38 @@
 import { svelte } from '@sveltejs/vite-plugin-svelte';
-import { defineConfig } from 'vitest/config';
+import { configDefaults, defineConfig } from 'vitest/config';
 import { VitePWA } from 'vite-plugin-pwa';
 import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import IHK from './src/lib/profile/ihk/marke.ts';
+import MED from './src/lib/profile/med/marke.ts';
 
 // package.json wird gelesen statt importiert: Ein benannter JSON-Import ist
 // unter der Modulauflösung NodeNext nicht zulässig.
 const { version } = JSON.parse(readFileSync('./package.json', 'utf8')) as { version: string };
 
-// Der Name steht hier an einer Stelle und wird von dort sowohl in das
-// Web-Manifest als auch in den Programmcode eingesetzt. Einzige Stelle, die
-// zusätzlich gepflegt werden muss: der <title> in index.html.
+// --- Profil ------------------------------------------------------------------
+// Aus demselben Quellcode entstehen zwei Seiten: die Fragenschmiede (Profil
+// "ihk") und die Fragenschmiede Med (Profil "med"). Welche gebaut wird,
+// entscheidet die Umgebungsvariable PROFIL:
 //
-// Bis zum 15.09.2026 stand daneben ein Trägername. Er ist entfallen: Die
-// Fragenschmiede ist ein privates Projekt und soll nicht wie das Angebot
-// eines Bildungsträgers auftreten (Issue #38).
-const APP_NAME = 'Fragenschmiede';
-const APP_BESCHREIBUNG =
-  'Garbage in, garbage out: Wer die KI mit Müll füttert, bekommt Müll zurück. Die ' +
-  'Fragenschmiede baut aus deinem Thema eine Frage, die Ausbildungsberuf, Niveau und ' +
-  'die Anforderungen der Abschlussprüfung kennt – und die Quellen verlangt, statt ' +
-  'Paragraphen zu erfinden. Läuft lokal auf dem Gerät, ohne Konto.';
+//   npm run build                     → Fragenschmiede
+//   PROFIL=med npm run build          → Fragenschmiede Med
+//
+// Der Import '$profil' im Programmcode zeigt dann auf src/lib/profile/<id>/.
+// Name, Beschreibung und Speicher-Vorsilbe stehen in dessen marke.ts.
+const MARKEN = { ihk: IHK, med: MED } as const;
+type ProfilId = keyof typeof MARKEN;
+
+const profilId = (process.env.PROFIL ?? 'ihk') as ProfilId;
+if (!(profilId in MARKEN)) {
+  throw new Error(
+    `Unbekanntes Profil "${process.env.PROFIL}". Erlaubt: ${Object.keys(MARKEN).join(', ')}.`,
+  );
+}
+const MARKE = MARKEN[profilId];
+
+const profilPfad = (id: ProfilId) =>
+  fileURLToPath(new URL(`./src/lib/profile/${id}/index.ts`, import.meta.url));
 
 // Der Basispfad lässt sich beim Bauen setzen, weil GitHub Pages die Seite
 // unter /projektname/ ausliefert und nicht im Wurzelverzeichnis:
@@ -38,19 +51,36 @@ export default defineConfig({
   // nachgebauten Browser (jsdom): tippen, auswählen, klicken. Dafür müssen
   // Svelte-Komponenten in ihrer Browserfassung geladen werden, sonst hielte
   // sich Svelte für einen Server und weigerte sich zu starten.
+  //
+  // "med" prüft das Profil der Fragenschmiede Med. Jede Gruppe legt ihr
+  // Profil selbst fest — so prüft "npm test" immer beide, gleich wie PROFIL
+  // gerade gesetzt ist. Die Prüfungen in src/lib/profile/*.test.ts laufen in
+  // "fachlogik" und in "med": Was für jedes Profil gelten muss, wird an jedem
+  // geprüft.
   test: {
     projects: [
       {
         extends: true,
+        resolve: { alias: { $profil: profilPfad('ihk') } },
         test: {
           name: 'fachlogik',
           environment: 'node',
           include: ['src/lib/**/*.test.ts'],
+          exclude: [...configDefaults.exclude, 'src/lib/profile/med/**'],
         },
       },
       {
         extends: true,
-        resolve: { conditions: ['browser'] },
+        resolve: { alias: { $profil: profilPfad('med') } },
+        test: {
+          name: 'med',
+          environment: 'node',
+          include: ['src/lib/profile/med/**/*.test.ts', 'src/lib/profile/*.test.ts'],
+        },
+      },
+      {
+        extends: true,
+        resolve: { conditions: ['browser'], alias: { $profil: profilPfad('ihk') } },
         test: {
           name: 'oberflaeche',
           environment: 'jsdom',
@@ -59,6 +89,10 @@ export default defineConfig({
         },
       },
     ],
+  },
+
+  resolve: {
+    alias: { $profil: profilPfad(profilId) },
   },
 
   build: {
@@ -82,11 +116,18 @@ export default defineConfig({
     __BUILD_DATE__: JSON.stringify(
       new Date().toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' }),
     ),
-    __APP_NAME__: JSON.stringify(APP_NAME),
+    __APP_NAME__: JSON.stringify(MARKE.name),
   },
 
   plugins: [
     svelte(),
+    // Name und Kurzbeschreibung in index.html: Dort stehen Platzhalter, damit
+    // jedes Profil seine eigene Startseite bekommt.
+    {
+      name: 'marke-in-html',
+      transformIndexHtml: (html: string) =>
+        html.replaceAll('{{APP_NAME}}', MARKE.name).replaceAll('{{META_BESCHREIBUNG}}', MARKE.metaBeschreibung),
+    },
     VitePWA({
       // Eine neue Fassung wird im Hintergrund geladen, aber nicht
       // stillschweigend übernommen: Die Anwendung fragt (NeueFassung.svelte).
@@ -114,9 +155,9 @@ export default defineConfig({
       includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
 
       manifest: {
-        name: APP_NAME,
-        short_name: APP_NAME,
-        description: APP_BESCHREIBUNG,
+        name: MARKE.name,
+        short_name: MARKE.name,
+        description: MARKE.beschreibung,
         lang: 'de',
         dir: 'ltr',
         start_url: '.',

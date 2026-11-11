@@ -15,6 +15,7 @@ import {
   formWaehlbar,
   PRUEFUNGSBEZUG,
 } from './catalogs';
+import PROFIL from '$profil';
 import { ausgewaehlteQuellen, promptBezeichnung, QUELLEN_GRUPPEN } from './quellen';
 import { BASISSPRACHE, findSprache } from './sprachen';
 import { collapseBlankLines, parseAnzahl, splitFreitext, truncateWords } from './text';
@@ -140,21 +141,10 @@ export function buildPrompt(input: PromptInput): string {
   const fundstellen = input.fundstellen ?? [];
 
   // --- ROLLE ---------------------------------------------------------------
-  // Die Prüfungsstelle wird benannt statt pauschal "IHK": Steuerfachangestellte
-  // prüft die Steuerberaterkammer, und nicht alle Berufe im Katalog sind
-  // kaufmännisch.
-  const pruefstelle = beruf.pruefstelle ?? 'IHK';
-  abschnitt('ROLLE', [
-    'Du bist eine erfahrene Lehrkraft für die berufliche Aus- und Weiterbildung in ' +
-      `Deutschland und kennst die Prüfungsanforderungen der ${pruefstelle}.`,
-    beruf.id === 'kgq'
-      ? 'Ich nehme an einer kaufmännischen Grundqualifikation teil und bereite mich damit ' +
-        'auf eine Ausbildung oder Umschulung vor.'
-      : // Einzahlform, weil sich der angezeigte Plural in diesen Satz nicht
-        // einsetzen ließe.
-        `Ich mache eine Umschulung zum/zur ${beruf.singular ?? beruf.label} und lerne für die ` +
-        `Abschlussprüfung vor der ${pruefstelle}.`,
-  ]);
+  // Wer spricht und wer fragt, ist der einzige Teil des Prompts, der je
+  // Profil anders lautet: Kaufleute lernen für die IHK, Pflegefachleute für
+  // eine staatliche Prüfung. Der Wortlaut steht deshalb im Profil.
+  abschnitt('ROLLE', PROFIL.rolle(beruf));
 
   // --- AUFGABE -------------------------------------------------------------
   abschnitt('AUFGABE', [aufgabe.instruction({ anzahl })]);

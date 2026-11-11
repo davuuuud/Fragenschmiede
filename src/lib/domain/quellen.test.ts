@@ -17,9 +17,11 @@ import {
   quellenNachGruppe,
   standardQuellen,
 } from './quellen';
-import { KATALOG } from './quellenkatalog';
+import { KATALOG } from '../profile/ihk/quellenkatalog';
 import { defaultSettings, normalizeSettings, toPromptInput } from './settings';
-import { fruehereVoreinstellungen, NEBENSAECHLICH } from './voreinstellung';
+import { fruehereVoreinstellungen, NEBENSAECHLICH } from '../profile/ihk/voreinstellung';
+// Diese Datei prüft das Profil „ihk" — die Berufe hier sind dessen Berufe.
+import type { IhkBerufId } from './types';
 
 describe('Quellenkatalog', () => {
   it('hat eindeutige Bezeichner und gültige Arten', () => {
@@ -142,7 +144,7 @@ describe('Voreinstellung', () => {
     // stillschweigend angehakt.
     for (const beruf of ALLE_BERUFE) {
       const verfuegbar = new Set(quellenFuerBeruf(beruf.id).map((q) => q.id));
-      for (const id of NEBENSAECHLICH[beruf.id]) {
+      for (const id of NEBENSAECHLICH[beruf.id as IhkBerufId]) {
         expect(verfuegbar.has(id), `${beruf.id}: ${id}`).toBe(true);
       }
     }
@@ -317,7 +319,7 @@ describe('Einstellungen', () => {
     // die alte verlassen haben. Nur angebotene Berufe: Ein ruhender wird
     // ohnehin auf die Vorgabe zurückgeführt.
     for (const beruf of BERUFE) {
-      for (const frueher of fruehereVoreinstellungen(beruf.id)) {
+      for (const frueher of fruehereVoreinstellungen(beruf.id as IhkBerufId)) {
         const umgestellt = [...frueher].reverse(); // Reihenfolge zählt nicht
         const s = normalizeSettings({ beruf: beruf.id, quellen: umgestellt });
         expect(s.quellen, `${beruf.id}: ${frueher.join(', ')}`).toEqual(standardQuellen(beruf.id));

@@ -1,5 +1,5 @@
 // Erzeugt aus dem Quellenkatalog der Anwendung je einen Durchsichtsbogen pro
-// Beruf. Der Katalog (src/lib/domain/quellenkatalog.ts) ist die einzige
+// Beruf. Der Katalog (src/lib/profile/ihk/quellenkatalog.ts) ist die einzige
 // Stelle, an der Quellen gepflegt werden — Anwendung und Bögen können so
 // nicht auseinanderlaufen.
 //
@@ -16,7 +16,7 @@ import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 // Node lädt die TypeScript-Datei direkt; sie importiert zur Laufzeit nur Typen.
-import { KATALOG } from '../src/lib/domain/quellenkatalog.ts';
+import { KATALOG } from '../src/lib/profile/ihk/quellenkatalog.ts';
 import { BERUFE as BERUF_ANGABEN, STAND } from './berufe.mjs';
 import { GELTUNG, HINWEISE, NUR_IM_BOGEN } from './durchsicht.mjs';
 
@@ -820,7 +820,7 @@ ${grenzfaelle
 </div>
 
 <footer>
-  <p>Erzeugt aus <code>src/lib/domain/quellenkatalog.ts</code>.
+  <p>Erzeugt aus <code>src/lib/profile/ihk/quellenkatalog.ts</code>.
   Änderungen dort und erneut <code>node quellen-durchsicht/erzeugen.mjs</code>
   ausführen.</p>
 </footer>

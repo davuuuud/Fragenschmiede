@@ -1,14 +1,14 @@
 // Auswahl und Wortlaut der Quellen.
 //
-// Die Einträge selbst stehen in quellenkatalog.ts. Hier wird entschieden,
+// Die Einträge selbst stehen im Katalog des Profils
+// (src/lib/profile/<profil>/quellenkatalog.ts). Hier wird entschieden,
 // was davon ein Beruf zu sehen bekommt, was voreingestellt ist und wie eine
 // Quelle im Prompt heißt. Einträge ohne Berufsangabe gelten für alle; die
 // übrigen erscheinen nur beim passenden Beruf — ein Immobilienkaufmann sieht
 // WEG und MaBV, die Systemintegration das BSI-Grundschutzkompendium.
 
-import { KATALOG, type KatalogQuelle, type QuellenArt } from './quellenkatalog';
-import type { BerufId } from './types';
-import { fruehereVoreinstellungen, NEBENSAECHLICH } from './voreinstellung';
+import PROFIL from '$profil';
+import type { BerufId, KatalogQuelle, QuellenArt } from './types';
 
 export type { KatalogQuelle as Quelle, QuellenArt };
 
@@ -22,7 +22,7 @@ export const QUELLEN_GRUPPEN: { id: QuellenArt; label: string }[] = [
 ];
 
 /** Alles, was in der Anwendung zur Wahl steht. */
-export const QUELLEN: KatalogQuelle[] = KATALOG;
+export const QUELLEN: KatalogQuelle[] = PROFIL.quellen;
 
 /** Alle Quellen, die für den gewählten Beruf infrage kommen. */
 export function quellenFuerBeruf(beruf: BerufId): KatalogQuelle[] {
@@ -42,12 +42,12 @@ export function quellenNachGruppe(
 
 /**
  * Die Voreinstellung für einen Beruf: alles außer dem Nebensächlichen, das
- * in voreinstellung.ts steht. Geordnet nach Art wie im Prompt, innerhalb
+ * in der Voreinstellung des Profils steht. Geordnet nach Art wie im Prompt, innerhalb
  * einer Art die Quellen des Berufs vor den allgemeinen — so beginnt die
  * Liste mit Ausbildungsordnung und Rahmenlehrplan.
  */
 export function standardQuellen(beruf: BerufId): string[] {
-  const nebensaechlich = new Set(NEBENSAECHLICH[beruf]);
+  const nebensaechlich = new Set(PROFIL.nebensaechlich[beruf] ?? []);
   const rang = (quelle: KatalogQuelle) =>
     QUELLEN_GRUPPEN.findIndex((gruppe) => gruppe.id === quelle.art) * 2 + (quelle.berufe ? 0 : 1);
   return quellenFuerBeruf(beruf)
@@ -67,7 +67,7 @@ function gleicheMenge(a: readonly string[], b: readonly string[]): boolean {
  * angefasst wurde? Dann gilt stattdessen die aktuelle.
  */
 export function istFruehereVoreinstellung(auswahl: readonly string[], beruf: BerufId): boolean {
-  return fruehereVoreinstellungen(beruf).some((frueher) => gleicheMenge(auswahl, frueher));
+  return PROFIL.fruehereVoreinstellungen(beruf).some((frueher) => gleicheMenge(auswahl, frueher));
 }
 
 /**

@@ -13,6 +13,7 @@ import {
   NIVEAUS,
   UMFAENGE,
 } from './catalogs';
+import PROFIL from '$profil';
 import { istFruehereVoreinstellung, quellenFuerBeruf, standardQuellen } from './quellen';
 import { zweitsprachen } from './sprachen';
 import { DEFAULT_ANZAHL, parseAnzahl } from './text';
@@ -54,14 +55,14 @@ export interface Settings {
 export function defaultSettings(): Settings {
   return {
     version: SETTINGS_VERSION,
-    beruf: 'kgq',
+    beruf: PROFIL.standardBeruf,
     aufgabe: 'erklaeren',
     niveau: 'pruefung',
     umfang: 'kurz',
     darstellung: 'fliesstext',
     anzahl: DEFAULT_ANZAHL,
     fachsprache: 'erklaert',
-    quellen: standardQuellen('kgq'),
+    quellen: standardQuellen(PROFIL.standardBeruf),
     quellenFreitext: '',
     zweitsprache: 'keine',
     erscheinungsbild: 'automatisch',

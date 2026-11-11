@@ -46,7 +46,7 @@
     </div>
 
     <p>
-      Die Fragenschmiede baut aus deinen Angaben eine Frage an eine KI. Diese Seite sagt, was
+      Die {APP_NAME} baut aus deinen Angaben eine Frage an eine KI. Diese Seite sagt, was
       jedes Feld daran ändert.
     </p>
 
