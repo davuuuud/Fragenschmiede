@@ -45,9 +45,9 @@ Befund 6 (Verbote positiv formulieren) ist noch offen.
 
 **Erste Rückmeldung (14.11.2026, ChatGPT):** Die Antworten wirken mit dem neuen
 Prompt besser; eine offensichtliche Verschlechterung war nicht zu sehen. Ein
-Eindruck, keine Messung nach dem Messplan. Noch nicht geprüft: ob die
-Gesetzeslinks tatsächlich auf die richtige Stelle führen, besonders bei
-Landesrecht. Das ist der nächste Prüfpunkt.
+Eindruck, keine Messung nach dem Messplan. Die Gesetzeslinks wurden
+stichprobenartig angeklickt und sehen gut aus; fest hinterlegte Adressen
+sind deshalb vorerst nicht nötig.
 
 ---
 
