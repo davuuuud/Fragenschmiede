@@ -333,8 +333,20 @@ describe('Prompt-Aufbau', () => {
 
   it('gibt die Qualitätsregeln bei jeder Aufgabe aus', () => {
     const prompt = buildPrompt(basis());
-    expect(prompt).toContain('Erfinde keine Quellen');
+    expect(prompt).toContain('die du sicher kennst');
     expect(prompt).toContain('Stelle keine Rückfragen');
+  });
+
+  it('formuliert die Regeln als Aufträge statt als Verbote', () => {
+    // Seit 14.11.2026. Ausnahmen mit eigenem Auftrag daneben: „Stelle keine
+    // Rückfragen. Triff … Annahmen" und „Erfinde keine Adressen: … verlinke".
+    for (const umfang of ['kurz', 'mittel', 'ausfuehrlich'] as const) {
+      const prompt = buildPrompt(basis({ umfang }));
+      for (const verbot of ['Erfinde keine Quellen', 'keine Wiederholung', 'Füllsätze', 'Vorrede', 'abzuschweifen']) {
+        expect(prompt, verbot).not.toContain(verbot);
+      }
+      expect(prompt.match(/Unsicherheit/g)?.length ?? 0, 'eine Regel statt zwei').toBeLessThanOrEqual(1);
+    }
   });
 
   it('richtet die Antwort immer an der Prüfung aus', () => {

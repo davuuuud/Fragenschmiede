@@ -311,16 +311,16 @@ export const UMFAENGE: Umfang[] = [
     stufe: 1,
     label: 'Kurz',
     rule:
-      'Umfang: höchstens rund 250 Wörter. Kernaussage zuerst, keine Wiederholung der Frage, ' +
-      'keine Zusammenfassung am Ende.',
+      'Umfang: höchstens rund 250 Wörter. Beginne mit der Kernaussage und höre auf, sobald ' +
+      'sie belegt ist.',
   },
   {
     id: 'mittel',
     stufe: 2,
     label: 'Mittel',
     rule:
-      'Umfang: rund 400 bis 600 Wörter — genug für Begründungen und ein Beispiel, ohne ' +
-      'abzuschweifen.',
+      'Umfang: rund 400 bis 600 Wörter — genug für Begründungen und ein Beispiel; jeder ' +
+      'Absatz dient dem Thema.',
   },
   {
     id: 'ausfuehrlich',
@@ -366,14 +366,14 @@ export const DARSTELLUNGEN: Darstellung[] = [
     label: 'Tabelle, wo es sich vergleichen lässt',
     rule:
       'Darstellung: was sich gegenüberstellen oder vergleichen lässt, gehört in eine Tabelle; ' +
-      'der übrige Text bleibt Fließtext. Erzwinge keine Tabelle, wo es nichts zu vergleichen gibt.',
+      'der übrige Text bleibt Fließtext. Tabellen nur dort, wo es tatsächlich etwas zu vergleichen gibt.',
   },
   {
     id: 'ganze-saetze',
     label: 'Prüfungsantwort in ganzen Sätzen',
     rule:
-      'Darstellung: wie eine schriftliche Prüfungsantwort — vollständige Sätze, keine ' +
-      'Stichpunkte, keine Aufzählungszeichen, sachlicher Ton.',
+      'Darstellung: wie eine schriftliche Prüfungsantwort — durchgehend vollständige Sätze in ' +
+      'Absätzen, sachlicher Ton.',
   },
 ];
 

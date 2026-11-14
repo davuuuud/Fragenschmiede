@@ -41,7 +41,13 @@ Sechs Punkte, einzeln abgestimmt:
 
 Der Prompt wird dadurch rund 520 bis 650 Zeichen länger. Ob die Antworten
 besser werden, ist damit noch nicht gezeigt — das leistet nur der Messplan.
-Befund 6 (Verbote positiv formulieren) ist noch offen.
+Befund 6 folgte am selben Abend: Die Verbote sind als Aufträge formuliert
+(„Nenne nur, was du sicher kennst", „Beginne mit der Kernaussage und höre auf,
+sobald sie belegt ist", „Jeder Absatz bringt einen neuen Gedanken"), die
+beiden Regeln zu gesichertem Wissen und Unsicherheit sind zusammengelegt.
+Zwei Verbote bleiben, weil der Auftrag gleich daneben steht: „Stelle keine
+Rückfragen. Triff plausible Annahmen" und „Erfinde keine Adressen: verlinke
+sonst die Startseite".
 
 **Erste Rückmeldung (14.11.2026, ChatGPT):** Die Antworten wirken mit dem neuen
 Prompt besser; eine offensichtliche Verschlechterung war nicht zu sehen. Ein

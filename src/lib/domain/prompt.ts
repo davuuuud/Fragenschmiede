@@ -232,20 +232,23 @@ export function buildPrompt(input: PromptInput): string {
   abschnitt('QUELLEN', punkte(quellenRegeln));
 
   // --- QUALITÄTSREGELN -----------------------------------------------------
+  // Seit 14.11.2026 als Aufträge statt als Verbote: Ein Verbot sagt, was
+  // nicht sein soll, aber nicht, was stattdessen. Die beiden Regeln zu
+  // gesichertem Wissen und Unsicherheit sind zu einer zusammengelegt.
   abschnitt(
     'QUALITÄTSREGELN',
     punkte([
-      'Erfinde keine Quellen, Paragraphen, Urteile, Fundstellen, Zahlen oder Statistiken. ' +
-        'Lieber weniger sagen als etwas Unzutreffendes.',
+      'Nenne nur Quellen, Paragraphen, Urteile, Fundstellen, Zahlen und Statistiken, die du ' +
+        'sicher kennst. Was du nicht sicher weißt, lässt du weg oder setzt es unter „Bitte ' +
+        'nachschlagen". Lieber weniger sagen als etwas Unzutreffendes.',
       // Was ein Profil zusätzlich verlangt — in der Fragenschmiede Med etwa
       // der Umgang mit Dosierungen.
       ...PROFIL.zusatzregeln,
-      'Kennzeichne ausdrücklich, was gesichertes Prüfungswissen ist und was Einschätzung, ' +
-        'Vereinfachung oder Lernhilfe.',
-      'Benenne Unsicherheiten offen, statt sie sprachlich zu überspielen.',
+      'Trenne gesichertes Prüfungswissen sichtbar von Einschätzung, Vereinfachung und ' +
+        'Lernhilfe, und sprich Unsicherheiten offen aus.',
       'Rechne Zahlenbeispiele vollständig vor, nenne die Einheiten und prüfe das Ergebnis auf ' +
         'Plausibilität.',
-      'Strukturiere logisch, vermeide Wiederholungen, Füllsätze und Werbesprache.',
+      'Schreibe sachlich und in logischer Folge: Jeder Absatz bringt einen neuen Gedanken.',
     ]),
   );
 
@@ -255,7 +258,7 @@ export function buildPrompt(input: PromptInput): string {
     punkte([
       'Antworte auf Deutsch.',
       ...zweispracheRegeln(input),
-      'Beginne unmittelbar mit dem Ergebnis, ohne Vorrede über dich selbst oder die Aufgabenstellung.',
+      'Beginne mit dem ersten Satz direkt beim Ergebnis.',
       'Trenne Lösungen, Musterlösungen und Erwartungshorizonte immer sichtbar vom Aufgabenteil, ' +
         'damit ich zuerst selbst überlegen kann.',
       // Das Wechselgespräch gehört zur Aufgabe, nicht zu den Optionen: Eine

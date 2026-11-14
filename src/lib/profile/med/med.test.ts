@@ -85,7 +85,7 @@ describe('Fragenschmiede Med', () => {
 
   it('verlangt Vorsicht bei Dosierungen, gleich nach dem Verbot zu erfinden', () => {
     const text = prompt('pflegefachfrau', 'berechnung');
-    const erfinden = text.indexOf('Erfinde keine Quellen');
+    const erfinden = text.indexOf('die du sicher kennst');
     const dosierung = text.indexOf('Nenne Dosierungen');
     expect(erfinden).toBeGreaterThan(-1);
     expect(dosierung).toBeGreaterThan(erfinden);

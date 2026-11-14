@@ -13,7 +13,8 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
   hat (mit Ergebnis) und was du nachschlagen solltest — klar voneinander
   getrennt und jeweils mit Link auf den Gesetzestext. Der gewählte Umfang gilt jetzt eindeutig für die eigentliche
   Antwort, und ganz unten fasst eine Zeile den Auftrag noch einmal zusammen.
-  Die KI tritt außerdem als erfahrene Lehrkraft mit Prüfungserfahrung auf.
+  Die KI tritt außerdem als erfahrene Lehrkraft mit Prüfungserfahrung auf,
+  und die Regeln sagen ihr, was sie tun soll, statt nur, was sie lassen soll.
 - **Fehler behoben: „Neu laden" zeigte eine leere Seite.** Der Knopf lud
   sofort neu, noch bevor die neue Fassung übernommen hatte; die Seite holte
   sich dann die alte Startseite, deren Programm schon gelöscht war. Jetzt
