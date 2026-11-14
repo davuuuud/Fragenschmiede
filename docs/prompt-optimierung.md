@@ -49,6 +49,11 @@ Zwei Verbote bleiben, weil der Auftrag gleich daneben steht: „Stelle keine
 Rückfragen. Triff plausible Annahmen" und „Erfinde keine Adressen: verlinke
 sonst die Startseite".
 
+**Themenfilter (Befund 1, Weg B) zurückgestellt** (14.11.2026): Der
+Auswahlauftrag holt den größten Teil des Nutzens. Gebaut wird der Filter erst,
+wenn die Zeile „Herangezogen" in echten Antworten öfter Unpassendes nennt oder
+Wichtiges auslässt.
+
 **Erste Rückmeldung (14.11.2026, ChatGPT):** Die Antworten wirken mit dem neuen
 Prompt besser; eine offensichtliche Verschlechterung war nicht zu sehen. Ein
 Eindruck, keine Messung nach dem Messplan. Die Gesetzeslinks wurden
