@@ -104,7 +104,7 @@ Webspace.
 Zum Verteilen muss das niemand von Hand tun: Der Ablauf
 [`einzeldatei.yml`](.github/workflows/einzeldatei.yml) baut sie und hängt sie
 an ein GitHub-Release. Ausgelöst wird er von Hand über den Reiter *Actions*
-oder durch eine Markierung wie `v0.4.0`. Die Fassungsnummer stammt aus
+oder durch eine Markierung wie `v0.5.0`. Die Fassungsnummer stammt aus
 `package.json`; ein zweiter Lauf derselben Fassung ersetzt den Anhang.
 
 ## Veröffentlichen

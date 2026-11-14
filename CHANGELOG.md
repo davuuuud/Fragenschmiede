@@ -3,7 +3,10 @@
 Was sich von Fassung zu Fassung geändert hat, in der Sprache der Nutzer und
 nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
 
-## Unveröffentlicht
+## 0.5.0 — 14.11.2026
+
+Die Fassung mit dem überarbeiteten Prompt — und mit einer zweiten Seite für
+die Gesundheits- und Pflegeberufe.
 
 - **Der Prompt ist genauer geworden.** Er nennt das heutige Datum und bittet
   die KI, veraltetes Wissen über Vorschriften offen zu sagen. Aus der langen
@@ -11,8 +14,9 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
   erwähnen. Am Ende jeder Antwort steht, abgesetzt unter „Quellen und
   Prüfung", welche Quellen sie herangezogen hat, was sie noch einmal geprüft
   hat (mit Ergebnis) und was du nachschlagen solltest — klar voneinander
-  getrennt und jeweils mit Link auf den Gesetzestext. Der gewählte Umfang gilt jetzt eindeutig für die eigentliche
-  Antwort, und ganz unten fasst eine Zeile den Auftrag noch einmal zusammen.
+  getrennt und jeweils mit Link auf den Gesetzestext. Der gewählte
+  Umfang gilt jetzt eindeutig für die eigentliche Antwort, und ganz unten
+  fasst eine Zeile den Auftrag noch einmal zusammen.
   Die KI tritt außerdem als erfahrene Lehrkraft mit Prüfungserfahrung auf,
   und die Regeln sagen ihr, was sie tun soll, statt nur, was sie lassen soll.
 - **Fehler behoben: „Neu laden" zeigte eine leere Seite.** Der Knopf lud
@@ -21,12 +25,13 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
   wartet er, bis die neue Fassung aktiv ist. Wer die Korrektur noch nicht
   hat, kann beim nächsten Mal noch einmal eine leere Seite sehen — einmal
   normal neu laden behebt das.
-- **Vorbereitung für eine zweite Seite: die Fragenschmiede Med** für
-  Gesundheits- und Pflegeberufe. Sie entsteht aus demselben Quellcode, hat
-  aber eigene Berufe, Quellen und eine eigene Adresse. An der Fragenschmiede
-  selbst ändert sich dadurch nichts — nachgewiesen an 350 Prompts, die vor
-  und nach dem Umbau Zeichen für Zeichen gleich sind. Die Med-Seite geht erst
-  online, wenn ihr Quellenkatalog fachlich durchgesehen ist.
+- **Neu: die Fragenschmiede Med** für Gesundheits- und Pflegeberufe, unter
+  davuuuud.github.io/Fragenschmiede_Med. Sie entsteht aus demselben
+  Quellcode, hat aber eigene Berufe, Quellen, ein eigenes Symbol und eine
+  eigene Adresse. An der Fragenschmiede selbst ändert sich dadurch nichts —
+  nachgewiesen an 350 Prompts, die vor und nach dem Umbau Zeichen für Zeichen
+  gleich sind. Bis ihr Quellenkatalog fachlich durchgesehen ist, bleibt sie
+  bei Suchmaschinen ausgeblendet; erreichbar ist sie über den Link.
 - **Fragenschmiede Med: erste fachliche Rückmeldung eingearbeitet** (14.11.2026).
   Neu für alle Berufe: Arbeitszeit-, Jugendarbeitsschutz-, Urlaubs-,
   Entgeltfortzahlungs-, Mutterschutz-, Kündigungsschutz- und
@@ -36,6 +41,8 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
   Bundesmantelvertrag. Der Rettungsdienst richtet sich nach dem RettG NRW. Wer
   die Seite schon geöffnet und die Vorauswahl nie geändert hat, bekommt die
   neue von selbst.
+- **Sicherheitsupdates** für Vite und die Entwicklungswerkzeuge. Die
+  ausgelieferte Seite hat keine bekannte Lücke.
 
 ## 0.4.0 — 17.09.2026
 

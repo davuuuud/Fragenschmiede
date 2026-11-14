@@ -8,7 +8,7 @@ keine Festlegung.
 
 ## Stand heute
 
-**Fassung 0.4.0 (17.09.2026).** Erreicht sind die ersten beiden Etappen:
+**Fassung 0.5.0 (14.11.2026).** Erreicht sind die ersten beiden Etappen:
 
 | Etappe | Inhalt | Zustand |
 |---|---|---|
@@ -28,11 +28,11 @@ anderen Gründen: Ohne ihn bietet kein Browser das Hinzufügen zum
 Startbildschirm an, die Anwendung lädt bei schwachem Empfang nicht sofort,
 und niemand erführe von einer neuen Fassung.
 
-**231 Tests** in drei Gruppen: 191 prüfen die Fachlogik ohne Browser, 23 die
+**255 Tests** in drei Gruppen: 201 prüfen die Fachlogik ohne Browser, 23 die
 Bedienung in einem nachgebauten Browser (`npx vitest run --project
 oberflaeche`) — tippen, auswählen, klicken, dazu Barrierefreiheit mit axe,
-der Ausdruck der Hilfeseite und das Fehlerfangnetz —, und 17 das Profil der
-Fragenschmiede Med. Acht davon prüfen, was für jedes Profil gelten muss, und
+der Ausdruck der Hilfeseite und das Fehlerfangnetz —, und 31 das Profil der
+Fragenschmiede Med. Ein Teil davon prüft, was für jedes Profil gelten muss, und
 laufen deshalb in beiden Gruppen. Farbkontraste und die Frage, ob die
 Reihenfolge beim Durchtippen sinnvoll ist, kann keine Maschine beurteilen;
 das bleibt Handarbeit.
@@ -70,11 +70,16 @@ was den Zuschnitt des Projekts verändert hat:
 - **Hinweis auf neue Fassungen**, weil die Anwendung aus dem Zwischenspeicher
   startet und sonst unbemerkt veraltet.
 - **Impressum und Datenschutzerklärung** als eigene Seiten.
+- **Überarbeiteter Prompt** (0.5.0, Issue #34): Datum, Auswahl von höchstens
+  zehn Quellen, ein abgesetzter Block „Quellen und Prüfung" mit Links auf die
+  Gesetzestexte, Aufträge statt Verbote. Begründung und Stand in
+  `docs/prompt-optimierung.md`; offen ist nur der Themenfilter für Quellen,
+  bewusst zurückgestellt.
 - **Leser für altes `.doc`** (`src/lib/import/doc.ts`), geprüft an 778
   echten Dateien — Vorarbeit für Etappe 3b.
 
 
-### Fragenschmiede Med (seit 11.11.2026, Entwurf)
+### Fragenschmiede Med (seit 11.11.2026 online, Quellen in Durchsicht)
 
 Eine zweite Seite für Gesundheits- und Pflegeberufe, unter
 `davuuuud.github.io/Fragenschmiede_Med`. **Kein Ableger, sondern dasselbe
@@ -87,25 +92,27 @@ beide Seiten; eine Verbesserung an einer kommt der anderen zugute.
 |---|---|
 | **Erste Berufe** | Pflegefachfrau/-mann, Pflegefachassistenz, Medizinische Fachangestellte, Notfallsanitäter/-in, Physiotherapeut/-in |
 | **Zweite Welle** | Zahnmedizinische Fachangestellte, OTA/ATA, Ergotherapie — nach der ersten Durchsicht |
-| **Fachliche Durchsicht** | durch Lehrende aus dem Fach; bis dahin wird die Seite nicht veröffentlicht |
+| **Fachliche Durchsicht** | durch Lehrende aus dem Fach; bis dahin bleibt die Seite bei Suchmaschinen ausgeblendet |
 | **Was anders ist** | Prüfung je Beruf (staatlich, Ärztekammer bei MFA); Hinweis auf Umbrüche im Prompt (Pflegefachassistenz bundeseinheitlich ab 1.1.2027, Reform der Physiotherapie geplant); Fälle aus der Versorgung statt aus dem Betrieb; eine Regel zu Dosierungen; kein Geschäftstext |
 
 **Erledigt (11.11.2026):**
 
 - **Durchsichtsbögen** für alle fünf Berufe, erzeugt mit demselben Werkzeug
   (`PROFIL=med node quellen-durchsicht/erzeugen.mjs`); dazu ein gemeinsamer
-  Bogen mit allen fünf Berufen für die Durchsicht.
+  Bogen mit allen fünf Berufen. Nicht verschickt: Die Rückmeldung kommt über
+  die Live-Seite, Bögen entstehen keine mehr.
 - **Eigenes Symbol:** dieselbe Form, Petrol statt Blau, eine Plakette mit
   weißem Plus (bewusst kein rotes Kreuz — geschütztes Schutzzeichen).
 
 **Noch offen:**
 
-1. **Rücklauf der Durchsicht** einarbeiten — erst danach geht die Seite online.
-2. **Erledigt (11.11.2026): online als Vorabfassung** unter
-   https://davuuuud.github.io/Fragenschmiede_Med/ — mit Hinweis in der
-   Kopfzeile und `noindex`, weil die Durchsicht noch aussteht. Nach der
-   Durchsicht die Zeile `vorabfassung` in `src/lib/profile/med/marke.ts`
-   löschen. Zur Begründung des eigenen Repositorys: Für die Adresse `davuuuud.github.io/Fragenschmiede_Med`
+1. **Rücklauf der Durchsicht** einarbeiten — die erste Rückmeldung ist seit
+   14.11.2026 drin; nach dem Abschluss wird die Seite für Suchmaschinen freigegeben.
+2. **Erledigt (11.11.2026): online** unter
+   https://davuuuud.github.io/Fragenschmiede_Med/ — mit `noindex`, weil die
+   Durchsicht noch aussteht; der sichtbare Hinweis „Vorabfassung" ist seit
+   14.11.2026 weg. Nach der Durchsicht die Zeile `nichtIndexieren` in
+   `src/lib/profile/med/marke.ts` löschen. Zur Begründung des eigenen Repositorys: Für die Adresse `davuuuud.github.io/Fragenschmiede_Med`
    braucht es ein Repository dieses Namens, weil GitHub Pages die Adresse aus
    dem Repository-Namen bildet. Es enthielte keinen eigenen Code, nur einen
    Ablauf, der den öffentlichen Quellcode holt, mit `PROFIL=med` baut und
