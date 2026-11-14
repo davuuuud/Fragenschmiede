@@ -229,6 +229,11 @@ export interface PromptInput {
   /** Belegstellen aus eigenen Unterlagen; leer, solange Etappe 3 fehlt. */
   fundstellen?: Fundstelle[];
   /**
+   * Heutiges Datum, „14.11.2026". Setzt die Anwendung beim Erzeugen ein;
+   * Tests geben es fest vor, damit der Prompt nicht jeden Tag anders lautet.
+   */
+  datum?: string;
+  /**
    * Zielsprache für zweisprachige Antworten. Fehlt die Angabe oder steht sie
    * auf 'keine', bleibt die Antwort einsprachig deutsch.
    */

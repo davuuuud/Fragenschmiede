@@ -1,6 +1,7 @@
 # Wie sich der Prompt verbessern lässt
 
-Stand 17.09.2026, Fassung 0.4.0. Grundlage für Issue #34.
+Stand 17.09.2026, Fassung 0.4.0. Grundlage für Issue #34. Was davon seit dem
+14.11.2026 umgesetzt ist, steht gleich im ersten Abschnitt.
 
 **Was dieser Text ist:** eine Durchsicht des erzeugten Prompts am
 tatsächlichen Erzeugnis, nicht an der Absicht. Alle Befunde sind gemessen;
@@ -10,6 +11,32 @@ der eigentlich wichtigste Teil.
 
 **Wie die Prompts entstanden sind:** `buildPrompt()` mit den Voreinstellungen
 je Beruf, Thema „Kaufvertrag", ohne Zusatzangaben.
+
+---
+
+## Umgesetzt am 14.11.2026
+
+Sechs Punkte, einzeln abgestimmt:
+
+1. **Datum** in der Rolle, dazu der Auftrag, veraltetes Wissen über Vorschriften
+   ausdrücklich zu benennen (Befund 3).
+2. **Quellen-Auswahlauftrag:** Die KI wählt aus der Liste *höchstens zehn*
+   einschlägige Quellen; die übrigen bleiben unerwähnt (Befund 1, Weg C). Die
+   Liste selbst bleibt vollständig — Weg B (Themenfilter) steht weiter aus.
+3. **Sichtbarer Abschluss statt unsichtbarer Selbstprüfung** (Befund 2): drei
+   Schlusszeilen „Herangezogen:", „Geprüft:", „Bitte nachschlagen:". Bei
+   Dialogaufgaben stehen sie nach dem Erwartungshorizont.
+4. **Wortbudget klargestellt** (Befund 4): Der Umfang gilt nur für die
+   eigentliche Antwort; bei Widersprüchen gilt die Reihenfolge Richtigkeit,
+   Anspruch, Umfang, Darstellung.
+5. **„Auftrag in Kürze"** als letzter Abschnitt (Befund 5): Aufgabe, Anzahl,
+   Thema, Beruf, Anspruch, Umfang in einer Zeile.
+6. **Konkrete Rolle** in beiden Profilen (Befund 7): langjährige Lehrkraft mit
+   Prüfungserfahrung, die weiß, woran Prüflinge scheitern.
+
+Der Prompt wird dadurch rund 520 bis 650 Zeichen länger. Ob die Antworten
+besser werden, ist damit noch nicht gezeigt — das leistet nur der Messplan.
+Befund 6 (Verbote positiv formulieren) ist noch offen.
 
 ---
 

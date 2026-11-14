@@ -203,7 +203,9 @@
     <p>
       Unabhängig von der Auswahl steht in jedem Prompt: keine erfundenen Quellen, Paragraphen
       oder Zahlen; Unsicherheiten benennen statt überspielen; Zahlenbeispiele vollständig
-      vorrechnen; und die Antwort an den Anforderungen der Abschlussprüfung ausrichten.
+      vorrechnen; und die Antwort an den Anforderungen der Abschlussprüfung ausrichten. Am Ende
+      jeder Antwort stehen drei kurze Zeilen: „Herangezogen:" (welche Quellen), „Geprüft:" (was die
+      KI noch einmal kontrolliert hat) und „Bitte nachschlagen:" (wo sie unsicher ist).
     </p>
 
     <div class="notizen">

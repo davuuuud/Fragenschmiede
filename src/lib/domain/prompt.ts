@@ -19,6 +19,9 @@ import PROFIL from '$profil';
 import { ausgewaehlteQuellen, promptBezeichnung, QUELLEN_GRUPPEN } from './quellen';
 import { BASISSPRACHE, findSprache } from './sprachen';
 import { collapseBlankLines, parseAnzahl, splitFreitext, truncateWords } from './text';
+
+/** Höchstzahl der Quellen, die die KI aus der Liste heranziehen soll. */
+export const HOECHSTENS_QUELLEN = 10;
 import type { Fundstelle, PromptInput } from './types';
 
 /** Zeichenbudget je Belegstelle, damit der Prompt handhabbar bleibt. */
@@ -144,7 +147,15 @@ export function buildPrompt(input: PromptInput): string {
   // Wer spricht und wer fragt, ist der einzige Teil des Prompts, der je
   // Profil anders lautet: Kaufleute lernen für die IHK, Pflegefachleute für
   // eine staatliche Prüfung. Der Wortlaut steht deshalb im Profil.
-  abschnitt('ROLLE', PROFIL.rolle(beruf));
+  //
+  // Das Datum (seit 14.11.2026): Ohne Bezugspunkt kann eine KI nicht wissen,
+  // ob ihr Wissen zu einer Vorschrift veraltet ist.
+  abschnitt('ROLLE', [
+    ...PROFIL.rolle(beruf),
+    (input.datum ? `Heute ist der ${input.datum}. ` : '') +
+      'Wenn dein Wissen zu einer Vorschrift älter sein kann oder sich die Rechtslage seitdem ' +
+      'geändert haben könnte, sag es ausdrücklich.',
+  ]);
 
   // --- AUFGABE -------------------------------------------------------------
   abschnitt('AUFGABE', [aufgabe.instruction({ anzahl })]);
@@ -184,6 +195,14 @@ export function buildPrompt(input: PromptInput): string {
     // fehlt der Satz.
     ...(aufgabe.beispiel ? [aufgabe.beispiel] : []),
     ...(aufgabe.pruefungsbezugEnthalten ? [] : [PRUEFUNGSBEZUG]),
+    // Sonst fräßen die Schlusszeilen bei „Kurz" die Antwort auf.
+    ...(formWaehlbar(input.aufgabe)
+      ? ['Der Umfang gilt für die eigentliche Antwort; die Schlusszeilen zählen nicht mit.']
+      : []),
+    // Niveau 1 und „Fachbegriffe ohne Erklärung" etwa widersprechen sich.
+    // Ohne Rangfolge entschiede der Zufall.
+    'Widersprechen sich Anforderungen, gilt diese Reihenfolge: fachliche Richtigkeit, dann ' +
+      'Anspruch, dann Umfang, dann Darstellung.',
   ];
   abschnitt('ANFORDERUNGEN', punkte(anforderungen));
 
@@ -199,14 +218,15 @@ export function buildPrompt(input: PromptInput): string {
     );
   }
   if (quellen.length > 0) {
+    // Die Voreinstellung ist bewusst großzügig, und eine lange Liste liest
+    // sich wie eine Erwartung. Der Auftrag davor macht sie zur Auswahl — und
+    // die Schlusszeile „Herangezogen" zeigt, ob die Auswahl stimmt.
     quellenRegeln.push(
-      'Belege rechtliche oder fachlich strittige Aussagen bevorzugt aus diesen Quellen:\n' +
+      `Wähle aus der folgenden Liste höchstens ${zahlwort(HOECHSTENS_QUELLEN)} Quellen, die für ` +
+        'genau diese Frage einschlägig sind, und stütze rechtliche oder fachlich strittige ' +
+        'Aussagen darauf. Die übrigen bleiben unerwähnt:\n' +
         quellen.map(({ gruppe, quellen: liste }) => `  - ${gruppe}: ${liste.join('; ')}.`).join('\n'),
-      // Die Voreinstellung ist bewusst großzügig. Ohne diesen Satz versuchte
-      // das Modell womöglich, möglichst viele davon unterzubringen.
-      'Die Liste steckt den Rahmen ab: Ziehe nur die Quellen heran, die zur Frage passen.',
-      'Nenne Paragraphen nur, wenn sie tatsächlich einschlägig sind, und weise auf einen ' +
-        'möglicherweise veralteten Rechtsstand hin.',
+      'Nenne Paragraphen nur, wenn sie tatsächlich einschlägig sind.',
     );
   }
   abschnitt('QUELLEN', punkte(quellenRegeln));
@@ -226,14 +246,6 @@ export function buildPrompt(input: PromptInput): string {
       'Rechne Zahlenbeispiele vollständig vor, nenne die Einheiten und prüfe das Ergebnis auf ' +
         'Plausibilität.',
       'Strukturiere logisch, vermeide Wiederholungen, Füllsätze und Werbesprache.',
-      // Ein letzter Durchgang findet Rechenfehler und Widersprüche
-      // zuverlässig. Falsche Erinnerungen findet er nicht — dafür ist die
-      // Prüfliste darunter da.
-      'Geh deine Antwort vor der Ausgabe noch einmal durch: Stimmt jede genannte Vorschrift? ' +
-        'Ist jede Zahl nachgerechnet? Widerspricht sich nichts?',
-      'Schließe mit einer Zeile "Bitte nachschlagen:" und nenne dort in höchstens drei Zeilen ' +
-        'die Fundstellen und Zahlen, bei denen du dir nicht sicher bist — ausdrücklich und ' +
-        'nicht im Fließtext versteckt. Bist du dir überall sicher, schreibe dort "nichts".',
     ]),
   );
 
@@ -255,5 +267,46 @@ export function buildPrompt(input: PromptInput): string {
     ]),
   );
 
+  // --- ABSCHLUSS -----------------------------------------------------------
+  // Bis zum 14.11.2026 stand hier „Geh deine Antwort vor der Ausgabe noch
+  // einmal durch". Ein Modell, das Wort für Wort schreibt, kann nichts
+  // vorher prüfen — die Prüfung muss sichtbar werden, sonst findet sie nicht
+  // statt. Sie findet Rechenfehler und Widersprüche; falsch Erinnertes
+  // findet sie nicht, dafür steht „Bitte nachschlagen" daneben.
+  abschnitt('ABSCHLUSS', [
+    aufgabe.dialog
+      ? 'Schließe das Gespräch ganz am Ende, nach dem Erwartungshorizont, mit genau drei kurzen Zeilen ab:'
+      : 'Schließe deine Antwort mit genau drei kurzen Zeilen ab:',
+    ...punkte([
+      '„Herangezogen:" die Quellen, auf die du dich gestützt hast.',
+      '„Geprüft:" welche Vorschriften und Zahlen du noch einmal kontrolliert hast — und was du ' +
+        'dabei korrigiert hast.',
+      '„Bitte nachschlagen:" die Fundstellen und Zahlen, bei denen du dir nicht sicher bist. ' +
+        'Bist du dir überall sicher, schreibe „nichts".',
+    ]),
+  ]);
+
+  // --- AUFTRAG IN KÜRZE ------------------------------------------------------
+  // Sprachmodelle gewichten das Ende eines Prompts stark. Dort stand bis zum
+  // 14.11.2026 eine Formalie; jetzt steht dort noch einmal die eigentliche
+  // Aufgabe.
+  const themaKurz = truncateWords(input.thema.trim().split('\n')[0].replace(/\s+/g, ' '), 160);
+  abschnitt('AUFTRAG IN KÜRZE', [
+    [
+      `Aufgabe: ${aufgabe.label}`,
+      ...(aufgabe.needsCount ? [`Anzahl: ${anzahl}`] : []),
+      `Thema: „${themaKurz}"`,
+      `Beruf: ${beruf.label}`,
+      `Anspruch: ${findNiveau(input.niveau).label}`,
+      ...(formWaehlbar(input.aufgabe) ? [`Umfang: ${findUmfang(input.umfang).label}`] : []),
+    ].join(' · '),
+  ]);
+
   return teile.join('\n\n') + '\n';
+}
+
+/** Kleine Zahlen als Wort — „höchstens zehn" liest sich wie ein Satz, „10" wie ein Formular. */
+function zahlwort(n: number): string {
+  const woerter = ['null', 'eins', 'zwei', 'drei', 'vier', 'fünf', 'sechs', 'sieben', 'acht', 'neun', 'zehn', 'elf', 'zwölf'];
+  return woerter[n] ?? String(n);
 }

@@ -5,6 +5,14 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
 
 ## Unveröffentlicht
 
+- **Der Prompt ist genauer geworden.** Er nennt das heutige Datum und bittet
+  die KI, veraltetes Wissen über Vorschriften offen zu sagen. Aus der langen
+  Quellenliste soll sie höchstens zehn passende auswählen statt alle zu
+  erwähnen. Am Ende jeder Antwort stehen drei kurze Zeilen: welche Quellen sie
+  herangezogen, was sie noch einmal geprüft hat und was du nachschlagen
+  solltest. Der gewählte Umfang gilt jetzt eindeutig für die eigentliche
+  Antwort, und ganz unten fasst eine Zeile den Auftrag noch einmal zusammen.
+  Die KI tritt außerdem als erfahrene Lehrkraft mit Prüfungserfahrung auf.
 - **Fehler behoben: „Neu laden" zeigte eine leere Seite.** Der Knopf lud
   sofort neu, noch bevor die neue Fassung übernommen hatte; die Seite holte
   sich dann die alte Startseite, deren Programm schon gelöscht war. Jetzt

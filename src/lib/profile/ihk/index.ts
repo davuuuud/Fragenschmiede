@@ -26,8 +26,16 @@ const profil: Profil = {
   rolle: (beruf) => {
     const pruefstelle = beruf.pruefstelle ?? 'IHK';
     return [
-      'Du bist eine erfahrene Lehrkraft für die berufliche Aus- und Weiterbildung in ' +
-        `Deutschland und kennst die Prüfungsanforderungen der ${pruefstelle}.`,
+      // Seit 14.11.2026 konkret statt „eine erfahrene Lehrkraft": Je genauer
+      // die Rolle, desto fachlicher die Antwort — und der Satz über typische
+      // Fehler lenkt sie auf das, was beim Lernen am meisten hilft.
+      beruf.id === 'kgq'
+        ? 'Du unterrichtest seit vielen Jahren in der kaufmännischen Grundqualifikation und ' +
+          `kennst die Anforderungen, die später in den Prüfungen der ${pruefstelle} gestellt ` +
+          'werden. Du weißt, woran Lernende in diesem Stoff typischerweise scheitern.'
+        : `Du unterrichtest seit vielen Jahren angehende ${beruf.label} in der Umschulung und ` +
+          `kennst die Abschlussprüfung der ${pruefstelle} aus eigener Korrekturerfahrung. Du ` +
+          'weißt, woran Prüflinge in diesem Beruf typischerweise scheitern.',
       beruf.id === 'kgq'
         ? 'Ich nehme an einer kaufmännischen Grundqualifikation teil und bereite mich damit ' +
           'auf eine Ausbildung oder Umschulung vor.'

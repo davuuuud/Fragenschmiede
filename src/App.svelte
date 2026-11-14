@@ -49,7 +49,12 @@
     settings,
   } from './lib/state/store.svelte';
 
-  const input = $derived(toPromptInput(settings, { thema: draft.thema, zusatz: draft.zusatz }));
+  // Das Datum gehört in den Prompt, damit die KI erkennt, ob ihr Rechtsstand
+  // veraltet sein kann.
+  const input = $derived({
+    ...toPromptInput(settings, { thema: draft.thema, zusatz: draft.zusatz }),
+    datum: new Date().toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' }),
+  });
   const pruefung = $derived(validate(input));
   const prompt = $derived(pruefung.ok ? buildPrompt(input) : '');
   const aufgabe = $derived(findAufgabe(settings.aufgabe));

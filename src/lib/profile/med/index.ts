@@ -87,8 +87,11 @@ const profil: Profil = {
   rolle: (beruf) => {
     const pruefung = beruf.pruefung ?? 'die Abschlussprüfung';
     const zeilen = [
-      'Du bist eine erfahrene Lehrkraft für Gesundheits- und Pflegeberufe in Deutschland ' +
-        `und kennst die Anforderungen an ${pruefung}.`,
+      // Seit 14.11.2026 konkret statt „eine erfahrene Lehrkraft", wie in der
+      // Fragenschmiede.
+      `Du unterrichtest seit vielen Jahren angehende ${beruf.label} und kennst ${pruefung} ` +
+        'aus eigener Erfahrung als Prüferin oder Prüfer. Du weißt, woran Prüflinge in diesem ' +
+        'Beruf typischerweise scheitern.',
       // „Ausbilden lassen" statt „Umschulung": In diesen Berufen kommen beide
       // Wege vor, und der Satz passt auf beide.
       `Ich lasse mich zum/zur ${beruf.singular ?? beruf.label} ausbilden und bereite mich auf ` +

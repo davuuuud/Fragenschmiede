@@ -270,15 +270,59 @@ describe('Prompt-Aufbau', () => {
     expect(prompt).not.toContain('\\n');
   });
 
-  it('verlangt eine Schlusskontrolle und eine Prüfliste', () => {
-    // Die Selbstprüfung findet Rechenfehler und Widersprüche; falsche
-    // Erinnerungen findet sie nicht. Deshalb zusätzlich die Liste, die sagt,
-    // was nachzuschlagen ist.
+  it('verlangt am Schluss drei sichtbare Zeilen: herangezogen, geprüft, nachschlagen', () => {
+    // Seit 14.11.2026 sichtbar statt „vor der Ausgabe noch einmal durchgehen" —
+    // das kann ein Modell, das Wort für Wort schreibt, nicht. Die Prüfung
+    // findet Rechenfehler und Widersprüche; falsch Erinnertes findet sie nicht,
+    // dafür die Zeile „Bitte nachschlagen".
     for (const aufgabe of AUFGABEN) {
       const prompt = buildPrompt(basis({ aufgabe: aufgabe.id, zusatz: 'Meine Lösung ...' }));
-      expect(prompt, aufgabe.id).toContain('vor der Ausgabe noch einmal durch');
-      expect(prompt, aufgabe.id).toContain('Bitte nachschlagen:');
+      expect(prompt, aufgabe.id).not.toContain('vor der Ausgabe noch einmal durch');
+      const abschluss = prompt.slice(prompt.indexOf('ABSCHLUSS\n'));
+      expect(abschluss, aufgabe.id).toContain('„Herangezogen:"');
+      expect(abschluss, aufgabe.id).toContain('„Geprüft:"');
+      expect(abschluss, aufgabe.id).toContain('„Bitte nachschlagen:"');
     }
+    // Im Prüfungsgespräch erst ganz am Ende, nicht nach jeder Frage.
+    expect(buildPrompt(basis({ aufgabe: 'simulation' }))).toContain('ganz am Ende, nach dem Erwartungshorizont');
+  });
+
+  it('nennt das Datum, damit die KI veralteten Rechtsstand erkennt', () => {
+    const prompt = buildPrompt(basis({ datum: '14.11.2026' }));
+    const rolle = prompt.slice(0, prompt.indexOf('\n\nAUFGABE'));
+    expect(rolle).toContain('Heute ist der 14.11.2026.');
+    expect(rolle).toContain('sag es ausdrücklich');
+    // Ohne Datum (etwa in Tests) bleibt der Hinweis, nur ohne Bezugspunkt.
+    expect(buildPrompt(basis())).not.toContain('Heute ist der');
+  });
+
+  it('gibt der Rolle den Beruf und den Blick auf typische Fehler', () => {
+    const prompt = buildPrompt(basis({ beruf: 'immobilien' }));
+    expect(prompt).toContain('Du unterrichtest seit vielen Jahren angehende Immobilienkaufleute');
+    expect(prompt).toContain('woran Prüflinge in diesem Beruf typischerweise scheitern');
+    // Die Grundqualifikation ist kein Beruf mit eigener Abschlussprüfung.
+    expect(buildPrompt(basis({ beruf: 'kgq' }))).toContain('in der kaufmännischen Grundqualifikation');
+  });
+
+  it('stellt das Wortbudget klar und legt eine Rangfolge fest', () => {
+    const kurz = buildPrompt(basis({ aufgabe: 'erklaeren', umfang: 'kurz' }));
+    expect(kurz).toContain('Der Umfang gilt für die eigentliche Antwort; die Schlusszeilen zählen nicht mit.');
+    expect(kurz).toContain('fachliche Richtigkeit, dann Anspruch, dann Umfang, dann Darstellung');
+    // Wo die Aufgabe die Form festlegt, gibt es kein Wortbudget zu erklären.
+    expect(buildPrompt(basis({ aufgabe: 'karteikarten' }))).not.toContain('Der Umfang gilt');
+  });
+
+  it('wiederholt den Auftrag am Schluss', () => {
+    // Sprachmodelle gewichten das Ende stark; dort steht jetzt die Aufgabe.
+    const prompt = buildPrompt(
+      basis({ beruf: 'immobilien', aufgabe: 'pruefungsaufgabe', anzahl: 3, thema: 'Betriebskosten\nzweite Zeile' }),
+    );
+    const letzter = prompt.trimEnd().split('\n\n').at(-1)!;
+    expect(letzter.startsWith('AUFTRAG IN KÜRZE\n')).toBe(true);
+    expect(letzter).toContain('Aufgabe: Prüfungsaufgabe erstellen');
+    expect(letzter).toContain('Anzahl: 3');
+    expect(letzter).toContain('Thema: „Betriebskosten"');
+    expect(letzter).toContain('Beruf: Immobilienkaufleute');
   });
 
   it('gibt die Qualitätsregeln bei jeder Aufgabe aus', () => {
@@ -397,7 +441,9 @@ describe('Quellen im Prompt', () => {
       '  - Gesetze und Verordnungen: WEG (Wohnungseigentumsgesetz); BGB (Bürgerliches Gesetzbuch).',
     );
     expect(zeilen[3]).toBe('  - Weitere Quellen: Beck-online.');
-    expect(prompt).toContain('Ziehe nur die Quellen heran, die zur Frage passen.');
+    // Seit 14.11.2026: eine Auswahl, keine Liste zum Abarbeiten.
+    expect(prompt).toContain('Wähle aus der folgenden Liste höchstens zehn Quellen');
+    expect(prompt).toContain('Die übrigen bleiben unerwähnt');
   });
 
   it('ergänzt Freitextquellen und entfernt Dubletten', () => {
