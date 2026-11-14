@@ -24,7 +24,8 @@ export default {
   // nebeneinander und müssen auf einen Blick zu unterscheiden sein.
   farbe: '#0f766e',
   oeffentlich: 'public-med',
-  // Online zur Vorstellung seit dem 11.11.2026, der Quellenkatalog ist aber
-  // noch nicht fachlich durchgesehen. Nach der Durchsicht löschen.
-  vorabfassung: 'Vorabfassung — die Quellen werden noch fachlich durchgesehen.',
+  // Online zur Vorstellung seit dem 11.11.2026. Der sichtbare Hinweis
+  // „Vorabfassung" ist seit dem 14.11.2026 weg; bei Suchmaschinen bleibt die
+  // Seite ausgeblendet, bis die fachliche Durchsicht abgeschlossen ist.
+  nichtIndexieren: true,
 } as const;

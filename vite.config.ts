@@ -133,9 +133,9 @@ export default defineConfig({
         html: html
           .replaceAll('{{APP_NAME}}', MARKE.name)
           .replaceAll('{{META_BESCHREIBUNG}}', MARKE.metaBeschreibung),
-        // Eine Vorabfassung soll erreichbar sein, aber nicht gefunden werden.
+        // Erreichbar über den Link, aber nicht über Suchmaschinen.
         tags:
-          'vorabfassung' in MARKE
+          'nichtIndexieren' in MARKE
             ? [{ tag: 'meta', attrs: { name: 'robots', content: 'noindex, nofollow' }, injectTo: 'head' as const }]
             : [],
       }),

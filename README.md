@@ -68,7 +68,7 @@ Aus diesem Repository entstehen zwei Seiten:
 | Profil | Seite | Berufe |
 |---|---|---|
 | `ihk` (Vorgabe) | **Fragenschmiede** | kaufmännische und weitere IHK-Berufe |
-| `med` | **[Fragenschmiede Med](https://davuuuud.github.io/Fragenschmiede_Med/)** | Gesundheits- und Pflegeberufe — *Vorabfassung, Quellen in fachlicher Durchsicht* |
+| `med` | **[Fragenschmiede Med](https://davuuuud.github.io/Fragenschmiede_Med/)** | Gesundheits- und Pflegeberufe — *Quellen in fachlicher Durchsicht, bei Suchmaschinen noch ausgeblendet* |
 
 Gemeinsam ist die ganze Mechanik: Prompt-Aufbau, Qualitätsregeln,
 Oberfläche, Tests, Netzprüfung und Größenwächter. Je Profil verschieden sind

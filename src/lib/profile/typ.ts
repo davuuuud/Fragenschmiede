@@ -44,12 +44,15 @@ export interface Marke {
    */
   oeffentlich: string;
   /**
-   * Solange gesetzt, ist die Seite eine Vorabfassung: Der Satz steht klein
-   * unter dem Namen, und Suchmaschinen werden gebeten, sie nicht
-   * aufzunehmen. Wer den Link hat, kommt trotzdem hin. Nach der fachlichen
-   * Durchsicht die Zeile in marke.ts löschen.
+   * Solange gesetzt, steht der Satz klein unter dem Namen — etwa als Hinweis
+   * auf eine Vorabfassung.
    */
   vorabfassung?: string;
+  /**
+   * Solange gesetzt, werden Suchmaschinen gebeten, die Seite nicht
+   * aufzunehmen. Wer den Link hat, kommt trotzdem hin.
+   */
+  nichtIndexieren?: true;
 }
 
 export interface Profil {
