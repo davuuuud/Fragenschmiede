@@ -43,6 +43,12 @@ Der Prompt wird dadurch rund 520 bis 650 Zeichen länger. Ob die Antworten
 besser werden, ist damit noch nicht gezeigt — das leistet nur der Messplan.
 Befund 6 (Verbote positiv formulieren) ist noch offen.
 
+**Erste Rückmeldung (14.11.2026, ChatGPT):** Die Antworten wirken mit dem neuen
+Prompt besser; eine offensichtliche Verschlechterung war nicht zu sehen. Ein
+Eindruck, keine Messung nach dem Messplan. Noch nicht geprüft: ob die
+Gesetzeslinks tatsächlich auf die richtige Stelle führen, besonders bei
+Landesrecht. Das ist der nächste Prüfpunkt.
+
 ---
 
 ## Befund 1: Die Quellenliste ist der halbe Prompt
