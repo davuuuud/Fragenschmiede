@@ -8,7 +8,7 @@ import IHK from '../ihk/marke';
 import { AUFGABEN, BERUFE, findBeruf } from '../../domain/catalogs';
 import { buildPrompt } from '../../domain/prompt';
 import { standardQuellen } from '../../domain/quellen';
-import { defaultSettings, toPromptInput } from '../../domain/settings';
+import { defaultSettings, normalizeSettings, toPromptInput } from '../../domain/settings';
 import { BERUFE as BOGEN_BERUFE } from '../../../../quellen-durchsicht/med/berufe.mjs';
 import { GELTUNG, HINWEISE, NUR_IM_BOGEN } from '../../../../quellen-durchsicht/med/durchsicht.mjs';
 import { KATALOG } from './quellenkatalog';
@@ -150,6 +150,67 @@ describe('Durchsichtsbögen der Fragenschmiede Med', () => {
     for (const eintrag of NUR_IM_BOGEN) {
       expect(ids.has(eintrag.id), `${eintrag.id} doppelt im Katalog`).toBe(false);
       for (const beruf of eintrag.berufe ?? []) expect(berufe.has(beruf), `${eintrag.id}: ${beruf}`).toBe(true);
+    }
+  });
+});
+
+describe('Fachliche Rückmeldung vom 14.11.2026', () => {
+  const vorab = (beruf: string) => standardQuellen(beruf as never);
+
+  it('hakt das Arbeitsrecht bei allen Berufen vorab an', () => {
+    for (const beruf of PROFIL.berufe) {
+      for (const id of ['arbschg', 'arbzg', 'jarbschg', 'burlg', 'entgfg', 'muschg', 'kschg', 'betrvg', 'gefstoffv', 'gg', 'komnet-nrw']) {
+        expect(vorab(beruf.id), `${beruf.kuerzel}: ${id}`).toContain(id);
+      }
+    }
+  });
+
+  it('nennt die Wochenend-Ausnahme für Jugendliche im Prompt selbst', () => {
+    const text = buildPrompt(
+      toPromptInput(
+        { ...defaultSettings(), beruf: 'pflegefachfrau', quellen: vorab('pflegefachfrau') },
+        { thema: 'Dienstplan für Auszubildende', zusatz: '' },
+      ),
+    );
+    expect(text).toContain('samstags und sonntags erlaubt in Krankenhäusern sowie Alten-, Pflege- und Kinderheimen');
+  });
+
+  it('ordnet Heimrecht, PsychKG und Bestattung den richtigen Berufen zu', () => {
+    for (const beruf of ['pflegefachfrau', 'pflegefachassistenz']) {
+      for (const id of ['wbvg', 'landesheimgesetze', 'psychkg-nrw', 'bestg-nrw']) expect(vorab(beruf), `${beruf}: ${id}`).toContain(id);
+    }
+    expect(vorab('notfallsanitaeter')).toEqual(expect.arrayContaining(['psychkg-nrw', 'bestg-nrw', 'rettg-nrw', 'stvo-sonderrechte']));
+    // Heimrecht hat im Rettungsdienst und in der Praxis nichts verloren.
+    expect(vorab('notfallsanitaeter')).not.toContain('wbvg');
+    expect(vorab('mfa')).not.toContain('landesheimgesetze');
+  });
+
+  it('nennt den Rettungsdienst nach Landesrecht NRW, nicht mehr nach allen Ländern', () => {
+    expect(KATALOG.some((q) => q.id === 'rettungsdienstgesetze')).toBe(false);
+    expect(KATALOG.find((q) => q.id === 'rettg-nrw')?.kuerzel).toBe('RettG NRW');
+  });
+
+  it('hakt bei der MFA Bundesmantelvertrag und Strahlenschutz an, in der Physiotherapie das HeilprG', () => {
+    expect(vorab('mfa')).toEqual(expect.arrayContaining(['bmv-ae', 'strahlenschutz', 'goae', 'ebm', 'bbig', 'ao-mfa']));
+    expect(vorab('physiotherapie')).toEqual(expect.arrayContaining(['heilprg', 'heilmittel-richtlinie', 'mphg', 'physth-aprv']));
+  });
+
+  it('verwendet die Kürzel aus dem Unterricht', () => {
+    const kuerzel = (id: string) => KATALOG.find((q) => q.id === id)?.kuerzel;
+    expect(kuerzel('ao-mfa')).toBe('MFA-AusbV');
+    expect(kuerzel('heilmittel-richtlinie')).toBe('HeilM-RL');
+    expect(kuerzel('pflegefachassistenzgesetz')).toBe('PflAssG');
+    expect(kuerzel('pflegefachassistenz-aprv')).toBe('PflFAssAPrV');
+  });
+
+  it('ersetzt eine nie angefasste Vorauswahl vom 11.11. durch die neue', () => {
+    // Wer die Seite vor der Rückmeldung geöffnet hat, hat die alte Liste
+    // gespeichert — und soll trotzdem die neue sehen.
+    for (const beruf of PROFIL.berufe) {
+      for (const frueher of PROFIL.fruehereVoreinstellungen(beruf.id)) {
+        const s = normalizeSettings({ beruf: beruf.id, quellen: [...frueher].reverse() });
+        expect(s.quellen, beruf.kuerzel).toEqual(standardQuellen(beruf.id));
+      }
     }
   });
 });

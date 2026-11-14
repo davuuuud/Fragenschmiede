@@ -11,6 +11,15 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
   selbst ändert sich dadurch nichts — nachgewiesen an 350 Prompts, die vor
   und nach dem Umbau Zeichen für Zeichen gleich sind. Die Med-Seite geht erst
   online, wenn ihr Quellenkatalog fachlich durchgesehen ist.
+- **Fragenschmiede Med: erste fachliche Rückmeldung eingearbeitet** (14.11.2026).
+  Neu für alle Berufe: Arbeitszeit-, Jugendarbeitsschutz-, Urlaubs-,
+  Entgeltfortzahlungs-, Mutterschutz-, Kündigungsschutz- und
+  Betriebsverfassungsgesetz, Gefahrstoffverordnung, Grundgesetz und KomNet
+  NRW. Für die Pflege das Heimrecht (WBVG, Landesheimgesetze), für Pflege und
+  Rettungsdienst PsychKG NRW und Bestattungsgesetz NRW, für die MFA der
+  Bundesmantelvertrag. Der Rettungsdienst richtet sich nach dem RettG NRW. Wer
+  die Seite schon geöffnet und die Vorauswahl nie geändert hat, bekommt die
+  neue von selbst.
 
 ## 0.4.0 — 17.09.2026
 

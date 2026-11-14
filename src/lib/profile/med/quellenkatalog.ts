@@ -1,10 +1,11 @@
 // Quellenkatalog der Fragenschmiede Med (Profil „med") — die einzige Stelle,
 // an der ihre Quellen gepflegt werden.
 //
-// ENTWURF vom 11.11.2026 — noch nicht fachlich durchgesehen. Zusammengestellt
-// nach den Berufsgesetzen und Ausbildungsverordnungen; die Durchsicht durch
-// Lehrende aus dem Fach steht aus und geht allem hier vor. Bis dahin wird die
-// Fragenschmiede Med nicht veröffentlicht.
+// Entwurf vom 11.11.2026, zusammengestellt nach den Berufsgesetzen und
+// Ausbildungsverordnungen. Am 14.11.2026 ergänzt um die erste fachliche
+// Rückmeldung: Arbeitsrecht für alle Berufe, Heimrecht, Landesrecht NRW
+// (Rettungsdienst, PsychKG, Bestattung), Bundesmantelvertrag, und die
+// Kürzel, die im Unterricht verwendet werden.
 //
 // Dieselben zwei Regeln wie im Katalog der Fragenschmiede:
 //
@@ -57,6 +58,25 @@ export const KATALOG: KatalogQuelle[] = [
     art: 'gesetz',
   },
   { id: 'arbschg', kuerzel: 'ArbSchG', titel: 'Arbeitsschutzgesetz', art: 'gesetz' },
+  // Arbeitsrecht für alle — Rückmeldung vom 14.11.2026.
+  { id: 'arbzg', kuerzel: 'ArbZG', titel: 'Arbeitszeitgesetz', art: 'gesetz' },
+  {
+    // Die Ausnahme für das Wochenende steht im Titel, damit sie auch im
+    // Prompt steht: Sonst behauptet eine KI leicht das allgemeine Verbot.
+    id: 'jarbschg',
+    kuerzel: 'JArbSchG',
+    titel:
+      'Jugendarbeitsschutzgesetz — unter 18 auch samstags und sonntags erlaubt in ' +
+      'Krankenhäusern sowie Alten-, Pflege- und Kinderheimen',
+    art: 'gesetz',
+  },
+  { id: 'burlg', kuerzel: 'BUrlG', titel: 'Bundesurlaubsgesetz', art: 'gesetz' },
+  { id: 'entgfg', kuerzel: 'EntgFG', titel: 'Entgeltfortzahlungsgesetz', art: 'gesetz' },
+  { id: 'muschg', kuerzel: 'MuSchG', titel: 'Mutterschutzgesetz', art: 'gesetz' },
+  { id: 'kschg', kuerzel: 'KSchG', titel: 'Kündigungsschutzgesetz', art: 'gesetz' },
+  { id: 'betrvg', kuerzel: 'BetrVG', titel: 'Betriebsverfassungsgesetz', art: 'gesetz' },
+  { id: 'gefstoffv', kuerzel: 'GefStoffV', titel: 'Gefahrstoffverordnung', art: 'gesetz' },
+  { id: 'gg', kuerzel: 'GG', titel: 'Grundgesetz', art: 'gesetz' },
   {
     id: 'krinko',
     kuerzel: 'KRINKO',
@@ -79,6 +99,12 @@ export const KATALOG: KatalogQuelle[] = [
     id: 'rki-ratgeber',
     kuerzel: 'RKI-Ratgeber',
     titel: 'Ratgeber des Robert Koch-Instituts zu Infektionskrankheiten',
+    art: 'nachschlagewerk',
+  },
+  {
+    id: 'komnet-nrw',
+    kuerzel: 'KomNet NRW',
+    titel: 'Wissensdatenbank Arbeitsschutz des Landes Nordrhein-Westfalen',
     art: 'nachschlagewerk',
   },
   {
@@ -131,7 +157,7 @@ export const KATALOG: KatalogQuelle[] = [
   },
   {
     id: 'pflegefachassistenzgesetz',
-    kuerzel: 'Pflegefachassistenzgesetz',
+    kuerzel: 'PflAssG',
     titel: 'Bundeseinheitliche Pflegefachassistenzausbildung, gilt ab 1. Januar 2027',
     art: 'gesetz',
     berufe: ['pflegefachassistenz'],
@@ -140,7 +166,7 @@ export const KATALOG: KatalogQuelle[] = [
     // Stand der Verordnung bei der Durchsicht prüfen: Im Herbst 2025 lag sie
     // als Entwurf vor.
     id: 'pflegefachassistenz-aprv',
-    kuerzel: 'Ausbildungs- und Prüfungsverordnung',
+    kuerzel: 'PflFAssAPrV',
     titel: 'Ausbildungs- und Prüfungsverordnung für die Pflegefachassistenz',
     art: 'vorgabe',
     berufe: ['pflegefachassistenz'],
@@ -156,6 +182,20 @@ export const KATALOG: KatalogQuelle[] = [
     id: 'sgb-xi',
     kuerzel: 'SGB XI',
     titel: 'Soziale Pflegeversicherung',
+    art: 'gesetz',
+    berufe: ['pflegefachfrau', 'pflegefachassistenz'],
+  },
+  {
+    id: 'wbvg',
+    kuerzel: 'WBVG',
+    titel: 'Wohn- und Betreuungsvertragsgesetz',
+    art: 'gesetz',
+    berufe: ['pflegefachfrau', 'pflegefachassistenz'],
+  },
+  {
+    id: 'landesheimgesetze',
+    kuerzel: 'Landesheimgesetze',
+    titel: 'Heimrecht der Länder (in Nordrhein-Westfalen: Wohn- und Teilhabegesetz)',
     art: 'gesetz',
     berufe: ['pflegefachfrau', 'pflegefachassistenz'],
   },
@@ -192,6 +232,20 @@ export const KATALOG: KatalogQuelle[] = [
     prompt: 'BGB (Betreuungsrecht, Patientenverfügung)',
   },
   {
+    id: 'psychkg-nrw',
+    kuerzel: 'PsychKG NRW',
+    titel: 'Gesetz über Hilfen und Schutzmaßnahmen bei psychischen Krankheiten',
+    art: 'gesetz',
+    berufe: ['pflegefachfrau', 'pflegefachassistenz', 'notfallsanitaeter'],
+  },
+  {
+    id: 'bestg-nrw',
+    kuerzel: 'BestG NRW',
+    titel: 'Bestattungsgesetz Nordrhein-Westfalen',
+    art: 'gesetz',
+    berufe: ['pflegefachfrau', 'pflegefachassistenz', 'notfallsanitaeter'],
+  },
+  {
     id: 'btmg',
     kuerzel: 'BtMG',
     titel: 'Betäubungsmittelgesetz',
@@ -220,7 +274,7 @@ export const KATALOG: KatalogQuelle[] = [
 
   {
     id: 'ao-mfa',
-    kuerzel: 'Ausbildungsverordnung',
+    kuerzel: 'MFA-AusbV',
     titel: 'Verordnung über die Berufsausbildung zum/zur Medizinischen Fachangestellten',
     art: 'vorgabe',
     berufe: ['mfa'],
@@ -262,6 +316,13 @@ export const KATALOG: KatalogQuelle[] = [
     berufe: ['mfa'],
   },
   {
+    id: 'bmv-ae',
+    kuerzel: 'BMV-Ä',
+    titel: 'Bundesmantelvertrag Ärzte',
+    art: 'norm',
+    berufe: ['mfa'],
+  },
+  {
     id: 'qm-richtlinie',
     kuerzel: 'QM-Richtlinie',
     titel: 'Qualitätsmanagement-Richtlinie des Gemeinsamen Bundesausschusses',
@@ -293,16 +354,16 @@ export const KATALOG: KatalogQuelle[] = [
     berufe: ['notfallsanitaeter'],
   },
   {
-    id: 'rettungsdienstgesetze',
-    kuerzel: 'Rettungsdienstgesetze',
-    titel: 'Rettungsdienstgesetze der Länder',
+    id: 'rettg-nrw',
+    kuerzel: 'RettG NRW',
+    titel: 'Rettungsgesetz Nordrhein-Westfalen',
     art: 'gesetz',
     berufe: ['notfallsanitaeter'],
   },
   {
     id: 'stvo-sonderrechte',
     kuerzel: 'StVO',
-    titel: 'Straßenverkehrs-Ordnung: Sonder- und Wegerechte',
+    titel: 'Straßenverkehrs-Ordnung: Sonder- und Wegerechte bei der Einsatzfahrt',
     art: 'gesetz',
     berufe: ['notfallsanitaeter'],
   },
@@ -339,7 +400,7 @@ export const KATALOG: KatalogQuelle[] = [
   },
   {
     id: 'heilmittel-richtlinie',
-    kuerzel: 'Heilmittel-Richtlinie',
+    kuerzel: 'HeilM-RL',
     titel: 'Heilmittel-Richtlinie des Gemeinsamen Bundesausschusses mit Heilmittelkatalog',
     art: 'norm',
     berufe: ['physiotherapie'],

@@ -8,7 +8,8 @@ import type { Profil } from '../typ';
 import { BERUFE } from './berufe';
 import MARKE from './marke';
 import { KATALOG } from './quellenkatalog';
-import { NEBENSAECHLICH } from './voreinstellung';
+import { fruehereVoreinstellungen, NEBENSAECHLICH } from './voreinstellung';
+import type { MedBerufId } from '../../domain/types';
 
 const profil: Profil = {
   marke: MARKE,
@@ -17,8 +18,9 @@ const profil: Profil = {
   standardBeruf: 'pflegefachfrau',
   quellen: KATALOG,
   nebensaechlich: NEBENSAECHLICH,
-  // Neue Seite, also keine früheren Voreinstellungen.
-  fruehereVoreinstellungen: () => [],
+  // Seit dem 14.11.2026 gibt es eine: die Vorauswahl vom 11.11.
+  fruehereVoreinstellungen: (beruf) =>
+    beruf in NEBENSAECHLICH ? fruehereVoreinstellungen(beruf as MedBerufId) : [],
   // Ein kaufmännischer Geschäftstext hat hier keinen Platz.
   ohneAufgaben: ['geschaeftstext'],
 
