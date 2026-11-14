@@ -7,7 +7,7 @@ import PROFIL from '$profil';
 import IHK from '../ihk/marke';
 import { AUFGABEN, BERUFE, findBeruf } from '../../domain/catalogs';
 import { buildPrompt } from '../../domain/prompt';
-import { standardQuellen } from '../../domain/quellen';
+import { quellenFuerBeruf, standardQuellen } from '../../domain/quellen';
 import { defaultSettings, normalizeSettings, toPromptInput } from '../../domain/settings';
 import { BERUFE as BOGEN_BERUFE } from '../../../../quellen-durchsicht/med/berufe.mjs';
 import { GELTUNG, HINWEISE, NUR_IM_BOGEN } from '../../../../quellen-durchsicht/med/durchsicht.mjs';
@@ -134,9 +134,11 @@ describe('Durchsichtsbögen der Fragenschmiede Med', () => {
     for (const id of Object.keys(HINWEISE)) expect(ids.has(id), `Hinweis zu ${id}`).toBe(true);
   });
 
-  it('schätzen die Geltung genau für die allgemeinen Quellen', () => {
-    const allgemein = KATALOG.filter((q) => !q.berufe).map((q) => q.id).sort();
-    expect(Object.keys(GELTUNG).sort()).toEqual(allgemein);
+  it('schätzen die Geltung nur für Quellen, die es gibt', () => {
+    // Die Bögen werden seit dem 14.11.2026 nicht mehr erzeugt; ihre Daten
+    // müssen nur noch zum Katalog passen, nicht mehr vollständig sein.
+    const ids = new Set(KATALOG.map((q) => q.id));
+    for (const id of Object.keys(GELTUNG)) expect(ids.has(id), `Geltung für ${id}`).toBe(true);
     for (const [id, wert] of Object.entries(GELTUNG)) {
       expect(wert, id).toBeGreaterThanOrEqual(1);
       expect(wert, id).toBeLessThanOrEqual(PROFIL.berufe.length);
@@ -157,12 +159,37 @@ describe('Durchsichtsbögen der Fragenschmiede Med', () => {
 describe('Fachliche Rückmeldung vom 14.11.2026', () => {
   const vorab = (beruf: string) => standardQuellen(beruf as never);
 
-  it('hakt das Arbeitsrecht bei allen Berufen vorab an', () => {
+  it('hakt das allgemeine Arbeitsrecht bei allen Berufen vorab an', () => {
     for (const beruf of PROFIL.berufe) {
-      for (const id of ['arbschg', 'arbzg', 'jarbschg', 'burlg', 'entgfg', 'muschg', 'kschg', 'betrvg', 'gefstoffv', 'gg', 'komnet-nrw']) {
+      for (const id of ['arbschg', 'arbzg', 'burlg', 'entgfg', 'muschg', 'kschg', 'gg', 'komnet-nrw']) {
         expect(vorab(beruf.id), `${beruf.kuerzel}: ${id}`).toContain(id);
       }
     }
+  });
+
+  it('entscheidet je Beruf, was angehakt, was nur wählbar und was gar nicht da ist', () => {
+    const da = (beruf: string) => quellenFuerBeruf(beruf as never).map((q) => q.id);
+    // Jugendarbeitsschutz: nicht in der schulischen Physiotherapie.
+    expect(da('physiotherapie')).not.toContain('jarbschg');
+    for (const b of ['mfa', 'pflegefachfrau', 'pflegefachassistenz']) expect(vorab(b)).toContain('jarbschg');
+    expect(da('notfallsanitaeter')).toContain('jarbschg');
+    expect(vorab('notfallsanitaeter')).not.toContain('jarbschg');
+    // Betriebsrat: angehakt nur in Klinik und Heim.
+    expect(vorab('pflegefachfrau')).toContain('betrvg');
+    expect(vorab('pflegefachassistenz')).toContain('betrvg');
+    for (const b of ['mfa', 'notfallsanitaeter', 'physiotherapie']) {
+      expect(da(b)).toContain('betrvg');
+      expect(vorab(b)).not.toContain('betrvg');
+    }
+    // Hygiene und Gefahrstoffe: in der Physiotherapie nur wählbar.
+    for (const id of ['krinko', 'gefstoffv', 'biostoffv', 'trba-250', 'rki-ratgeber']) {
+      expect(da('physiotherapie')).toContain(id);
+      expect(vorab('physiotherapie')).not.toContain(id);
+      expect(vorab('pflegefachfrau')).toContain(id);
+    }
+    // PflBG auch für die Assistenz, BtMG auch für die MFA.
+    expect(vorab('pflegefachassistenz')).toContain('pflbg');
+    expect(vorab('mfa')).toContain('btmg');
   });
 
   it('nennt die Wochenend-Ausnahme für Jugendliche im Prompt selbst', () => {

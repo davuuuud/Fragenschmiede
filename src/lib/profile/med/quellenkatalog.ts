@@ -69,6 +69,9 @@ export const KATALOG: KatalogQuelle[] = [
       'Jugendarbeitsschutzgesetz — unter 18 auch samstags und sonntags erlaubt in ' +
       'Krankenhäusern sowie Alten-, Pflege- und Kinderheimen',
     art: 'gesetz',
+    // Nicht in der Physiotherapie: Die Ausbildung ist schulisch, ohne
+    // Arbeitsvertrag — das Gesetz greift dort nicht.
+    berufe: ['mfa', 'notfallsanitaeter', 'pflegefachassistenz', 'pflegefachfrau'],
   },
   { id: 'burlg', kuerzel: 'BUrlG', titel: 'Bundesurlaubsgesetz', art: 'gesetz' },
   { id: 'entgfg', kuerzel: 'EntgFG', titel: 'Entgeltfortzahlungsgesetz', art: 'gesetz' },
@@ -139,7 +142,9 @@ export const KATALOG: KatalogQuelle[] = [
     kuerzel: 'PflBG',
     titel: 'Pflegeberufegesetz',
     art: 'gesetz',
-    berufe: ['pflegefachfrau'],
+    // Auch die Pflegefachassistenz: Sie arbeitet den vorbehaltenen
+    // Tätigkeiten der Pflegefachpersonen zu.
+    berufe: ['pflegefachfrau', 'pflegefachassistenz'],
   },
   {
     id: 'pflaprv',
@@ -250,7 +255,9 @@ export const KATALOG: KatalogQuelle[] = [
     kuerzel: 'BtMG',
     titel: 'Betäubungsmittelgesetz',
     art: 'gesetz',
-    berufe: ['pflegefachfrau', 'notfallsanitaeter'],
+    // MFA: BtM-Rezepte und Bestand in der Praxis. Physiotherapie: als
+    // Einführung in der Berufs-, Gesetzes- und Staatskunde.
+    berufe: ['pflegefachfrau', 'pflegefachassistenz', 'notfallsanitaeter', 'mfa', 'physiotherapie'],
   },
 
   // --- Arzneimittel: Pflege, MFA, Rettungsdienst --------------------------------
@@ -260,7 +267,7 @@ export const KATALOG: KatalogQuelle[] = [
     kuerzel: 'AMG',
     titel: 'Arzneimittelgesetz',
     art: 'gesetz',
-    berufe: ['pflegefachfrau', 'pflegefachassistenz', 'mfa', 'notfallsanitaeter'],
+    berufe: ['pflegefachfrau', 'pflegefachassistenz', 'mfa', 'notfallsanitaeter', 'physiotherapie'],
   },
   {
     id: 'rote-liste',
@@ -306,7 +313,7 @@ export const KATALOG: KatalogQuelle[] = [
     kuerzel: 'StrlSchG / StrlSchV',
     titel: 'Strahlenschutzgesetz und Strahlenschutzverordnung',
     art: 'gesetz',
-    berufe: ['mfa'],
+    berufe: ['mfa', 'physiotherapie'],
   },
   {
     id: 'ebm',
