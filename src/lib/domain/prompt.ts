@@ -273,17 +273,32 @@ export function buildPrompt(input: PromptInput): string {
   // vorher prüfen — die Prüfung muss sichtbar werden, sonst findet sie nicht
   // statt. Sie findet Rechenfehler und Widersprüche; falsch Erinnertes
   // findet sie nicht, dafür steht „Bitte nachschlagen" daneben.
+  //
+  // Seit 14.11.2026 abgesetzt und klar getrennt: Herangezogen nennt ganze
+  // Quellen, Geprüft und Bitte nachschlagen einzelne Fundstellen — jede nur
+  // an einer Stelle. Dazu Links, damit Nachschlagen ein Klick ist. Die
+  // Adressmuster stehen im Prompt, weil frei erinnerte Adressen oft ins Leere
+  // führen.
   abschnitt('ABSCHLUSS', [
-    aufgabe.dialog
-      ? 'Schließe das Gespräch ganz am Ende, nach dem Erwartungshorizont, mit genau drei kurzen Zeilen ab:'
-      : 'Schließe deine Antwort mit genau drei kurzen Zeilen ab:',
+    (aufgabe.dialog
+      ? 'Schließe das Gespräch ganz am Ende, nach dem Erwartungshorizont, mit einem eigenen Block ab: '
+      : 'Schließe deine Antwort mit einem eigenen Block ab: ') +
+      'zuerst eine Trennlinie (---), dann die Überschrift „Quellen und Prüfung", darunter genau ' +
+      'drei Punkte, die sich nicht überschneiden:',
     ...punkte([
-      '„Herangezogen:" die Quellen, auf die du dich gestützt hast.',
-      '„Geprüft:" welche Vorschriften und Zahlen du noch einmal kontrolliert hast — und was du ' +
-        'dabei korrigiert hast.',
-      '„Bitte nachschlagen:" die Fundstellen und Zahlen, bei denen du dir nicht sicher bist. ' +
-        'Bist du dir überall sicher, schreibe „nichts".',
+      '„Herangezogen:" die Gesetze, Verordnungen und anderen Quellen, auf die sich die Antwort ' +
+        'stützt — jeweils als Ganzes, ohne einzelne Paragraphen.',
+      '„Geprüft:" die einzelnen Vorschriften und Zahlen, die du noch einmal kontrolliert hast, ' +
+        'jeweils mit Ergebnis: bestätigt oder korrigiert (von … zu …).',
+      '„Bitte nachschlagen:" die einzelnen Fundstellen und Zahlen, bei denen du unsicher bist, ' +
+        'jeweils mit dem, was zu prüfen ist. Was hier steht, steht nicht unter „Geprüft". Bist du ' +
+        'dir überall sicher, schreibe „nichts".',
     ]),
+    'Verlinke in allen drei Punkten jedes Gesetz und jede Verordnung auf die amtliche Fassung: ' +
+      'Bundesrecht auf gesetze-im-internet.de, einzelne Paragraphen nach dem Muster ' +
+      'https://www.gesetze-im-internet.de/bgb/__433.html; Landesrecht auf das Portal des Landes, ' +
+      'in Nordrhein-Westfalen https://recht.nrw.de/; EU-Recht auf https://eur-lex.europa.eu/. ' +
+      'Erfinde keine Adressen: Kennst du die genaue Adresse nicht, verlinke die Startseite des Portals.',
   ]);
 
   // --- AUFTRAG IN KÜRZE ------------------------------------------------------

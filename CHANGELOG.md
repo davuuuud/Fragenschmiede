@@ -8,9 +8,10 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
 - **Der Prompt ist genauer geworden.** Er nennt das heutige Datum und bittet
   die KI, veraltetes Wissen über Vorschriften offen zu sagen. Aus der langen
   Quellenliste soll sie höchstens zehn passende auswählen statt alle zu
-  erwähnen. Am Ende jeder Antwort stehen drei kurze Zeilen: welche Quellen sie
-  herangezogen, was sie noch einmal geprüft hat und was du nachschlagen
-  solltest. Der gewählte Umfang gilt jetzt eindeutig für die eigentliche
+  erwähnen. Am Ende jeder Antwort steht, abgesetzt unter „Quellen und
+  Prüfung", welche Quellen sie herangezogen hat, was sie noch einmal geprüft
+  hat (mit Ergebnis) und was du nachschlagen solltest — klar voneinander
+  getrennt und jeweils mit Link auf den Gesetzestext. Der gewählte Umfang gilt jetzt eindeutig für die eigentliche
   Antwort, und ganz unten fasst eine Zeile den Auftrag noch einmal zusammen.
   Die KI tritt außerdem als erfahrene Lehrkraft mit Prüfungserfahrung auf.
 - **Fehler behoben: „Neu laden" zeigte eine leere Seite.** Der Knopf lud

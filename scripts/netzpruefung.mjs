@@ -50,6 +50,9 @@ const ERLAUBTE_ADRESSEN = {
   'www.w3.org': 'Namensraum von SVG — eine Kennung, keine Adresse, die aufgerufen wird',
   'svelte.dev': 'steht in Fehlermeldungen der Programmbibliothek Svelte',
   'bit.ly': 'steht in einer Warnmeldung der Bibliothek Workbox',
+  'www.gesetze-im-internet.de': 'Linkmuster im Prompt-Text für die KI — die Anwendung ruft es nie auf',
+  'recht.nrw.de': 'Linkmuster im Prompt-Text für die KI — die Anwendung ruft es nie auf',
+  'eur-lex.europa.eu': 'Linkmuster im Prompt-Text für die KI — die Anwendung ruft es nie auf',
 };
 
 function dateien(ordner) {

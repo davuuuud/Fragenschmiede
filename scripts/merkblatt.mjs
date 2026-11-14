@@ -286,7 +286,7 @@ for (const [was, text] of [
 inhalt.push(ueberschrift('Was immer gilt', HeadingLevel.HEADING_1));
 inhalt.push(
   absatz(
-    'Unabhängig von der Auswahl steht in jedem Prompt: keine erfundenen Quellen, Paragraphen oder Zahlen; Unsicherheiten benennen statt überspielen; Zahlenbeispiele vollständig vorrechnen; und die Antwort an den Anforderungen der Abschlussprüfung ausrichten. Am Ende jeder Antwort stehen drei kurze Zeilen: „Herangezogen:“ (welche Quellen), „Geprüft:“ (was die KI noch einmal kontrolliert hat) und „Bitte nachschlagen:“ (wo sie unsicher ist).',
+    'Unabhängig von der Auswahl steht in jedem Prompt: keine erfundenen Quellen, Paragraphen oder Zahlen; Unsicherheiten benennen statt überspielen; Zahlenbeispiele vollständig vorrechnen; und die Antwort an den Anforderungen der Abschlussprüfung ausrichten. Am Ende jeder Antwort steht, abgesetzt unter „Quellen und Prüfung“, dreierlei: „Herangezogen:“ (welche Quellen), „Geprüft:“ (was die KI noch einmal kontrolliert hat, mit Ergebnis) und „Bitte nachschlagen:“ (wo sie unsicher ist) — jeweils mit Link auf den Gesetzestext. Die Links erzeugt die KI selbst; führt einer ins Leere, hilft die Suche auf dem Portal.',
   ),
 );
 

@@ -23,9 +23,14 @@ Sechs Punkte, einzeln abgestimmt:
 2. **Quellen-Auswahlauftrag:** Die KI wählt aus der Liste *höchstens zehn*
    einschlägige Quellen; die übrigen bleiben unerwähnt (Befund 1, Weg C). Die
    Liste selbst bleibt vollständig — Weg B (Themenfilter) steht weiter aus.
-3. **Sichtbarer Abschluss statt unsichtbarer Selbstprüfung** (Befund 2): drei
-   Schlusszeilen „Herangezogen:", „Geprüft:", „Bitte nachschlagen:". Bei
-   Dialogaufgaben stehen sie nach dem Erwartungshorizont.
+3. **Sichtbarer Abschluss statt unsichtbarer Selbstprüfung** (Befund 2): ein
+   abgesetzter Block „Quellen und Prüfung" mit „Herangezogen:" (ganze
+   Quellen), „Geprüft:" (einzelne Fundstellen mit Ergebnis) und „Bitte
+   nachschlagen:" (unsichere Fundstellen, nie zugleich unter „Geprüft").
+   Gesetze werden verlinkt, nach festen Mustern für gesetze-im-internet.de,
+   recht.nrw.de und eur-lex.europa.eu; unbekannte Adressen fallen auf die
+   Startseite des Portals zurück. Bei Dialogaufgaben steht der Block nach
+   dem Erwartungshorizont.
 4. **Wortbudget klargestellt** (Befund 4): Der Umfang gilt nur für die
    eigentliche Antwort; bei Widersprüchen gilt die Reihenfolge Richtigkeit,
    Anspruch, Umfang, Darstellung.

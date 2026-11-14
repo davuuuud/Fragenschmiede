@@ -282,6 +282,12 @@ describe('Prompt-Aufbau', () => {
       expect(abschluss, aufgabe.id).toContain('„Herangezogen:"');
       expect(abschluss, aufgabe.id).toContain('„Geprüft:"');
       expect(abschluss, aufgabe.id).toContain('„Bitte nachschlagen:"');
+      // Abgesetzt, voneinander abgegrenzt und mit Links auf die Gesetzestexte.
+      expect(abschluss, aufgabe.id).toContain('Trennlinie (---)');
+      expect(abschluss, aufgabe.id).toContain('„Quellen und Prüfung"');
+      expect(abschluss, aufgabe.id).toContain('Was hier steht, steht nicht unter „Geprüft"');
+      expect(abschluss, aufgabe.id).toContain('https://www.gesetze-im-internet.de/bgb/__433.html');
+      expect(abschluss, aufgabe.id).toContain('Erfinde keine Adressen');
     }
     // Im Prüfungsgespräch erst ganz am Ende, nicht nach jeder Frage.
     expect(buildPrompt(basis({ aufgabe: 'simulation' }))).toContain('ganz am Ende, nach dem Erwartungshorizont');
