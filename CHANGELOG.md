@@ -5,6 +5,12 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
 
 ## Unveröffentlicht
 
+- **Fehler behoben: „Neu laden" zeigte eine leere Seite.** Der Knopf lud
+  sofort neu, noch bevor die neue Fassung übernommen hatte; die Seite holte
+  sich dann die alte Startseite, deren Programm schon gelöscht war. Jetzt
+  wartet er, bis die neue Fassung aktiv ist. Wer die Korrektur noch nicht
+  hat, kann beim nächsten Mal noch einmal eine leere Seite sehen — einmal
+  normal neu laden behebt das.
 - **Vorbereitung für eine zweite Seite: die Fragenschmiede Med** für
   Gesundheits- und Pflegeberufe. Sie entsteht aus demselben Quellcode, hat
   aber eigene Berufe, Quellen und eine eigene Adresse. An der Fragenschmiede

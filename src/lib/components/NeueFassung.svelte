@@ -11,22 +11,30 @@
   // Testumgebung. Deshalb bleibt hier möglichst wenig Logik: einblenden,
   // neu laden, wegklicken.
   import { onMount } from 'svelte';
+  import { neueFassungUebernehmen } from '../platform/neueFassung';
 
   let bereit = $state(false);
   let neuLaden: ((neuLaden?: boolean) => Promise<void>) | undefined;
 
   /**
-   * Neu laden — mit Sicherheitsnetz.
+   * Neu laden — aber erst, wenn der neue Service Worker aktiv ist.
    *
-   * Die Bibliothek lädt die Seite selbst neu, sobald der neue Service Worker
-   * die Steuerung übernimmt. Beim allerersten Besuch steuert aber noch keiner
-   * die Seite; dann bliebe der Knopf wirkungslos. Deshalb danach in jedem
-   * Fall neu laden — im Regelfall wird diese Zeile nie erreicht, weil die
-   * Seite längst fort ist.
+   * Bis zum 14.11.2026 lud der Knopf sofort neu. Die Anfrage beantwortete
+   * dann noch der alte Worker mit der alten Startseite, deren Programm der
+   * neue gleich darauf löschte: eine leere Seite. Die Einzelheiten stehen in
+   * platform/neueFassung.ts.
+   *
+   * Ist die Seite schon gesteuert, lädt die Bibliothek beim Übernehmen
+   * ohnehin selbst neu; das Neuladen hier ist das Sicherheitsnetz für den
+   * Fall, dass noch kein Worker die Seite steuert.
    */
   async function jetztNeuLaden() {
-    await neuLaden?.();
-    location.reload();
+    const registrierung = await navigator.serviceWorker?.getRegistration();
+    await neueFassungUebernehmen(
+      registrierung?.waiting ?? registrierung?.installing,
+      () => neuLaden?.(),
+      () => location.reload(),
+    );
   }
 
   // Stündlich nachsehen. Sonst prüft der Browser von sich aus nur beim
